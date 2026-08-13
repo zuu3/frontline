@@ -23,7 +23,7 @@ import { Client } from "./Client";
 import { GameManager } from "./GameManager";
 import { registerGamePreviewRoute } from "./GamePreviewRoute";
 import type { GameServer } from "./GameServer";
-import { isSteamAuthenticated, planJoinVerify, verifyJoin } from "./JoinVerify";
+import { planJoinVerify, verifyJoin } from "./JoinVerify";
 import { getUserMe, verifyClientToken } from "./jwt";
 import { logger } from "./Logger";
 import { enforceVerifiedBadge } from "./Privilege";
@@ -478,13 +478,9 @@ export async function startWorker() {
           const game = gm.game(clientMsg.gameID);
           const stored = game?.storedIdentity(persistentId) ?? null;
           const isReadmit = game?.wasAdmitted(persistentId) ?? false;
-          const steamAuthed = isSteamAuthenticated(claims);
           // SECURITY: the reject/skip/verify split (first joins must
           // present a token, only re-admits may omit it) lives in
-          // planJoinVerify — see its doc comment. Steam-authenticated first
-          // joins are the one sanctioned null-token first join: Steam
-          // ownership (a signed, unforgeable provider="steam" claim) stands
-          // in for the bot check, and the name check still runs.
+          // planJoinVerify — see its doc comment.
           const plan = planJoinVerify({
             isReadmit,
             gameStarted: game?.hasStarted() ?? false,
@@ -493,14 +489,7 @@ export async function startWorker() {
               stored !== null &&
               stored.username === clientMsg.username &&
               stored.clanTag === (clientMsg.clanTag ?? null),
-            steamAuthed,
           });
-          if (steamAuthed && !isReadmit) {
-            log.info(
-              "Steam-authed join: skipping Turnstile siteverify (name check still runs)",
-              { persistentID: persistentId, gameID: clientMsg.gameID },
-            );
-          }
           if (plan.action === "reject") {
             log.warn("Unauthorized: missing Turnstile token", {
               persistentID: persistentId,

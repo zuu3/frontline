@@ -256,8 +256,9 @@ export class MatchmakingModal extends BaseModal {
         this.socket.close();
       }
     }
+    const wsIssuer = ClientEnv.jwtIssuer().replace(/^http/, "ws");
     this.socket = new WebSocket(
-      `${ClientEnv.jwtIssuer()}/matchmaking/join?instance_id=${encodeURIComponent(ClientEnv.instanceId())}&mode=${this.mode}`,
+      `${wsIssuer}/matchmaking/join?instance_id=${encodeURIComponent(ClientEnv.instanceId())}&mode=${this.mode}`,
     );
     this.socket.onopen = async () => {
       console.log("Connected to matchmaking server");

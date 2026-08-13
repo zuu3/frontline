@@ -1,5 +1,6 @@
 import { Config } from "src/core/configuration/Config";
 import { translateText } from "../client/Utils";
+import { mountCapitalMarker } from "./CapitalMarker";
 import { EventBus } from "../core/EventBus";
 import {
   ClientID,
@@ -696,6 +697,11 @@ async function createClientGame(
       eventBus,
     );
 
+    const unmountCapitalMarker = mountCapitalMarker(
+      gameView,
+      gameRenderer.transformHandler,
+    );
+
     // Releases all WebGL/DOM resources this game created. Without it, stopping
     // a game (e.g. joining another without a page reload) leaks the WebGL
     // context, canvas and input overlay — a few games and mobile browsers hit
@@ -705,6 +711,7 @@ async function createClientGame(
       if (rendererDisposed) return;
       rendererDisposed = true;
       stopFrameLoop();
+      unmountCapitalMarker();
       view.dispose();
       glCanvas.remove();
       inputOverlay.remove();
@@ -1079,6 +1086,7 @@ export class ClientGameRunner {
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
             this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
+            tile,
           ),
         );
       } else if (this.canAutoBoat(actions.buildableUnits, tile)) {
@@ -1238,6 +1246,7 @@ export class ClientGameRunner {
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
             this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
+            tile,
           ),
         );
       }

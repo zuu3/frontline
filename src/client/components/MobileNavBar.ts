@@ -77,14 +77,10 @@ export class MobileNavBar extends LitElement {
         >
           <div class="flex flex-col items-center gap-1">
             <img
-              src=${assetUrl("images/OpenFrontLogo.svg")}
-              alt="OpenFront"
+              src=${assetUrl("images/FrontLineLogo.png")}
+              alt="FrontLine"
               class="w-auto h-auto max-w-[220px] max-h-[4.5rem]"
             />
-            <div
-              id="game-version"
-              class="l-header__highlightText text-center"
-            ></div>
           </div>
         </div>
         <!-- Mobile Navigation Menu Items -->

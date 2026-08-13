@@ -2,6 +2,21 @@ import { Cell, TerrainType } from "./Game";
 
 export type TileRef = number;
 
+// Deterministic "is this tile an oil resource" check, shared by
+// GameMapImpl.isOilTile (gameplay) and the terrain-texture tint in
+// client/render/gl/utils/ColorUtils.ts (rendering) so the two can never
+// disagree. `ref` is hashed first: a plain `ref % N` lines up into visible
+// stripes whenever N shares a factor with the map width (e.g. N=500 on a
+// 1500-wide map puts oil at x=0,500,1000 on every row).
+export function isOilTileCheck(ref: TileRef, eligible: boolean): boolean {
+  if (!eligible) return false;
+  let h = ref | 0;
+  h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+  h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+  h = (h ^ (h >>> 16)) >>> 0;
+  return h % 1000 < 2; // ~0.2% of eligible land tiles
+}
+
 export interface GameMap {
   ref(x: number, y: number): TileRef;
   isValidRef(ref: TileRef): boolean;
@@ -55,6 +70,9 @@ export interface GameMap {
   isShore(ref: TileRef): boolean;
   cost(ref: TileRef): number;
   terrainType(ref: TileRef): TerrainType;
+  // Deterministic sparse resource tile (~1% of passable land), fixed per
+  // tile ref so it never needs new map data or per-game random state.
+  isOilTile(ref: TileRef): boolean;
   forEachTile(fn: (tile: TileRef) => void): void;
 
   manhattanDist(c1: TileRef, c2: TileRef): number;
@@ -353,6 +371,13 @@ export class GameMapImpl implements GameMap {
 
   cost(ref: TileRef): number {
     return this.magnitude(ref) < 10 ? 2 : 1;
+  }
+
+  isOilTile(ref: TileRef): boolean {
+    return isOilTileCheck(
+      ref,
+      this.isLand(ref) && this.magnitude(ref) < GameMapImpl.IMPASSABLE_MAGNITUDE,
+    );
   }
 
   // if updating these magnitude values, also update

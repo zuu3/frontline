@@ -1,4 +1,3 @@
-import version from "resources/version.txt?raw";
 import { ClientEnv } from "src/client/ClientEnv";
 import { isTemporaryUsername, UserMeResponse } from "../core/ApiSchemas";
 import { assetUrl } from "../core/AssetUrls";
@@ -27,11 +26,7 @@ import "./CosmeticsModal";
 import { CosmeticsModal } from "./CosmeticsModal";
 import { updateCrazyGamesNavButton } from "./CrazyGamesAccountButton";
 import { crazyGamesSDK } from "./CrazyGamesSDK";
-import {
-  composeVersionDisplay,
-  desktopVersion,
-  isDesktopShell,
-} from "./DesktopShell";
+import { isDesktopShell } from "./DesktopShell";
 import "./FeaturedStream";
 import "./FlagInput";
 import { FlagInput } from "./FlagInput";
@@ -59,13 +54,6 @@ import "./NewsModal";
 import "./PlayerProfileModal";
 import { RewardsModal } from "./RewardsModal";
 import "./SinglePlayerModal";
-import {
-  isSteamLinkHash,
-  parseSteamLinkToken,
-  resumePendingSteamLink,
-} from "./SteamLink";
-import "./SteamLinkModal";
-import { SteamLinkModal } from "./SteamLinkModal";
 import { StoreModal } from "./Store";
 import { TokenLoginModal } from "./TokenLoginModal";
 import {
@@ -186,7 +174,6 @@ class Client {
   private tokenLoginModal: TokenLoginModal;
   private matchmakingModal: MatchmakingModal;
   private rewardsModal: RewardsModal;
-  private steamLinkModal: SteamLinkModal;
   private mostRecentJoinEvent: number;
 
   private turnstileTokenPromise: Promise<{
@@ -247,9 +234,9 @@ class Client {
     modalRouter.register("flag-input", { tag: "flag-input-modal" });
 
     // Prefetch turnstile token so it is available when the user joins a lobby.
-    // Desktop (Steam) has no Turnstile script and is server-side exempt, so
-    // skip it — otherwise getTurnstileToken() throws "Failed to load Turnstile
-    // script" after its load wait.
+    // Desktop has no Turnstile script and is server-side exempt, so skip it —
+    // otherwise getTurnstileToken() throws "Failed to load Turnstile script"
+    // after its load wait.
     this.turnstileTokenPromise =
       ClientEnv.instanceId() === "desktop" ? null : getTurnstileToken();
 
@@ -257,30 +244,16 @@ class Client {
     await customElements.whenDefined("mobile-nav-bar");
     await customElements.whenDefined("desktop-nav-bar");
 
-    const openFrontFont = new FontFace(
-      "OpenFront",
-      `url(${assetUrl("fonts/OpenFront.ttf")})`,
+    // Space Grotesk (Google Fonts, SIL OFL) -- free replacement for the
+    // proprietary OpenFront.ttf. Loaded under the same "FrontLine" family
+    // name so every existing font-family: "FrontLine" reference (styles.css
+    // --font-display, etc.) picks it up with no other changes.
+    const displayFont = new FontFace(
+      "FrontLine",
+      `url(${assetUrl("fonts/SpaceGrotesk.ttf")})`,
     );
-    document.fonts.add(openFrontFont);
-    openFrontFont.load().catch(() => {});
-
-    const versionElements = document.querySelectorAll(
-      "#game-version, .game-version-display",
-    );
-    if (versionElements.length === 0) {
-      console.warn("Game version element not found");
-    } else {
-      const trimmed = version.trim();
-      const displayVersion = trimmed.startsWith("v") ? trimmed : `v${trimmed}`;
-      const label = composeVersionDisplay(
-        displayVersion,
-        await desktopVersion(),
-      );
-      versionElements.forEach((el) => {
-        (el as HTMLElement).style.fontFamily = '"OpenFront", Inter, sans-serif';
-        el.textContent = label;
-      });
-    }
+    document.fonts.add(displayFont);
+    displayFont.load().catch(() => {});
 
     const langSelector = document.querySelector(
       "lang-selector",
@@ -421,16 +394,6 @@ class Client {
       console.warn("Rewards modal element not found");
     }
 
-    this.steamLinkModal = document.querySelector(
-      "steam-link-modal",
-    ) as SteamLinkModal;
-    if (
-      !this.steamLinkModal ||
-      !(this.steamLinkModal instanceof SteamLinkModal)
-    ) {
-      console.warn("Steam link modal element not found");
-    }
-
     const onUserMe = async (userMeResponse: UserMeResponse | false) => {
       if (crazyGamesSDK.isOnCrazyGames()) {
         void updateCrazyGamesNavButton();
@@ -471,19 +434,6 @@ class Client {
           `Your player ID is ${userMeResponse.player.publicId}\n` +
             "Sharing this ID will allow others to view your game history and stats.",
         );
-
-        // Resume a Steam-link flow that was interrupted by a login redirect
-        // (Discord/Google OAuth, magic link): the modal stashed either a
-        // token or a bare code-entry intent and sent the player to log in
-        // via #modal=account, so a login redirect commonly lands back there
-        // rather than on a clean "/" — this must NOT be gated on
-        // cleanHomepage below. Only resume once login is confirmed:
-        // resumePendingSteamLink() consumes the stash on read, so a
-        // speculative call while logged out would burn an entry that a
-        // *later* successful login should still get to resume.
-        if (resumePendingSteamLink(this.steamLinkModal)) {
-          return;
-        }
 
         // Popups below only on a clean homepage load, never over a deep link
         // (join URL, #modal=..., #purchase-completed, ...).
@@ -790,29 +740,6 @@ class Client {
       return;
     }
 
-    // The desktop Electron shell's account-linking gate opens the browser
-    // here (see SteamLink.ts for the full handoff). Checked against the raw
-    // hash, not decodedHash — parseSteamLinkToken's prefix match is exact
-    // and the token itself is opaque, so no decoding is needed or expected.
-    const steamLinkToken = parseSteamLinkToken(hash);
-    if (steamLinkToken) {
-      strip();
-      void this.steamLinkModal?.openWithToken(steamLinkToken);
-      return;
-    }
-
-    // Fallback: the gate's browser handoff itself can fail (wrong default
-    // browser, an odd Linux setup, Steam's overlay browser), in which case it
-    // shows an 8-character code instead and tells the player to enter it on
-    // the website. There's no token in that case, so parseSteamLinkToken
-    // above returns null — this is the bare `#steam-link` hash the code path
-    // lands on instead (see SteamLink.ts's isSteamLinkHash).
-    if (isSteamLinkHash(hash)) {
-      strip();
-      void this.steamLinkModal?.openForCodeEntry();
-      return;
-    }
-
     const pathMatch = window.location.pathname.match(
       /^\/(?:w\d+\/)?game\/([^/]+)/,
     );
@@ -906,11 +833,6 @@ class Client {
     }
     const auth = await userAuth();
     const playerRole = auth !== false ? (auth.claims.role ?? null) : null;
-    // Ensure the one-shot Steam name-seed has settled before reading
-    // getUsername(), mirroring how getClanCheck() runs in parallel with the
-    // handshake. whenSeeded() always resolves (falling back to the generated
-    // anon name on failure/timeout), so this can only delay, never block.
-    await this.usernameInput?.whenSeeded();
     const newLobbyHandle = joinLobby(this.eventBus, {
       gameID: lobby.gameID,
       cosmetics: await getPlayerCosmeticsRefs(),
@@ -974,7 +896,6 @@ class Client {
         "account-button",
         "leaderboard-button",
         "token-login",
-        "steam-link-modal",
         "matchmaking-modal",
         "clan-modal",
         "lang-selector",

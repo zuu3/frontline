@@ -26,7 +26,7 @@
     "enabled": "켜짐"
   },
   "main": {
-    "title": "오픈 프론트 (시험판)",
+    "title": "FrontLine (시험판)",
     "login_discord": "디스코드로 로그인하기",
     "sign_in": "로그인",
     "discord_avatar_alt": "디스코드 프사",
@@ -65,7 +65,7 @@
     "copied_to_clipboard": "클립보드에 정보가 복사되었습니다! 도움이 필요하시면 저희 디스코드에 자유롭게 공유해주세요.",
     "os": "운영 체제",
     "device_pixel_ratio": "장치 픽셀 비율",
-    "chromium_tip": "오픈프론트는 크로미움 기반 브라우저에서 가장 잘 작동합니다.",
+    "chromium_tip": "FrontLine은 크로미움 기반 브라우저에서 가장 잘 작동합니다.",
     "hardware_acceleration_tip": "최적의 성능을 위해 브라우저 설정에서 하드웨어 가속이 활성화되어 있는지 확인하세요.",
     "renderer": "렌더러",
     "max_texture_size": "최대 텍스처 크기",
@@ -85,7 +85,7 @@
   },
   "help_modal": {
     "video_tutorial": "동영상 튜토리얼",
-    "video_tutorial_title": "오픈프론트 튜토리얼",
+    "video_tutorial_title": "FrontLine 튜토리얼",
     "hotkeys": "단축키",
     "table_key": "키",
     "table_action": "동작",
@@ -166,7 +166,7 @@
     "build_mirv": "다탄두 미사일",
     "build_mirv_desc": "게임 내에서 가장 강력한 폭탄입니다. 여러 개의 작은 폭탄으로 분리되어 넓은 지역을 동시에 공격합니다. 처음 클릭한 플레이어에게만 피해를 줍니다. 가장 가까운 미사일 사일로에서 발사되며, 처음 클릭한 지역에 착륙합니다.",
     "player_icons": "플레이어 아이콘",
-    "troubleshooting_desc": "오픈프론트 플레이 중 성능 문제, 충돌 또는 기타 문제가 발생하는 경우, 일반적인 문제의 진단 및 해결에 대한 도움을 받으려면 문제 해결 페이지를 방문하세요.",
+    "troubleshooting_desc": "FrontLine 플레이 중 성능 문제, 충돌 또는 기타 문제가 발생하는 경우, 일반적인 문제의 진단 및 해결에 대한 도움을 받으려면 문제 해결 페이지를 방문하세요.",
     "icon_desc": "게임 내에서 볼 수 있는 아이콘 중 일부와 그 의미는 다음과 같습니다.",
     "icon_crown": "왕관 - 1등. 순위에서 최상위 플레이어를 의미합니다.",
     "icon_traitor": "깨진 방패 - 배신자. 이 플레이어는 동맹을 공격했습니다.",
@@ -472,7 +472,8 @@
     "atom_bomb": "원자 폭탄",
     "hydrogen_bomb": "수소 폭탄",
     "mirv": "다탄두 미사일",
-    "factory": "공장"
+    "factory": "공장",
+    "forward_base": "전진기지"
   },
   "user_setting": {
     "title": "설정",
@@ -519,6 +520,8 @@
     "build_factory_desc": "커서 위치에 공장을 건설합니다.",
     "build_defense_post": "방어 초소 건설",
     "build_defense_post_desc": "커서 위치에 방어 초소를 건설합니다.",
+    "build_forward_base": "전진기지 건설",
+    "build_forward_base_desc": "커서 위치에 전진기지를 건설합니다.",
     "build_port": "항구 건설",
     "build_port_desc": "커서 위치에 항구를 건설합니다.",
     "build_warship": "군함 건조",
@@ -676,12 +679,13 @@
       "port": "무역선을 보내 금을 생산합니다",
       "defense_post": "주변 경계의 방어력을 강화합니다",
       "city": "최대 인구 수를 증가시킵니다",
-      "factory": "철도를 만들고 기차를 생성합니다"
+      "factory": "철도를 만들고 기차를 생성합니다",
+      "forward_base": "보조 보급 거점 역할을 하여 원정 공격의 보급선 페널티를 줄입니다"
     },
     "not_enough_money": "돈이 부족합니다"
   },
   "win_modal": {
-    "support_openfront": "OpenFront를 후원해주세요!",
+    "support_openfront": "FrontLine을 후원해주세요!",
     "territory_pattern": "영토 스킨을 구매하고 광고 없이 플레이하세요!",
     "died": "죽었습니다",
     "your_team": "우리팀이 승리했습니다!",
@@ -693,7 +697,6 @@
     "keep": "계속 플레이하기",
     "spectate": "관전하기",
     "requeue": "다시 하기",
-    "wishlist": "Steam에서 찜하기!",
     "join_discord": "저희 디스코드 커뮤니티에 참여하세요!",
     "discord_description": "플레이어와 연결하고, 새로운 기능을 발견하고, 상품을 획득하세요!",
     "join_server": "서버 참가",
@@ -725,6 +728,8 @@
     "betrayal_description": "{name}와의 동맹을 파기했습니다. 당신은 이제 배신자입니다. (방어력 {malusPercent}% 감소, 지속 시간: {durationText})",
     "duration_seconds_plural": "{seconds}초",
     "betrayed_you": "{name}이(가) 당신과의 동맹을 파기했습니다",
+    "capital_captured": "{name}의 수도를 함락하고 {gold} 금을 약탈했습니다!",
+    "capital_fallen": "{name}에게 수도가 함락됐습니다! 수도가 이전되었습니다.",
     "about_to_expire": "{name}와(과)의 동맹이 곧 만료됩니다!",
     "alliance_expired": "{name}와(과)의 동맹이 만료되었습니다",
     "attack_request": "{name}이(가) 당신에게 {target}을(를) 공격해 달라고 요청했습니다",
@@ -740,6 +745,7 @@
     "unit_voluntarily_deleted": "유닛이 해산되었습니다",
     "betrayal_debuff_ends": "배신 디버프가 끝나기까지 {time}초 남았습니다",
     "attack_cancelled_retreat": "공격 취소됨, 퇴각 중 %s명의 병사 사망",
+    "supply_line_weak": "보급선이 늘어져 수도에서 먼 이 공격은 {percent}%만큼 약화됩니다",
     "received_gold_from_captured_ship": "{name}에게서 나포한 함선으로부터 {gold} 금을 받았습니다",
     "received_gold_from_trade": "{name}님과의 거래로 {gold} 금을 받았습니다",
     "received_gold_from_conquest": "{name}을 정복하여 {gold} 금을 획득했습니다",
@@ -868,7 +874,6 @@
     "trial_cooldown": "24시간에 한 번만 시도할 수 있습니다. 나중에 다시 시도해주세요.",
     "trial_login_required": "체험판 스킨을 사용하려면 로그인해야 합니다",
     "reward_countdown": "{seconds}초 후에 보상이 지급됩니다...",
-    "steam_wishlist_prompt": "오픈프론트를 스팀 찜목록에 추가하여 지원해주세요",
     "select_skin": "스킨 선택",
     "selected": "선택됨"
   },

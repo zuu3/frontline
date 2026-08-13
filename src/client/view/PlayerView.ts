@@ -493,6 +493,9 @@ export class PlayerView {
   numTilesOwned(): number {
     return this.state.tilesOwned;
   }
+  spawnTile(): TileRef | undefined {
+    return this.state.spawnTile;
+  }
   allies(): PlayerView[] {
     return this.state.allies.map(
       (a) => this.game.playerBySmallID(a) as PlayerView,

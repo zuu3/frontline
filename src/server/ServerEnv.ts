@@ -84,6 +84,13 @@ export class ServerEnv {
     return process.env.CDN_BASE ?? "";
   }
   static jwtIssuer(): string {
+    // Must match the `iss` claim actual tokens carry (which, for local dev,
+    // is the auth service's public/tunnel URL, not the container-internal
+    // "http://localhost:8787" -- the browser can't reach that directly, so
+    // client-side jwtIssuer() already resolves to a same-origin proxied
+    // path instead. Override here keeps both sides comparing the same
+    // string; see src/authserver/AuthServer.ts's ISSUER.
+    if (process.env.JWT_ISSUER_OVERRIDE) return process.env.JWT_ISSUER_OVERRIDE;
     const audience = ServerEnv.jwtAudience();
     return audience === "localhost"
       ? "http://localhost:8787"

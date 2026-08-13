@@ -1,0 +1,947 @@
+import { randomBytes, randomUUID, createHash } from "crypto";
+import * as dotenv from "dotenv";
+import express from "express";
+import cookieParser from "cookie-parser";
+import { SignJWT } from "jose";
+import { z } from "zod";
+import { WebSocket, WebSocketServer } from "ws";
+import { base64urlToUuid, uuidToBase64url } from "../core/Base64";
+import {
+  Account,
+  findAccountByDiscordId,
+  findAccountByGoogleEmail,
+  findAccountById,
+  initSchema,
+  pool,
+} from "./db";
+import { loadOrCreateKeyPair } from "./keys";
+
+dotenv.config();
+
+const PORT = parseInt(process.env.AUTH_PORT ?? "8787", 10);
+// The URL a browser actually ends up at after the vite /authapi proxy --
+// used to build OAuth authorize/token redirect_uris. Must match what's
+// registered with Discord/Google exactly.
+const PUBLIC_URL =
+  process.env.AUTH_PUBLIC_URL ?? `http://localhost:9000/authapi`;
+// Must equal exactly what the browser's getApiBase()/jwtIssuer() compute
+// (same-origin "<origin>/authapi"), since Auth.ts rejects a JWT whose `iss`
+// doesn't match that string exactly. That origin varies with how the box
+// is reached (localhost:9000 directly vs. the tunnel domain), so this has
+// to be set to match however testers actually reach it -- it can't be
+// derived automatically the way PUBLIC_URL's default is.
+const ISSUER = process.env.AUTH_ISSUER ?? PUBLIC_URL;
+const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
+const REFRESH_TOKEN_TTL_DAYS = 30;
+const REFRESH_COOKIE = "refresh_token";
+
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID ?? "";
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET ?? "";
+// Shared secret the game server sends on internal calls (game-record
+// ingestion) -- matches ServerEnv.apiKey() / Archive.ts's x-api-key header.
+const API_KEY = process.env.API_KEY ?? "";
+const RANKED_K_FACTOR = 32;
+const RANKED_DEFAULT_ELO = 1000;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID ?? "";
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? "";
+
+const UsernameBodySchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(3)
+    .max(20)
+    .regex(/^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$/),
+});
+
+function hashToken(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
+
+function encodeState(redirectUri: string): string {
+  return Buffer.from(JSON.stringify({ redirectUri })).toString("base64url");
+}
+
+function decodeState(state: string): { redirectUri: string } {
+  return JSON.parse(Buffer.from(state, "base64url").toString("utf-8"));
+}
+
+async function issueSession(
+  res: express.Response,
+  accountId: string,
+  provider: string,
+): Promise<{ jwt: string; expiresIn: number }> {
+  const { privateKey } = await loadOrCreateKeyPair();
+  const now = Math.floor(Date.now() / 1000);
+  const jwt = await new SignJWT({ provider })
+    .setProtectedHeader({ alg: "EdDSA" })
+    .setJti(randomUUID())
+    .setSubject(uuidToBase64url(accountId))
+    .setIssuedAt(now)
+    .setIssuer(ISSUER)
+    .setAudience("localhost")
+    .setExpirationTime(now + ACCESS_TOKEN_TTL_SECONDS)
+    .sign(privateKey);
+
+  const refreshToken = randomBytes(32).toString("base64url");
+  const expiresAt = new Date(
+    Date.now() + REFRESH_TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000,
+  );
+  await pool.query(
+    "INSERT INTO refresh_tokens (token_hash, account_id, expires_at) VALUES ($1, $2, $3)",
+    [hashToken(refreshToken), accountId, expiresAt],
+  );
+  res.cookie(REFRESH_COOKIE, refreshToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: PUBLIC_URL.startsWith("https"),
+    maxAge: REFRESH_TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000,
+    path: "/",
+  });
+
+  return { jwt, expiresIn: ACCESS_TOKEN_TTL_SECONDS };
+}
+
+async function fetchSingleplayerAchievements(
+  accountId: string,
+): Promise<{ mapName: string; difficulty: string }[]> {
+  const { rows } = await pool.query<{ game_map: string; difficulty: string }>(
+    `SELECT DISTINCT g.game_map, g.difficulty
+     FROM game_players gp
+     JOIN games g ON g.game_id = gp.game_id
+     WHERE gp.account_id = $1 AND gp.won = true AND g.game_type = 'Singleplayer'
+       AND g.game_map IS NOT NULL AND g.difficulty IS NOT NULL`,
+    [accountId],
+  );
+  return rows.map((r) => ({ mapName: r.game_map, difficulty: r.difficulty }));
+}
+
+async function fetchRankedElo(
+  accountId: string,
+): Promise<{ oneVone?: { elo: number }; twoVtwo?: { elo: number } }> {
+  const { rows } = await pool.query<{ ranked_type: string; elo: number }>(
+    "SELECT ranked_type, elo FROM ranked_stats WHERE account_id = $1",
+    [accountId],
+  );
+  const result: { oneVone?: { elo: number }; twoVtwo?: { elo: number } } = {};
+  for (const r of rows) {
+    if (r.ranked_type === "1v1") result.oneVone = { elo: r.elo };
+    if (r.ranked_type === "2v2") result.twoVtwo = { elo: r.elo };
+  }
+  return result;
+}
+
+async function accountToUserMe(account: Account) {
+  const username = account.username_base;
+  const [achievements, leaderboard] = await Promise.all([
+    fetchSingleplayerAchievements(account.id),
+    fetchRankedElo(account.id),
+  ]);
+  return {
+    user: {
+      discord: account.discord_id
+        ? {
+            id: account.discord_id,
+            avatar: account.discord_avatar,
+            username: account.discord_username ?? "",
+            global_name: account.discord_global_name,
+            discriminator: "0",
+          }
+        : undefined,
+      google: account.google_email
+        ? { email: account.google_email }
+        : undefined,
+    },
+    ban: null,
+    player: {
+      publicId: account.id,
+      adfree: true,
+      unlimitedRanked: account.username_status !== "unclaimed",
+      canCreatePublicLobbies: account.username_status !== "unclaimed",
+      username,
+      usernameBase: username,
+      usernameDiscriminator: null,
+      usernameStatus: account.username_status,
+      usernameClaimExpiresAt: null,
+      nextUsernameChangeAt: null,
+      achievements: { singleplayerMap: achievements },
+      leaderboard,
+      friends: [],
+      subscription: null,
+    },
+  };
+}
+
+async function main() {
+  await initSchema();
+  const { publicJwk } = await loadOrCreateKeyPair();
+
+  const app = express();
+  app.use(cookieParser());
+  // Full game records carry per-turn history and can get large on long
+  // games -- express's 100kb default is too small.
+  app.use(express.json({ limit: "50mb" }));
+
+  app.get("/.well-known/jwks.json", (_req, res) => {
+    res.json({ keys: [publicJwk] });
+  });
+
+  // --- Discord OAuth ---
+  app.get("/auth/login/discord", (req, res) => {
+    if (!DISCORD_CLIENT_ID) {
+      res.status(503).send("Discord login not configured (DISCORD_CLIENT_ID)");
+      return;
+    }
+    const redirectUri = String(req.query.redirect_uri ?? "/");
+    const callback = `${PUBLIC_URL}/auth/callback/discord`;
+    const url = new URL("https://discord.com/oauth2/authorize");
+    url.searchParams.set("client_id", DISCORD_CLIENT_ID);
+    url.searchParams.set("redirect_uri", callback);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("scope", "identify");
+    url.searchParams.set("state", encodeState(redirectUri));
+    res.redirect(url.toString());
+  });
+
+  app.get("/auth/callback/discord", async (req, res) => {
+    try {
+      const code = String(req.query.code ?? "");
+      const { redirectUri } = decodeState(String(req.query.state ?? ""));
+      const callback = `${PUBLIC_URL}/auth/callback/discord`;
+
+      const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: DISCORD_CLIENT_ID,
+          client_secret: DISCORD_CLIENT_SECRET,
+          grant_type: "authorization_code",
+          code,
+          redirect_uri: callback,
+        }),
+      });
+      if (!tokenRes.ok) throw new Error(`discord token exchange: ${tokenRes.status}`);
+      const { access_token } = await tokenRes.json();
+
+      const userRes = await fetch("https://discord.com/api/users/@me", {
+        headers: { authorization: `Bearer ${access_token}` },
+      });
+      if (!userRes.ok) throw new Error(`discord user fetch: ${userRes.status}`);
+      const discordUser = await userRes.json();
+
+      let account = await findAccountByDiscordId(discordUser.id);
+      if (!account) {
+        const id = randomUUID();
+        await pool.query(
+          `INSERT INTO accounts (id, discord_id, discord_username, discord_global_name, discord_avatar)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [
+            id,
+            discordUser.id,
+            discordUser.username,
+            discordUser.global_name ?? null,
+            discordUser.avatar ?? null,
+          ],
+        );
+        account = await findAccountById(id);
+      }
+      if (!account) throw new Error("account upsert failed");
+
+      await issueSession(res, account.id, "discord");
+      res.redirect(redirectUri);
+    } catch (e) {
+      console.error("[auth] discord callback failed", e);
+      res.status(500).send("Discord login failed");
+    }
+  });
+
+  // --- Google OAuth ---
+  app.get("/auth/login/google", (req, res) => {
+    if (!GOOGLE_CLIENT_ID) {
+      res.status(503).send("Google login not configured (GOOGLE_CLIENT_ID)");
+      return;
+    }
+    const redirectUri = String(req.query.redirect_uri ?? "/");
+    const callback = `${PUBLIC_URL}/auth/callback/google`;
+    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    url.searchParams.set("client_id", GOOGLE_CLIENT_ID);
+    url.searchParams.set("redirect_uri", callback);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("scope", "openid email");
+    url.searchParams.set("state", encodeState(redirectUri));
+    res.redirect(url.toString());
+  });
+
+  app.get("/auth/callback/google", async (req, res) => {
+    try {
+      const code = String(req.query.code ?? "");
+      const { redirectUri } = decodeState(String(req.query.state ?? ""));
+      const callback = `${PUBLIC_URL}/auth/callback/google`;
+
+      const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: GOOGLE_CLIENT_ID,
+          client_secret: GOOGLE_CLIENT_SECRET,
+          grant_type: "authorization_code",
+          code,
+          redirect_uri: callback,
+        }),
+      });
+      if (!tokenRes.ok) throw new Error(`google token exchange: ${tokenRes.status}`);
+      const { access_token } = await tokenRes.json();
+
+      const userRes = await fetch(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { authorization: `Bearer ${access_token}` } },
+      );
+      if (!userRes.ok) throw new Error(`google userinfo fetch: ${userRes.status}`);
+      const googleUser = await userRes.json();
+
+      let account = await findAccountByGoogleEmail(googleUser.email);
+      if (!account) {
+        const id = randomUUID();
+        await pool.query(
+          "INSERT INTO accounts (id, google_email) VALUES ($1, $2)",
+          [id, googleUser.email],
+        );
+        account = await findAccountById(id);
+      }
+      if (!account) throw new Error("account upsert failed");
+
+      await issueSession(res, account.id, "google");
+      res.redirect(redirectUri);
+    } catch (e) {
+      console.error("[auth] google callback failed", e);
+      res.status(500).send("Google login failed");
+    }
+  });
+
+  // --- Session lifecycle ---
+  app.post("/auth/refresh", async (req, res) => {
+    const token = req.cookies?.[REFRESH_COOKIE];
+    if (!token) {
+      res.status(401).json({ error: "no refresh token" });
+      return;
+    }
+    const { rows } = await pool.query<{
+      account_id: string;
+      expires_at: Date;
+    }>(
+      "SELECT account_id, expires_at FROM refresh_tokens WHERE token_hash = $1",
+      [hashToken(token)],
+    );
+    const row = rows[0];
+    if (!row || row.expires_at.getTime() < Date.now()) {
+      res.status(401).json({ error: "invalid or expired refresh token" });
+      return;
+    }
+    const { jwt, expiresIn } = await issueSession(res, row.account_id, "refresh");
+    res.json({ jwt, expiresIn });
+  });
+
+  app.post("/auth/logout", async (req, res) => {
+    const token = req.cookies?.[REFRESH_COOKIE];
+    if (token) {
+      await pool.query("DELETE FROM refresh_tokens WHERE token_hash = $1", [
+        hashToken(token),
+      ]);
+    }
+    res.clearCookie(REFRESH_COOKIE, { path: "/" });
+    res.json({ ok: true });
+  });
+
+  app.post("/auth/revoke", async (req, res) => {
+    const token = req.cookies?.[REFRESH_COOKIE];
+    if (token) {
+      const { rows } = await pool.query<{ account_id: string }>(
+        "SELECT account_id FROM refresh_tokens WHERE token_hash = $1",
+        [hashToken(token)],
+      );
+      if (rows[0]) {
+        await pool.query("DELETE FROM refresh_tokens WHERE account_id = $1", [
+          rows[0].account_id,
+        ]);
+      }
+    }
+    res.clearCookie(REFRESH_COOKIE, { path: "/" });
+    res.json({ ok: true });
+  });
+
+  // --- Account ---
+  // Access tokens are short-lived and only ever presented right after being
+  // minted by this same process, so a lightweight unverified decode is
+  // enough here -- signature verification matters for the *game* server
+  // (jwt.ts, via JWKS), not for these self-service routes.
+  function decodeAccountIdFromJwt(jwt: string): string | null {
+    try {
+      const payload = JSON.parse(
+        Buffer.from(jwt.split(".")[1], "base64url").toString("utf-8"),
+      );
+      if (typeof payload.sub !== "string") return null;
+      return base64urlToUuid(payload.sub);
+    } catch {
+      return null;
+    }
+  }
+
+  function requireBearerAccountId(req: express.Request): string | null {
+    const header = req.headers.authorization;
+    if (!header?.startsWith("Bearer ")) return null;
+    return decodeAccountIdFromJwt(header.slice(7));
+  }
+
+  app.get("/users/@me", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const account = await findAccountById(accountId);
+    if (!account) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    res.json(await accountToUserMe(account));
+  });
+
+  app.put("/users/@me/username", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const parsed = UsernameBodySchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "invalid username" });
+      return;
+    }
+    try {
+      await pool.query(
+        "UPDATE accounts SET username_base = $1, username_status = 'premium' WHERE id = $2",
+        [parsed.data.username, accountId],
+      );
+    } catch (e: any) {
+      if (e.code === "23505") {
+        res.status(409).json({ error: "username taken" });
+        return;
+      }
+      throw e;
+    }
+    res.json({
+      username: parsed.data.username,
+      base: parsed.data.username,
+      discriminator: "",
+      usernameStatus: "premium",
+      nextUsernameChangeAt: null,
+    });
+  });
+
+  // --- Friends ---
+  function friendEntry(account: Account, createdAt: Date) {
+    return {
+      publicId: account.id,
+      username: account.username_base,
+      createdAt: createdAt.toISOString(),
+    };
+  }
+
+  app.get("/friends/requests", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const incoming = await pool.query<{ created_at: Date } & Account>(
+      `SELECT a.*, r.created_at FROM friend_requests r
+       JOIN accounts a ON a.id = r.requester_id
+       WHERE r.recipient_id = $1 ORDER BY r.created_at DESC`,
+      [accountId],
+    );
+    const outgoing = await pool.query<{ created_at: Date } & Account>(
+      `SELECT a.*, r.created_at FROM friend_requests r
+       JOIN accounts a ON a.id = r.recipient_id
+       WHERE r.requester_id = $1 ORDER BY r.created_at DESC`,
+      [accountId],
+    );
+    res.json({
+      incoming: incoming.rows.map((r) => friendEntry(r, r.created_at)),
+      outgoing: outgoing.rows.map((r) => friendEntry(r, r.created_at)),
+    });
+  });
+
+  app.get("/friends", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const page = Math.max(1, parseInt(String(req.query.page ?? "1"), 10) || 1);
+    const limit = Math.min(
+      100,
+      Math.max(1, parseInt(String(req.query.limit ?? "20"), 10) || 20),
+    );
+    const total = await pool.query<{ count: string }>(
+      "SELECT count(*) FROM friendships WHERE account_a = $1 OR account_b = $1",
+      [accountId],
+    );
+    const rows = await pool.query<{ created_at: Date } & Account>(
+      `SELECT a.*, f.created_at FROM friendships f
+       JOIN accounts a ON a.id = (CASE WHEN f.account_a = $1 THEN f.account_b ELSE f.account_a END)
+       WHERE f.account_a = $1 OR f.account_b = $1
+       ORDER BY f.created_at DESC
+       LIMIT $2 OFFSET $3`,
+      [accountId, limit, (page - 1) * limit],
+    );
+    res.json({
+      results: rows.rows.map((r) => friendEntry(r, r.created_at)),
+      total: parseInt(total.rows[0].count, 10),
+      page,
+      limit,
+    });
+  });
+
+  app.post("/friends/requests/:publicId", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const targetId = req.params.publicId;
+    if (targetId === accountId) {
+      res.status(400).json({ error: "cannot friend self" });
+      return;
+    }
+    const target = await findAccountById(targetId);
+    if (!target) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const [lo, hi] = accountId < targetId ? [accountId, targetId] : [targetId, accountId];
+    const already = await pool.query(
+      "SELECT 1 FROM friendships WHERE account_a = $1 AND account_b = $2",
+      [lo, hi],
+    );
+    if ((already.rowCount ?? 0) > 0) {
+      res.status(409).json({ error: "already friends" });
+      return;
+    }
+    // Reverse request already pending -- auto-accept instead of a second
+    // pending row (matches the client's "request_auto_accepted" toast).
+    const reverse = await pool.query(
+      "DELETE FROM friend_requests WHERE requester_id = $1 AND recipient_id = $2",
+      [targetId, accountId],
+    );
+    if ((reverse.rowCount ?? 0) > 0) {
+      await pool.query(
+        "INSERT INTO friendships (account_a, account_b) VALUES ($1, $2)",
+        [lo, hi],
+      );
+      res.json({ status: "accepted" });
+      return;
+    }
+    try {
+      await pool.query(
+        "INSERT INTO friend_requests (requester_id, recipient_id) VALUES ($1, $2)",
+        [accountId, targetId],
+      );
+    } catch (e: any) {
+      if (e.code === "23505") {
+        res.status(409).json({ error: "already requested" });
+        return;
+      }
+      throw e;
+    }
+    res.json({ status: "requested" });
+  });
+
+  app.post("/friends/requests/:publicId/accept", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const requesterId = req.params.publicId;
+    const deleted = await pool.query(
+      "DELETE FROM friend_requests WHERE requester_id = $1 AND recipient_id = $2",
+      [requesterId, accountId],
+    );
+    if ((deleted.rowCount ?? 0) === 0) {
+      res.status(404).json({ error: "no such request" });
+      return;
+    }
+    const [lo, hi] =
+      accountId < requesterId ? [accountId, requesterId] : [requesterId, accountId];
+    await pool.query(
+      "INSERT INTO friendships (account_a, account_b) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+      [lo, hi],
+    );
+    res.json({ ok: true });
+  });
+
+  app.delete("/friends/requests/:publicId", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const otherId = req.params.publicId;
+    const deleted = await pool.query(
+      `DELETE FROM friend_requests
+       WHERE (requester_id = $1 AND recipient_id = $2)
+          OR (requester_id = $2 AND recipient_id = $1)`,
+      [accountId, otherId],
+    );
+    if ((deleted.rowCount ?? 0) === 0) {
+      res.status(404).json({ error: "no such request" });
+      return;
+    }
+    res.json({ ok: true });
+  });
+
+  app.delete("/friends/:publicId", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const otherId = req.params.publicId;
+    const [lo, hi] =
+      accountId < otherId ? [accountId, otherId] : [otherId, accountId];
+    const deleted = await pool.query(
+      "DELETE FROM friendships WHERE account_a = $1 AND account_b = $2",
+      [lo, hi],
+    );
+    if ((deleted.rowCount ?? 0) === 0) {
+      res.status(404).json({ error: "not friends" });
+      return;
+    }
+    res.json({ ok: true });
+  });
+
+  // --- Game record ingestion (archive() in the game server posts every
+  // completed game here automatically -- singleplayer/public/private/
+  // ranked alike. This is the sole data source for match history,
+  // singleplayer achievements, and the ranked ladder below.) ---
+  function expectedScore(a: number, b: number): number {
+    return 1 / (1 + Math.pow(10, (b - a) / 400));
+  }
+
+  async function eloFor(accountId: string, rankedType: string): Promise<number> {
+    const { rows } = await pool.query<{ elo: number }>(
+      "SELECT elo FROM ranked_stats WHERE account_id = $1 AND ranked_type = $2",
+      [accountId, rankedType],
+    );
+    return rows[0]?.elo ?? RANKED_DEFAULT_ELO;
+  }
+
+  async function applyEloChange(
+    accountId: string,
+    rankedType: string,
+    newElo: number,
+    won: boolean,
+  ): Promise<void> {
+    await pool.query(
+      `INSERT INTO ranked_stats (account_id, ranked_type, elo, peak_elo, wins, losses)
+       VALUES ($1, $2, $3, $3, $4, $5)
+       ON CONFLICT (account_id, ranked_type) DO UPDATE SET
+         elo = $3,
+         peak_elo = GREATEST(ranked_stats.peak_elo, $3),
+         wins = ranked_stats.wins + $4,
+         losses = ranked_stats.losses + $5`,
+      [accountId, rankedType, newElo, won ? 1 : 0, won ? 0 : 1],
+    );
+  }
+
+  // Simplified team-average Elo: both sides' current ratings are averaged
+  // (unlinked/guest participants price in at RANKED_DEFAULT_ELO for the
+  // calculation only, never stored), one K-factor update is computed from
+  // those two averages, and every account on a side gets the same delta.
+  // Correct for 1v1; a reasonable approximation for 2v2.
+  async function updateRankedElo(
+    rankedType: "1v1" | "2v2",
+    players: { clientID: string; persistentID: string | null }[],
+    winningClientIds: Set<string>,
+  ): Promise<void> {
+    const winners = players.filter((p) => winningClientIds.has(p.clientID));
+    const losers = players.filter((p) => !winningClientIds.has(p.clientID));
+
+    const resolve = async (list: typeof players) => {
+      const accounts = await Promise.all(
+        list.map((p) => (p.persistentID ? findAccountById(p.persistentID) : null)),
+      );
+      return accounts.filter((a): a is Account => a !== null);
+    };
+    const [winnerAccounts, loserAccounts] = await Promise.all([
+      resolve(winners),
+      resolve(losers),
+    ]);
+    if (winnerAccounts.length === 0 && loserAccounts.length === 0) return;
+
+    const [winnerElos, loserElos] = await Promise.all([
+      Promise.all(winnerAccounts.map((a) => eloFor(a.id, rankedType))),
+      Promise.all(loserAccounts.map((a) => eloFor(a.id, rankedType))),
+    ]);
+    const avg = (xs: number[]) =>
+      xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : RANKED_DEFAULT_ELO;
+    const avgWin = avg(winnerElos);
+    const avgLose = avg(loserElos);
+
+    const winDelta = RANKED_K_FACTOR * (1 - expectedScore(avgWin, avgLose));
+    const loseDelta = RANKED_K_FACTOR * (0 - expectedScore(avgLose, avgWin));
+
+    await Promise.all([
+      ...winnerAccounts.map((a, i) =>
+        applyEloChange(a.id, rankedType, winnerElos[i] + winDelta, true),
+      ),
+      ...loserAccounts.map((a, i) =>
+        applyEloChange(a.id, rankedType, loserElos[i] + loseDelta, false),
+      ),
+    ]);
+  }
+
+  app.post("/game/:gameId", async (req, res) => {
+    if (!API_KEY || req.headers["x-api-key"] !== API_KEY) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    try {
+      const info = req.body?.info;
+      const gameId = req.params.gameId;
+      const config = info?.config ?? {};
+      const players: { clientID: string; persistentID: string | null }[] =
+        info?.players ?? [];
+      const winner: [string, ...string[]] | undefined = info?.winner;
+      const rankedType: "1v1" | "2v2" | undefined = config.rankedType;
+
+      await pool.query(
+        `INSERT INTO games (game_id, game_type, game_mode, ranked_type, game_map, difficulty, duration)
+         VALUES ($1,$2,$3,$4,$5,$6,$7)
+         ON CONFLICT (game_id) DO NOTHING`,
+        [
+          gameId,
+          config.gameType ?? "Public",
+          config.gameMode ?? "Free For All",
+          rankedType ?? null,
+          config.gameMap ?? null,
+          config.difficulty ?? null,
+          info?.duration ?? 0,
+        ],
+      );
+
+      const winningClientIds = new Set<string>(winner ? winner.slice(1) : []);
+      for (const p of players) {
+        let accountId: string | null = null;
+        if (p.persistentID) {
+          const acc = await findAccountById(p.persistentID);
+          if (acc) accountId = acc.id;
+        }
+        await pool.query(
+          `INSERT INTO game_players (game_id, client_id, account_id, username, won)
+           VALUES ($1,$2,$3,$4,$5)
+           ON CONFLICT (game_id, client_id) DO NOTHING`,
+          [
+            gameId,
+            p.clientID,
+            accountId,
+            (p as { username?: string }).username ?? null,
+            winningClientIds.has(p.clientID),
+          ],
+        );
+      }
+
+      if (rankedType === "1v1" || rankedType === "2v2") {
+        await updateRankedElo(rankedType, players, winningClientIds);
+      }
+
+      res.status(200).json({ ok: true });
+    } catch (e) {
+      console.error("[auth] game ingest failed", e);
+      res.status(500).json({ error: "ingest failed" });
+    }
+  });
+
+  app.get("/leaderboard/ranked", async (req, res) => {
+    const page = Math.max(1, parseInt(String(req.query.page ?? "1"), 10) || 1);
+    const limit = 20;
+
+    async function ladder(rankedType: string) {
+      const { rows } = await pool.query<{
+        account_id: string;
+        elo: number;
+        peak_elo: number;
+        wins: number;
+        losses: number;
+        username_base: string | null;
+      }>(
+        `SELECT rs.account_id, rs.elo, rs.peak_elo, rs.wins, rs.losses, a.username_base
+         FROM ranked_stats rs
+         JOIN accounts a ON a.id = rs.account_id
+         WHERE rs.ranked_type = $1
+         ORDER BY rs.elo DESC
+         LIMIT $2 OFFSET $3`,
+        [rankedType, limit, (page - 1) * limit],
+      );
+      return rows.map((r, i) => ({
+        rank: (page - 1) * limit + i + 1,
+        elo: r.elo,
+        peakElo: r.peak_elo,
+        wins: r.wins,
+        losses: r.losses,
+        total: r.wins + r.losses,
+        public_id: r.account_id,
+        accountUsername: r.username_base,
+      }));
+    }
+
+    const [oneVone, twoVtwo] = await Promise.all([
+      ladder("1v1"),
+      ladder("2v2"),
+    ]);
+    res.json({ "1v1": oneVone, "2v2": twoVtwo });
+  });
+
+  // --- Ranked matchmaking ---
+  // In-memory queue: fine for a single dev-box process. A real deployment
+  // with multiple auth-service instances would need this in Postgres/Redis
+  // instead so queued players aren't stranded on the wrong instance.
+  type MatchmakingMode = "1v1" | "2v2";
+  const MODE_PLAYER_COUNT: Record<MatchmakingMode, number> = {
+    "1v1": 2,
+    "2v2": 4,
+  };
+  interface QueuedPlayer {
+    accountId: string;
+    ws: WebSocket;
+  }
+  const queues: Record<MatchmakingMode, QueuedPlayer[]> = {
+    "1v1": [],
+    "2v2": [],
+  };
+
+  function isMatchmakingMode(v: unknown): v is MatchmakingMode {
+    return v === "1v1" || v === "2v2";
+  }
+
+  function removeFromQueues(ws: WebSocket) {
+    for (const mode of ["1v1", "2v2"] as const) {
+      const i = queues[mode].findIndex((q) => q.ws === ws);
+      if (i !== -1) queues[mode].splice(i, 1);
+    }
+  }
+
+  // The client's matchmaking modal treats >15s of silence as a dead
+  // connection and reconnects, so this must fire well under that.
+  function broadcastQueueSizes() {
+    for (const mode of ["1v1", "2v2"] as const) {
+      const payload = JSON.stringify({
+        type: "queue-size",
+        count: queues[mode].length,
+      });
+      for (const q of queues[mode]) {
+        if (q.ws.readyState === WebSocket.OPEN) q.ws.send(payload);
+      }
+    }
+  }
+  setInterval(broadcastQueueSizes, 3000);
+
+  // Workers poll this every ~5-6s per (worker, mode) offering a candidate
+  // gameId (Worker.ts's startMatchmakingLoop). If enough players are
+  // already queued for that mode we hand them out immediately; otherwise
+  // we just say "nothing yet" -- the worker's own retry loop picks newly
+  // queued players up within a few seconds, so no long-polling is needed.
+  app.post("/matchmaking/checkin", (req, res) => {
+    if (!API_KEY || req.headers["x-api-key"] !== API_KEY) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const { gameId, mode } = req.body ?? {};
+    if (!isMatchmakingMode(mode) || typeof gameId !== "string") {
+      res.status(400).json({ error: "bad request" });
+      return;
+    }
+    const need = MODE_PLAYER_COUNT[mode];
+    if (queues[mode].length < need) {
+      res.json({});
+      return;
+    }
+    // Synchronous from the length check through the splice -- no await in
+    // between -- so two near-simultaneous checkins for the same mode can't
+    // both claim the same players.
+    const matched = queues[mode].splice(0, need);
+    const teams =
+      mode === "2v2"
+        ? [
+            [matched[0].accountId, matched[1].accountId],
+            [matched[2].accountId, matched[3].accountId],
+          ]
+        : [[matched[0].accountId], [matched[1].accountId]];
+    const payload = JSON.stringify({ type: "match-assignment", gameId });
+    for (const p of matched) {
+      if (p.ws.readyState === WebSocket.OPEN) p.ws.send(payload);
+      p.ws.close(1000, "matched");
+    }
+    res.json({
+      assignment: { players: matched.map((p) => p.accountId), teams },
+    });
+  });
+
+  const httpServer = app.listen(PORT, () => {
+    console.log(`[auth] listening on :${PORT}, issuer=${ISSUER}, public=${PUBLIC_URL}`);
+    if (!DISCORD_CLIENT_ID) console.warn("[auth] DISCORD_CLIENT_ID not set -- Discord login disabled");
+    if (!GOOGLE_CLIENT_ID) console.warn("[auth] GOOGLE_CLIENT_ID not set -- Google login disabled");
+  });
+
+  const wss = new WebSocketServer({
+    server: httpServer,
+    path: "/matchmaking/join",
+  });
+  wss.on("connection", (ws, req) => {
+    const url = new URL(req.url ?? "", "http://internal");
+    const mode = url.searchParams.get("mode");
+    if (!isMatchmakingMode(mode)) {
+      ws.close(1008, "invalid_mode");
+      return;
+    }
+
+    let joined = false;
+    const joinTimeout = setTimeout(() => {
+      if (!joined) ws.close(1008, "join_timeout");
+    }, 10000);
+
+    ws.on("message", (raw) => {
+      if (joined) return;
+      let msg: { type?: string; jwt?: string };
+      try {
+        msg = JSON.parse(raw.toString());
+      } catch {
+        ws.close(1008, "invalid_message");
+        return;
+      }
+      if (msg?.type !== "join" || typeof msg.jwt !== "string") {
+        ws.close(1008, "invalid_message");
+        return;
+      }
+      const accountId = decodeAccountIdFromJwt(msg.jwt);
+      if (!accountId) {
+        ws.close(1008, "Invalid session");
+        return;
+      }
+      joined = true;
+      clearTimeout(joinTimeout);
+      queues[mode].push({ accountId, ws });
+      broadcastQueueSizes();
+    });
+
+    ws.on("close", () => {
+      clearTimeout(joinTimeout);
+      removeFromQueues(ws);
+    });
+  });
+}
+
+main().catch((e) => {
+  console.error("[auth] fatal startup error", e);
+  process.exit(1);
+});

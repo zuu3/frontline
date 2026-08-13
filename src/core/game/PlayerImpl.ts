@@ -122,6 +122,9 @@ export class PlayerImpl implements Player {
 
   public _units: Unit[] = [];
   public _tiles = new TileSet();
+  // Maintained incrementally in GameImpl.conquer()/relinquish() alongside
+  // _tiles, so reading it never rescans the (potentially huge) tile set.
+  public _oilTiles = 0;
 
   public pastOutgoingAllianceRequests: AllianceRequest[] = [];
   private _expiredAlliances: Alliance[] = [];
@@ -491,6 +494,10 @@ export class PlayerImpl implements Player {
 
   numTilesOwned(): number {
     return this._tiles.size;
+  }
+
+  oilTilesOwned(): number {
+    return this._oilTiles;
   }
 
   tiles(): ReadonlyTileSet {
@@ -1454,6 +1461,7 @@ export class PlayerImpl implements Player {
       case UnitType.SAMLauncher:
       case UnitType.City:
       case UnitType.Factory:
+      case UnitType.ForwardBase:
         return this.landBasedStructureSpawn(targetTile, validTiles);
       default:
         assertNever(unitType);

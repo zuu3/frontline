@@ -104,43 +104,10 @@ describe("AccountModal — rendering", () => {
     await modal.updateComplete;
   }
 
-  it("shows the Steam account (no link/login CTAs) for a Steam-primary user", async () => {
-    const userMe = makeUserMe({
-      steam: {
-        steamId: "76561198000000001",
-        personaName: "SnugglePuppy",
-        avatarUrl: "https://cdn/x.jpg",
-      },
-    });
-    await setLoggedInUser(userMe);
-
-    // Logged-in Account tab is rendered (not the login-options screen).
-    const steamHeader = modal.querySelector("steam-user-header");
-    expect(steamHeader).toBeTruthy();
-
-    // No login CTAs (Discord/Google login buttons, email field) — those only
-    // render on the logged-out `renderLoginOptions()` screen.
-    const text = modal.textContent ?? "";
-    expect(text).not.toContain("main.login_discord");
-    expect(text).not.toContain("main.login_google");
-
-    // No Google-link CTA either — Steam is primary in v1, no linking UI.
-    expect(text).not.toContain("account_modal.link_google");
-
-    // Currency + logout ARE rendered for the Steam branch of renderLoggedInAs().
-    expect(modal.querySelector("currency-display")).toBeTruthy();
-    expect(text).toContain("account_modal.log_out");
-  });
-
-  // The complement of the test above, and it earns its keep twice over:
-  //
-  // 1. It covers the direction the isSteamPrimary() primacy fix was about —
-  //    a non-Steam user must keep their account-linking UI.
-  // 2. It pins `account_modal.link_google` *positively*. The assertions above
-  //    are negative checks against translation-key literals, which silently
-  //    decay into no-ops if a key is ever renamed. Asserting the same key is
-  //    present here means a rename breaks this test loudly instead.
-  it("keeps the Google-link CTA for a Discord user (unaffected by the Steam branch)", async () => {
+  // Pins `account_modal.link_google` *positively*, so a rename of the key
+  // breaks this test loudly instead of the assertion silently decaying into
+  // a no-op.
+  it("shows the Google-link CTA for a Discord user", async () => {
     const userMe = makeUserMe({
       discord: {
         id: "1",
@@ -154,10 +121,6 @@ describe("AccountModal — rendering", () => {
 
     const text = modal.textContent ?? "";
 
-    // Discord takes the first branch of renderLoggedInAs() — no Steam header.
-    expect(modal.querySelector("steam-user-header")).toBeNull();
-
-    // The linking CTA a Steam-primary user does NOT get.
     expect(text).toContain("account_modal.link_google");
 
     // Still a logged-in view, not the login-options screen.

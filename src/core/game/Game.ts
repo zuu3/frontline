@@ -193,6 +193,7 @@ export enum UnitType {
   MIRVWarhead = "MIRV Warhead",
   Train = "Train",
   Factory = "Factory",
+  ForwardBase = "Forward Base",
 }
 
 export enum TrainType {
@@ -222,6 +223,7 @@ export const Structures = unitTypeGroup([
   UnitType.MissileSilo,
   UnitType.Port,
   UnitType.Factory,
+  UnitType.ForwardBase,
 ] as const);
 
 export const BuildMenus = unitTypeGroup([
@@ -288,6 +290,8 @@ export interface UnitParamsMap {
   [UnitType.MissileSilo]: Record<string, never>;
 
   [UnitType.DefensePost]: Record<string, never>;
+
+  [UnitType.ForwardBase]: Record<string, never>;
 
   [UnitType.SAMLauncher]: Record<string, never>;
 
@@ -591,6 +595,7 @@ export interface Player {
   tiles(): ReadonlyTileSet;
   borderTiles(): ReadonlyTileSet;
   numTilesOwned(): number;
+  oilTilesOwned(): number;
   conquer(tile: TileRef): void;
   relinquish(tile: TileRef): void;
 
@@ -974,6 +979,8 @@ export enum MessageType {
   ATTACK_CANCELLED,
   ATTACK_REQUEST,
   CONQUERED_PLAYER,
+  CAPITAL_CAPTURED,
+  CAPITAL_LOST,
   MIRV_INBOUND,
   NUKE_INBOUND,
   NUKE_DETONATED,
@@ -1009,6 +1016,8 @@ export const MESSAGE_TYPE_CATEGORIES: Record<MessageType, MessageCategory> = {
   [MessageType.ATTACK_CANCELLED]: MessageCategory.ATTACK,
   [MessageType.ATTACK_REQUEST]: MessageCategory.ATTACK,
   [MessageType.CONQUERED_PLAYER]: MessageCategory.ATTACK,
+  [MessageType.CAPITAL_CAPTURED]: MessageCategory.ATTACK,
+  [MessageType.CAPITAL_LOST]: MessageCategory.ATTACK,
   [MessageType.MIRV_INBOUND]: MessageCategory.NUKE,
   [MessageType.NUKE_INBOUND]: MessageCategory.NUKE,
   [MessageType.NUKE_DETONATED]: MessageCategory.NUKE,

@@ -67,13 +67,6 @@ export const GoogleUserSchema = z.object({
 });
 export type GoogleUser = z.infer<typeof GoogleUserSchema>;
 
-export const SteamUserSchema = z.object({
-  steamId: z.string(),
-  personaName: z.string().nullable(),
-  avatarUrl: z.string().nullable(),
-});
-export type SteamUser = z.infer<typeof SteamUserSchema>;
-
 const SingleplayerMapAchievementSchema = z.object({
   mapName: z.string(),
   difficulty: z.enum(Difficulty),
@@ -154,7 +147,6 @@ export const UserMeResponseSchema = z.object({
     discord: DiscordUserSchema.optional(),
     google: GoogleUserSchema.optional(),
     email: z.string().optional(),
-    steam: SteamUserSchema.optional(),
   }),
   // The caller's active account ban, shown to them (localized client-side), or
   // null. `category` is a server enum but kept as a string here so an

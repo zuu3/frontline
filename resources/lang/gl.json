@@ -9,7 +9,7 @@
     "close": "Pechar"
   },
   "main": {
-    "title": "OpenFront (ALFA)",
+    "title": "FrontLine (ALFA)",
     "join_discord": "Únete ó Discord!",
     "login_discord": "Iniciar sesión con Discord",
     "checking_login": "Comprobando a sesión...",
@@ -438,8 +438,7 @@
     "you_won": "Gañaches!",
     "other_won": "Gañou {player}!",
     "exit": "Saír da partida",
-    "keep": "Seguir xogando",
-    "wishlist": "Engádenos á túa lista de desexos en Steam!"
+    "keep": "Seguir xogando"
   },
   "leaderboard": {
     "title": "Clasificación",
@@ -580,8 +579,8 @@
       "cursor": "Cursor",
       "hand": "Man",
       "radiation": "Radiación",
-      "openfront_qr": "Código QR de OpenFront.io",
-      "openfront": "OpenFront",
+      "openfront_qr": "Código QR de FrontLine",
+      "openfront": "FrontLine",
       "t_rex": "Tiranosauro",
       "embelem": "Emblema",
       "contributor": "Contribuidor",

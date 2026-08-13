@@ -54,63 +54,10 @@ describe("updateAccountNavButton", () => {
     expect(hidden(nav.avatar)).toBe(true);
   });
 
-  it("shows the Steam avatar (not the sign-in prompt) for a Steam session", () => {
-    updateAccountNavButton(
-      userMe({
-        steam: {
-          steamId: "76561198024013188",
-          personaName: "Jish",
-          avatarUrl: "https://avatars.steamstatic.com/abc_full.jpg",
-        },
-      }),
-    );
-    // The core regression: a Steam-authed user must read as logged in.
-    expect(hidden(nav.signInText)).toBe(true);
-    expect(hidden(nav.avatar)).toBe(false);
-    expect(nav.avatar.getAttribute("src")).toBe(
-      "https://avatars.steamstatic.com/abc_full.jpg",
-    );
-  });
-
-  it("shows the logged-in person icon for a Steam session with no avatar", () => {
-    updateAccountNavButton(
-      userMe({
-        steam: {
-          steamId: "76561198024013188",
-          personaName: null,
-          avatarUrl: null,
-        },
-      }),
-    );
-    // No avatar to show, but still logged in — never the sign-in prompt.
-    expect(hidden(nav.signInText)).toBe(true);
-    expect(hidden(nav.avatar)).toBe(true);
-    expect(hidden(nav.personIcon)).toBe(false);
-    expect(hidden(nav.emailBadge)).toBe(true);
-  });
-
   it("shows the email badge for an email session", () => {
     updateAccountNavButton(userMe({ email: "player@example.com" }));
     expect(hidden(nav.signInText)).toBe(true);
     expect(hidden(nav.emailBadge)).toBe(false);
-  });
-
-  it("prefers the Discord avatar over Steam for a linked account", () => {
-    updateAccountNavButton(
-      userMe({
-        discord: discordUser,
-        steam: {
-          steamId: "76561198024013188",
-          personaName: "Jish",
-          avatarUrl: "https://avatars.steamstatic.com/abc_full.jpg",
-        },
-      }),
-    );
-    // Discord is checked first, so its avatar wins — not the Steam one.
-    expect(hidden(nav.avatar)).toBe(false);
-    expect(nav.avatar.getAttribute("src")).toBe(
-      "https://cdn/discord-avatar.png",
-    );
   });
 
   it("keeps a Discord user with no resolvable avatar logged in", () => {

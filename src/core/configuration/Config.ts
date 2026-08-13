@@ -447,6 +447,15 @@ export class Config {
           constructionDuration: this.instantBuild() ? 0 : 5 * 10,
         };
         break;
+      case UnitType.ForwardBase:
+        info = {
+          cost: this.costWrapper(
+            (numUnits: number) => Math.min(300_000, (numUnits + 1) * 75_000),
+            UnitType.ForwardBase,
+          ),
+          constructionDuration: this.instantBuild() ? 0 : 5 * 10,
+        };
+        break;
       case UnitType.SAMLauncher:
         info = {
           cost: this.costWrapper(
@@ -625,6 +634,32 @@ export class Config {
     }
     return 80;
   }
+  // Fraction of the map's larger dimension beyond which the supply-line
+  // penalty is fully saturated. Relative (not a fixed tile count) so it
+  // reads the same on a 375-wide map and a 1500-wide one.
+  supplyLineMaxRangeFraction(): number {
+    return 0.35;
+  }
+  // Max fraction shaved off attack mag/speed at or beyond max range.
+  supplyLineMaxPenalty(): number {
+    return 0.55;
+  }
+  // Fraction of the defender's gold plundered by the attacker when the
+  // exact capital tile is conquered.
+  capitalFallGoldPlunderFraction(): number {
+    return 0.25;
+  }
+  // Priority-queue penalty per raw tile of Manhattan distance from a
+  // directed attack's target point. Confirmed by direct playtest to
+  // produce a visible directional push at the original value of 2 (in
+  // fact too strong — a near-total tunnel straight at the click, ignoring
+  // terrain/randomness). A normalized (distance / map width) version was
+  // tried in between and was NOT visibly felt at all, so normalizing away
+  // the raw scale was the wrong direction — this stays on raw distance and
+  // just dials the weight down from 2 toward a lean instead of a tunnel.
+  directedAttackBiasWeight(): number {
+    return 0.2;
+  }
   armyLimitWarningThreshold(): number {
     return 0.8;
   }
@@ -679,6 +714,35 @@ export class Config {
       default:
         throw new Error(`terrain type ${type} not supported`);
     }
+
+    // Applied to mag directly (troop-loss formulas downstream are
+    // unclamped, so it scales through fine) but NOT to speed: speed feeds
+    // tilesPerTickUsed, and the TerraNullius branch clamps that to a floor
+    // of 5 — a large attacking army routinely hits that floor regardless
+    // of speed, silently erasing the penalty for exactly the case players
+    // spend the most time in (expanding into unclaimed land). Applied as a
+    // final multiplier on tilesPerTickUsed below instead, after any
+    // clamping, so it can't be absorbed by a floor.
+    let supplyPenalty = 0;
+    const capital = attacker.spawnTile();
+    if (capital !== undefined) {
+      let dist = gm.manhattanDist(capital, tileToConquer);
+      // A built ForwardBase acts as a secondary supply origin: distance is
+      // measured to whichever is closer, capital or nearest active base.
+      for (const base of attacker.units(UnitType.ForwardBase)) {
+        if (!base.isActive()) continue;
+        const baseDist = gm.manhattanDist(base.tile(), tileToConquer);
+        if (baseDist < dist) dist = baseDist;
+      }
+      const maxRange =
+        Math.max(gm.width(), gm.height()) * this.supplyLineMaxRangeFraction();
+      const t = within(dist / maxRange, 0, 1);
+      // sqrt: penalty ramps up fast early instead of only biting near
+      // max range, so it's felt well before a nation reaches full extent.
+      supplyPenalty = Math.sqrt(t) * this.supplyLineMaxPenalty();
+      mag *= 1 - supplyPenalty;
+    }
+
     if (defender.isPlayer()) {
       for (const dp of gm.nearbyUnits(
         tileToConquer,
@@ -756,18 +820,17 @@ export class Config {
           speed *
           largeDefenderSpeedDebuff *
           largeAttackerSpeedBonus *
-          (defender.isTraitor() ? this.traitorSpeedDebuff() : 1),
+          (defender.isTraitor() ? this.traitorSpeedDebuff() : 1) *
+          (1 - supplyPenalty),
       };
     } else {
       return {
         attackerTroopLoss:
           attacker.type() === PlayerType.Bot ? mag / 10 : mag / 5,
         defenderTroopLoss: 0,
-        tilesPerTickUsed: within(
-          (2000 * Math.max(10, speed)) / attackTroops,
-          5,
-          100,
-        ),
+        tilesPerTickUsed:
+          within((2000 * Math.max(10, speed)) / attackTroops, 5, 100) *
+          (1 - supplyPenalty),
       };
     }
   }
@@ -914,7 +977,14 @@ export class Config {
     } else {
       baseRate = 100n;
     }
-    return BigInt(Math.floor(Number(baseRate) * multiplier));
+    const oilTiles = "oilTilesOwned" in player ? player.oilTilesOwned() : 0;
+    return (
+      BigInt(Math.floor(Number(baseRate) * multiplier)) +
+      BigInt(oilTiles) * this.oilGoldPerTileRate()
+    );
+  }
+  oilGoldPerTileRate(): Gold {
+    return 15n;
   }
 
   nukeMagnitudes(unitType: UnitType): NukeMagnitude {

@@ -906,7 +906,14 @@ export function getApiBase() {
     if (apiDomain) {
       return `https://${apiDomain}`;
     }
-    return localStorage.getItem("apiHost") ?? "http://localhost:8787";
+    // Absolute "http://localhost:8787" only resolves for a browser running
+    // ON the dev box itself. Testers reach this box through a tunneled
+    // domain (a different machine), so default to a same-origin path that
+    // vite proxies to the local auth server instead -- works from
+    // localhost:9000 and from the tunnel domain alike.
+    return (
+      localStorage.getItem("apiHost") ?? `${window.location.origin}/authapi`
+    );
   }
 
   return `https://api.${domainname}`;

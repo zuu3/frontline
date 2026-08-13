@@ -830,11 +830,6 @@ export class SinglePlayerModal extends BaseModal {
       "username-input",
     ) as UsernameInput;
 
-    // Wait for the one-shot Steam name-seed to settle before reading
-    // getUsername(), so a fast single-player start uses the Steam persona
-    // rather than the interim generated anon name. Always resolves.
-    await usernameInput?.whenSeeded();
-
     await crazyGamesSDK.requestMidgameAd();
 
     this.dispatchEvent(

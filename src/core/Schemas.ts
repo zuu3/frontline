@@ -448,6 +448,12 @@ export const AttackIntentSchema = z.object({
   type: z.literal("attack"),
   targetID: ID.nullable(),
   troops: z.number().nonnegative().nullable(),
+  // Optional focal point (clicked tile) that biases which border tiles
+  // this attack conquers first. null/absent = spread evenly, as before.
+  // .optional() matters: older/other intent producers (admin-bot API,
+  // tests) don't know about this field, and a required-but-missing key
+  // fails the whole schema, silently dropping the entire attack intent.
+  targetTile: z.number().int().nonnegative().nullable().optional(),
 });
 
 export const SpawnIntentSchema = z.object({

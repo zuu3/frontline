@@ -9,7 +9,7 @@
     "close": "Stäng"
   },
   "main": {
-    "title": "OpenFront (ALPHA)",
+    "title": "FrontLine (ALPHA)",
     "join_discord": "Gå med i Discord!",
     "login_discord": "Logga in med Discord",
     "checking_login": "Kontrollerar inloggning...",
@@ -426,8 +426,7 @@
     "you_won": "Du vann!",
     "other_won": "{player} har vunnit!",
     "exit": "Avsluta spelet",
-    "keep": "Fortsätt spela",
-    "wishlist": "Lägg till i önskelistan på Steam!"
+    "keep": "Fortsätt spela"
   },
   "leaderboard": {
     "title": "Topplista",
@@ -569,8 +568,8 @@
       "cursor": "Muspekare",
       "hand": "Hand",
       "radiation": "Radioaktivitet",
-      "openfront_qr": "OpenFront.io QR kod",
-      "openfront": "OpenFront",
+      "openfront_qr": "FrontLine QR kod",
+      "openfront": "FrontLine",
       "t_rex": "T-Rex",
       "embelem": "Emblem",
       "grogu_head": "Grogu Huvud",

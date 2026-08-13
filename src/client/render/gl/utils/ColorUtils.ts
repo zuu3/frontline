@@ -8,6 +8,7 @@
  * Float32Array(PALETTE_SIZE × 2 × 4) to the GPURenderer constructor.
  */
 
+import { isOilTileCheck } from "../../../../core/game/GameMap";
 import renderDefaults from "../render-settings.json";
 
 /** Must cover 12-bit smallID range (0-4095). */
@@ -88,6 +89,7 @@ export function encodeTerrainTile(
   out: Uint8Array,
   offset: number,
   colors?: TerrainColorOverrides,
+  ref?: number,
 ): void {
   const oceanColor = colors?.oceanColor;
   const sandColor = colors?.sandColor;
@@ -160,6 +162,17 @@ export function encodeTerrainTile(
     b = Math.max(0, base[2] - m);
   }
 
+  if (
+    ref !== undefined &&
+    isOilTileCheck(ref, isLand && magnitude !== 31)
+  ) {
+    // Oil resource tile: blend a dark bronze tint into the base terrain
+    // color so the underlying terrain type is still faintly readable.
+    r = Math.round(r * 0.35 + 92 * 0.65);
+    g = Math.round(g * 0.35 + 64 * 0.65);
+    b = Math.round(b * 0.35 + 20 * 0.65);
+  }
+
   out[offset] = r;
   out[offset + 1] = g;
   out[offset + 2] = b;
@@ -174,7 +187,7 @@ export function buildTerrainRGBA(
 ): Uint8Array {
   const pixels = new Uint8Array(w * h * 4);
   for (let i = 0; i < w * h; i++) {
-    encodeTerrainTile(terrainBytes[i], pixels, i * 4, colors);
+    encodeTerrainTile(terrainBytes[i], pixels, i * 4, colors, i);
   }
   return pixels;
 }

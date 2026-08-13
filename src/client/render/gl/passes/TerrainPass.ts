@@ -121,7 +121,13 @@ export class TerrainPass {
       const ref = refs[i];
       const x = ref % this.mapW;
       const y = (ref - x) / this.mapW;
-      encodeTerrainTile(bytes[i], this.pixelScratch, 0, this.terrainColors);
+      encodeTerrainTile(
+        bytes[i],
+        this.pixelScratch,
+        0,
+        this.terrainColors,
+        ref,
+      );
       gl.texSubImage2D(
         gl.TEXTURE_2D,
         0,

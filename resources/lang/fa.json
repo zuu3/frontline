@@ -699,7 +699,7 @@
     "radial_title": "منوی دایره‌ای",
     "table_action": "اقدام",
     "table_key": "کلید",
-    "troubleshooting_desc": "اگر هنگام بازی OpenFront با مشکلات عملکردی، کرش‌ها یا سایر مسائل مواجه شدید، لطفاً برای کمک در شناسایی و رفع مشکلات رایج به صفحهٔ عیب‌یابی ما مراجعه کنید:",
+    "troubleshooting_desc": "اگر هنگام بازی FrontLine با مشکلات عملکردی، کرش‌ها یا سایر مسائل مواجه شدید، لطفاً برای کمک در شناسایی و رفع مشکلات رایج به صفحهٔ عیب‌یابی ما مراجعه کنید:",
     "ui_attack_ratio": "نسبت حمله - تعداد نیروهایی که در حمله استفاده می‌شن. با اسلایدر قابل تنظیمه. اگر نیروهای مهاجم بیشتر باشن، تلفات کمتره؛ اگر کمتر باشن، آسیب بیشتری می‌بینن. تأثیر تا نسبت ۲ به ۱ ادامه داره.",
     "ui_control": "صفحه تنظیمات",
     "ui_control_desc": "صفحه تنظیمات حاوی این موارد است:",
@@ -719,7 +719,7 @@
     "ui_wilderness": "بیابان",
     "ui_your_team": "تیم شما:",
     "video_tutorial": "ویدیو آموزشی",
-    "video_tutorial_title": "آموزش OpenFront.io"
+    "video_tutorial_title": "آموزش FrontLine"
   },
   "host_modal": {
     "anonymous_players": "بازیکنان ناشناس",
@@ -778,14 +778,14 @@
     "got_it": "فهمیدم",
     "how": "چطور",
     "later": "بعدا",
-    "modal_desc": "مرورگر شما از حالت تمام صفحه پشتیبانی نمی‌کند، اما می‌توانید OpenFront را برای یک تجربه فراگیر به صفحه اصلی خود اضافه کنید:",
+    "modal_desc": "مرورگر شما از حالت تمام صفحه پشتیبانی نمی‌کند، اما می‌توانید FrontLine را برای یک تجربه فراگیر به صفحه اصلی خود اضافه کنید:",
     "modal_title": "تمام صفحه بر آیو اس",
     "never": "هیچ‌وقت",
     "step_add_to_home_label": "افزودن به صفحه اصلی",
     "step_open": "از صفحه اصلی خود باز کنید - تمام صفحه را بدون نوار آدرس اجرا می‌کند",
     "step_scroll_and_tap": "به پایین بروید و ضربه بزنید",
     "step_share": "روی دکمه اشتراک‌گذاری در مرورگر خود ضربه بزنید",
-    "text": "برای تمام صفحه، OpenFront را به صفحه اصلی خود اضافه کنید"
+    "text": "برای تمام صفحه، FrontLine را به صفحه اصلی خود اضافه کنید"
   },
   "kick_reason": {
     "admin": "توسط یک مدیر اخراج شد",
@@ -851,7 +851,7 @@
     "solo": "انفرادی",
     "store": "فروشگاه",
     "terms_of_service": "شرایط استفاده",
-    "title": "OpenFront (نسخه آلفا)",
+    "title": "FrontLine (نسخه آلفا)",
     "troubleshooting": "عیب یابی",
     "user_avatar_alt": "آواتار {username}",
     "wiki": "ویکی",
@@ -1018,7 +1018,7 @@
   },
   "news_box": {
     "dismiss": "نادیده گرفتن",
-    "firefox_warning": "OpenFront.io با [مرورگرهای مبتنی بر فایرفاکس](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox) عملکرد خوبی ندارد. برای بهترین عملکرد، توصیه می‌کنیم از [مرورگر مبتنی بر کرومیوم](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) استفاده کنید.",
+    "firefox_warning": "FrontLine با [مرورگرهای مبتنی بر فایرفاکس](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox) عملکرد خوبی ندارد. برای بهترین عملکرد، توصیه می‌کنیم از [مرورگر مبتنی بر کرومیوم](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) استفاده کنید.",
     "go_to_item": "رفتن به آیتم {num}",
     "news": "تازه‌ها",
     "tournament": "تورنمنت",
@@ -1493,9 +1493,8 @@
     "other_won": "{player} برنده شد!",
     "requeue": "بازی دوباره",
     "spectate": "تماشا کردن",
-    "support_openfront": "از OpenFront حمایت کنید!",
+    "support_openfront": "از FrontLine حمایت کنید!",
     "territory_pattern": "یک پوستهٔ سرزمین بخرید تا از تبلیغات رها شوید!",
-    "wishlist": "افزودن به لیست علاقه‌مندی‌ها در استیم!",
     "you_won": "شما بردید!",
     "your_team": "تیم شما پیروز شد!",
     "youtube_tutorial": "نیاز به کمک دارید؟"

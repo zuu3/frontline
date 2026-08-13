@@ -675,7 +675,7 @@
     "preset_colorblind_desc": "Couleurs des territoires et des frontières adaptées aux personnes daltoniennes",
     "preset_custom": "Personnalisé",
     "preset_default": "Par défaut",
-    "preset_default_desc": "L’apparence standard d’OpenFront",
+    "preset_default_desc": "L’apparence standard d’FrontLine",
     "preset_delete_confirm": "Supprimer le préréglage « {name} » ?",
     "preset_migrated_name": "Mes paramètres",
     "preset_name_placeholder": "Nom du préréglage",
@@ -801,7 +801,7 @@
     "radial_title": "Menu radial",
     "table_action": "Action",
     "table_key": "Touche",
-    "troubleshooting_desc": "Si vous rencontrez des problèmes de performance, des plantages ou d'autres problèmes lors de la lecture d'OpenFront, veuillez visiter notre page de dépannage pour vous aider à diagnostiquer et à résoudre les problèmes courants :",
+    "troubleshooting_desc": "Si vous rencontrez des problèmes de performance, des plantages ou d'autres problèmes lors de la lecture d'FrontLine, veuillez visiter notre page de dépannage pour vous aider à diagnostiquer et à résoudre les problèmes courants :",
     "ui_attack_ratio": "Ratio d'attaque - La quantité de troupes qui seront utilisées lors de votre attaque. Vous pouvez ajuster le ratio d'attaque en utilisant le curseur. Avoir plus de troupes attaquantes que défensives vous fera perdre moins de troupes dans l'attaque, quand en avoir moins va augmenter les dommages infligés à vos troupes attaquantes. L'effet ne dépasse pas le ratio de 2:1.",
     "ui_control": "Panneau de contrôle",
     "ui_control_desc": "Le panneau de contrôle contient les éléments suivants :",
@@ -821,7 +821,7 @@
     "ui_wilderness": "Région sauvage",
     "ui_your_team": "Votre équipe :",
     "video_tutorial": "Tutoriel vidéo",
-    "video_tutorial_title": "Tutoriel OpenFront.io"
+    "video_tutorial_title": "Tutoriel FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Joueurs anonymes",
@@ -887,14 +887,14 @@
     "got_it": "J'ai compris",
     "how": "Comment",
     "later": "Plus tard",
-    "modal_desc": "Votre navigateur ne supporte pas le grand écran, mais vous pouvez ajouter OpenFront à votre écran d'accueil pour une meilleure expérience :",
+    "modal_desc": "Votre navigateur ne supporte pas le grand écran, mais vous pouvez ajouter FrontLine à votre écran d'accueil pour une meilleure expérience :",
     "modal_title": "Grand écran sur iOS",
     "never": "Jamais",
     "step_add_to_home_label": "Ajouter à l'écran d'accueil",
     "step_open": "Ouvrir depuis votre écran d'accueil — ouvre en grand écran sans la barre d'adresse",
     "step_scroll_and_tap": "Défilez vers le bas et tapotez",
     "step_share": "Tapotez le bouton \"Partager\" dans votre navigateur",
-    "text": "Pour le grand écran, ajouter OpenFront à votre écran d'accueil"
+    "text": "Pour le grand écran, ajouter FrontLine à votre écran d'accueil"
   },
   "kick_reason": {
     "admin": "Expulsé par un admin",
@@ -981,7 +981,7 @@
     "solo": "Solo",
     "store": "Boutique",
     "terms_of_service": "Conditions d'utilisation",
-    "title": "OpenFront (ALPHA)",
+    "title": "FrontLine (ALPHA)",
     "troubleshooting": "Dépannage",
     "user_avatar_alt": "Avatar de {username}",
     "wiki": "Wiki"
@@ -1148,7 +1148,7 @@
     "dismiss": "Ignorer",
     "error": "Échec de la sauvegarde. Veuillez réessayer.",
     "no": "Non merci",
-    "title": "Voulez-vous rester informé·e des nouveautés d'OpenFront ?",
+    "title": "Voulez-vous rester informé·e des nouveautés d'FrontLine ?",
     "yes": "Oui s'il vous plaît"
   },
   "matchmaking_modal": {
@@ -1189,7 +1189,7 @@
   },
   "news_box": {
     "dismiss": "Ignorer",
-    "firefox_warning": "OpenFront.io ne fonctionne pas bien avec [les navigateurs basés sur Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Nous vous recommandons d'utiliser un navigateur [basé sur Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser) #Browsers_based_on_Chromium) pour de meilleures performances.",
+    "firefox_warning": "FrontLine ne fonctionne pas bien avec [les navigateurs basés sur Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Nous vous recommandons d'utiliser un navigateur [basé sur Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser) #Browsers_based_on_Chromium) pour de meilleures performances.",
     "go_to_item": "Aller à l'article {num}",
     "news": "NOUVEAUTÉS",
     "tournament": "TOURNOI",
@@ -1442,19 +1442,6 @@
     "toggle_achievements": "Activer / Désactiver les succès",
     "water_nukes": "Bombes à eau"
   },
-  "steam": {
-    "link_signpost": "Avez-vous déjà un compte OpenFront existant ? La liaison de compte arrive dans une mise à jour future."
-  },
-  "steam_user_header": {
-    "avatar_alt": "Avatar Steam",
-    "default_name": "Joueur Steam"
-  },
-  "steam_wishlist": {
-    "cta": "Ajouter à la liste de souhaits",
-    "on_steam": "OpenFront sur Steam",
-    "release": "Disponible au 3ᵉ trimestre 2026",
-    "title": "Ajoutez OpenFront à votre liste de souhaits sur Steam !"
-  },
   "store": {
     "already_subscribed": "Déjà abonné.",
     "change_tier_failed": "Votre abonnement n'a pas pu être actualisé. Merci de réessayer.",
@@ -1553,7 +1540,7 @@
     "browser": "Navigateur",
     "canvas_2d_no_gpu": "Canvas 2D (sans GPU)",
     "charging": "Chargement",
-    "chromium_tip": "OpenFront fonctionne mieux sur les navigateurs basés sur Chromium.",
+    "chromium_tip": "FrontLine fonctionne mieux sur les navigateurs basés sur Chromium.",
     "copied_to_clipboard": "Informations copiées dans le presse-papiers ! N'hésitez pas à le partager sur notre Discord si vous avez besoin d'aide.",
     "device_pixel_ratio": "Ratio de pixels de l'appareil",
     "environment": "Environnement",
@@ -1754,7 +1741,7 @@
     "other_won": "{player} a gagné !",
     "requeue": "Rejouer",
     "spectate": "Regarder",
-    "support_openfront": "Soutenir OpenFront!",
+    "support_openfront": "Soutenir FrontLine!",
     "territory_pattern": "Achetez une décoration de territoire pour retirer les publicités !",
     "you_won": "Vous avez gagné !",
     "your_team": "Votre équipe a gagné !",

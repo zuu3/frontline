@@ -19,6 +19,7 @@ import {
   cityIcon,
   defensePostIcon,
   factoryIcon,
+  forwardBaseIcon,
   goldCoinIcon,
   hydrogenBombIcon,
   mirvIcon,
@@ -41,6 +42,7 @@ export class UnitDisplay extends LitElement implements Controller {
   private _missileSilo = 0;
   private _port = 0;
   private _defensePost = 0;
+  private _forwardBase = 0;
   private _samLauncher = 0;
   private allDisabled = false;
   private _hoveredUnit: PlayerBuildableUnitType | null = null;
@@ -99,6 +101,7 @@ export class UnitDisplay extends LitElement implements Controller {
     this._missileSilo = player.totalUnitLevels(UnitType.MissileSilo);
     this._port = player.totalUnitLevels(UnitType.Port);
     this._defensePost = player.totalUnitLevels(UnitType.DefensePost);
+    this._forwardBase = player.totalUnitLevels(UnitType.ForwardBase);
     this._samLauncher = player.totalUnitLevels(UnitType.SAMLauncher);
     this._factories = player.totalUnitLevels(UnitType.Factory);
     this._warships = player.totalUnitLevels(UnitType.Warship);
@@ -149,6 +152,13 @@ export class UnitDisplay extends LitElement implements Controller {
             UnitType.DefensePost,
             "defense_post",
             this.keybinds["buildDefensePost"]?.key ?? "4",
+          )}
+          ${this.renderUnitItem(
+            forwardBaseIcon,
+            this._forwardBase,
+            UnitType.ForwardBase,
+            "forward_base",
+            this.keybinds["buildForwardBase"]?.key ?? "-",
           )}
           ${this.renderUnitItem(
             missileSiloIcon,

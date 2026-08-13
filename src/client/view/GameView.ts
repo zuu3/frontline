@@ -1266,6 +1266,9 @@ export class GameView implements GameMap {
   terrainType(ref: TileRef): TerrainType {
     return this._map.terrainType(ref);
   }
+  isOilTile(ref: TileRef): boolean {
+    return this._map.isOilTile(ref);
+  }
   forEachTile(fn: (tile: TileRef) => void): void {
     return this._map.forEachTile(fn);
   }

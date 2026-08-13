@@ -5,9 +5,9 @@ import {
 } from "../src/client/DesktopShell";
 
 describe("composeVersionDisplay", () => {
-  it("appends the Steam shell version as subtext", () => {
+  it("appends the desktop shell version as subtext", () => {
     expect(composeVersionDisplay("v0.33.1", "0.2.0")).toBe(
-      "v0.33.1 (Steam v0.2.0)",
+      "v0.33.1 (v0.2.0)",
     );
   });
 
@@ -18,7 +18,7 @@ describe("composeVersionDisplay", () => {
 
   it("tolerates a shell version that already carries a v prefix", () => {
     expect(composeVersionDisplay("v0.33.1", "v0.2.0")).toBe(
-      "v0.33.1 (Steam v0.2.0)",
+      "v0.33.1 (v0.2.0)",
     );
   });
 

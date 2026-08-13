@@ -21,6 +21,7 @@ export function getDefaultKeybinds(isMac: boolean): Record<string, string> {
     buildFactory: "Digit2",
     buildPort: "Digit3",
     buildDefensePost: "Digit4",
+    buildForwardBase: "Minus",
     buildMissileSilo: "Digit5",
     buildSamLauncher: "Digit6",
     buildWarship: "Digit7",

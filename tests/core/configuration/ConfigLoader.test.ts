@@ -61,7 +61,7 @@ describe("ClientEnv", () => {
     expect(() => ClientEnv.instanceId()).toThrow(/Missing BOOTSTRAP_CONFIG/);
   });
 
-  test("jwtIssuer maps 'localhost' to http://localhost:8787", () => {
+  test("jwtIssuer maps 'localhost' to a same-origin /authapi path", () => {
     window.BOOTSTRAP_CONFIG = {
       gameEnv: "dev",
       numWorkers: 1,
@@ -70,7 +70,7 @@ describe("ClientEnv", () => {
       instanceId: "x",
       gitCommit: "DEV",
     };
-    expect(ClientEnv.jwtIssuer()).toBe("http://localhost:8787");
+    expect(ClientEnv.jwtIssuer()).toBe(`${window.location.origin}/authapi`);
   });
 
   test("jwtIssuer derives api.<audience> for non-localhost", () => {

@@ -675,7 +675,7 @@
     "preset_colorblind_desc": "Usar cores de borda e territórios para pessoas daltônicas",
     "preset_custom": "Customizado",
     "preset_default": "Padrão",
-    "preset_default_desc": "A aparência padrão do OpenFront",
+    "preset_default_desc": "A aparência padrão do FrontLine",
     "preset_delete_confirm": "Excluir predefinição \"{name}\"?",
     "preset_migrated_name": "Minhas configurações",
     "preset_name_placeholder": "Nome da predefinição",
@@ -821,7 +821,7 @@
     "ui_wilderness": "Terra inóspita",
     "ui_your_team": "Seu Time:",
     "video_tutorial": "Vídeo tutorial",
-    "video_tutorial_title": "OpenFront.io Tutorial"
+    "video_tutorial_title": "FrontLine Tutorial"
   },
   "host_modal": {
     "anonymous_players": "Jogadores Anônimos",
@@ -887,14 +887,14 @@
     "got_it": "Consegui",
     "how": "Como",
     "later": "Depois",
-    "modal_desc": "Seu navegador não suporta tela cheia, mas você pode adicionar OpenFront à sua Tela Inicial para uma experiência imersiva:",
+    "modal_desc": "Seu navegador não suporta tela cheia, mas você pode adicionar FrontLine à sua Tela Inicial para uma experiência imersiva:",
     "modal_title": "Tela cheia no iOS",
     "never": "Nunca",
     "step_add_to_home_label": "Colocar na Tela de início",
     "step_open": "Abrir a partir da sua Tela Inicial — abre tela cheia sem barra de endereços",
     "step_scroll_and_tap": "Role para baixo e toque",
     "step_share": "Toque no botão Compartilhar no seu navegador",
-    "text": "Para tela cheia, adicione o OpenFront à sua tela inicial"
+    "text": "Para tela cheia, adicione o FrontLine à sua tela inicial"
   },
   "kick_reason": {
     "admin": "Expulso por um administrador",
@@ -981,7 +981,7 @@
     "solo": "Solo",
     "store": "Loja",
     "terms_of_service": "Termos de Serviço",
-    "title": "OpenFront (ALFA)",
+    "title": "FrontLine (ALFA)",
     "troubleshooting": "Solução de problemas",
     "user_avatar_alt": "Avatar de {username}",
     "wiki": "Wiki"
@@ -1148,7 +1148,7 @@
     "dismiss": "Ignorar",
     "error": "Não foi possível salvar isso. Por favor, tente novamente.",
     "no": "Não, obrigado",
-    "title": "Continuar com o OpenFront?",
+    "title": "Continuar com o FrontLine?",
     "yes": "Sim, por favor"
   },
   "matchmaking_modal": {
@@ -1189,7 +1189,7 @@
   },
   "news_box": {
     "dismiss": "Ignorar",
-    "firefox_warning": "O OpenFront.io não performa bem com navegadores baseados em Firefox\n(https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Recomendamos que você utilize um navegador baseado no Chromium\n(https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) para um melhor desempenho.",
+    "firefox_warning": "O FrontLine não performa bem com navegadores baseados em Firefox\n(https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Recomendamos que você utilize um navegador baseado no Chromium\n(https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) para um melhor desempenho.",
     "go_to_item": "Ir para o item {num}",
     "news": "NOTÍCIAS",
     "tournament": "TORNEIO",
@@ -1442,19 +1442,6 @@
     "toggle_achievements": "Ativar/desativar conquistas",
     "water_nukes": "Bombas aquáticas"
   },
-  "steam": {
-    "link_signpost": "Já tem uma conta existente do OpenFront? O link de conta está vindo em um update futuro."
-  },
-  "steam_user_header": {
-    "avatar_alt": "Avatar do Steam",
-    "default_name": "Jogador da Steam"
-  },
-  "steam_wishlist": {
-    "cta": "Adicione à lista de desejos",
-    "on_steam": "OpenFront Na Steam",
-    "release": "Disponível em Q3 2026",
-    "title": "Coloque o OpenFront na Lista de Desejo na Steam!"
-  },
   "store": {
     "already_subscribed": "Já inscrito.",
     "change_tier_failed": "Não foi possível atualizar sua assinatura. Por favor, tente novamente.",
@@ -1553,7 +1540,7 @@
     "browser": "Navegador",
     "canvas_2d_no_gpu": "Canvas 2D (sem GPU)",
     "charging": "Carregando",
-    "chromium_tip": "O OpenFront funciona melhor nos navegadores baseados no Chromium.",
+    "chromium_tip": "O FrontLine funciona melhor nos navegadores baseados no Chromium.",
     "copied_to_clipboard": "Informação copiada para a área de transferência! Sinta-se à vontade para compartilhá-la em nosso Discord se precisar de ajuda.",
     "device_pixel_ratio": "Proporção de Pixel do Dispositivo",
     "environment": "Ambiente",
@@ -1754,7 +1741,7 @@
     "other_won": "{player} Venceu!",
     "requeue": "Jogar Novamente",
     "spectate": "Assistir",
-    "support_openfront": "Suporte OpenFront!",
+    "support_openfront": "Suporte FrontLine!",
     "territory_pattern": "Compre uma skin de território parar ficar sem propagandas!",
     "you_won": "Você Venceu!",
     "your_team": "Sua Equipe Venceu!",

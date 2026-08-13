@@ -675,7 +675,7 @@
     "preset_colorblind_desc": "Цвета территорий и границ, адаптированные для дальтоников",
     "preset_custom": "Пользовательский",
     "preset_default": "Стандартный",
-    "preset_default_desc": "Стандартный вид OpenFront",
+    "preset_default_desc": "Стандартный вид FrontLine",
     "preset_delete_confirm": "Удалить пресет «{name}»?",
     "preset_migrated_name": "Мои настройки",
     "preset_name_placeholder": "Название пресета",
@@ -801,7 +801,7 @@
     "radial_title": "Круговое меню",
     "table_action": "Действие",
     "table_key": "Клавиша",
-    "troubleshooting_desc": "Если вы испытываете проблемы с производительностью, сбои или другие проблемы во время игры в OpenFront, перейдите на страницу устранения неполадок для диагностики и устранения распространённых проблем:",
+    "troubleshooting_desc": "Если вы испытываете проблемы с производительностью, сбои или другие проблемы во время игры в FrontLine, перейдите на страницу устранения неполадок для диагностики и устранения распространённых проблем:",
     "ui_attack_ratio": "Соотношение атаки — Количество войск, которое будет использовано при атаке. Вы можете настроить соотношение атаки с помощью ползунка. Имея больше войск атаки, чем войск защиты, вы уменьшите потери во время атаки, а меньше — увеличите потери, наносимые вашим атакующим войскам. Эффект не превышает соотношения 2:1.",
     "ui_control": "Панель управления",
     "ui_control_desc": "Панель управления содержит следующие элементы:",
@@ -821,7 +821,7 @@
     "ui_wilderness": "Пустошь",
     "ui_your_team": "Ваша команда:",
     "video_tutorial": "Видеоинструкция",
-    "video_tutorial_title": "Руководство OpenFront.io"
+    "video_tutorial_title": "Руководство FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Анонимные игроки",
@@ -887,14 +887,14 @@
     "got_it": "Понятно",
     "how": "Как",
     "later": "Позже",
-    "modal_desc": "Ваш браузер не поддерживает полноэкранный режим, но вы можете добавить OpenFront на домашний экран для погруженного опыта:",
+    "modal_desc": "Ваш браузер не поддерживает полноэкранный режим, но вы можете добавить FrontLine на домашний экран для погруженного опыта:",
     "modal_title": "Полноэкранный режим на iOS",
     "never": "Никогда",
     "step_add_to_home_label": "Добавь на главный экран",
     "step_open": "Откройте с домашнего экрана — игра запуститься в полноэкранном режиме без адресной строки",
     "step_scroll_and_tap": "Прокрутите вниз и нажмите",
     "step_share": "Нажмите кнопку «Поделиться» в вашем браузере",
-    "text": "Для полноэкранного режима добавьте OpenFront на домашний экран"
+    "text": "Для полноэкранного режима добавьте FrontLine на домашний экран"
   },
   "kick_reason": {
     "admin": "Выгнан администратором",
@@ -981,7 +981,7 @@
     "solo": "Соло",
     "store": "Магазин",
     "terms_of_service": "Пользовательское соглашение",
-    "title": "OpenFront (АЛЬФА)",
+    "title": "FrontLine (АЛЬФА)",
     "troubleshooting": "Устранение неполадок",
     "user_avatar_alt": "Аватар {username}",
     "wiki": "Вики"
@@ -1148,7 +1148,7 @@
     "dismiss": "Отклонить",
     "error": "Не удалось сохранить. Попробуйте ещё раз.",
     "no": "Нет, спасибо",
-    "title": "Хотите быть в курсе новостей OpenFront?",
+    "title": "Хотите быть в курсе новостей FrontLine?",
     "yes": "Да, пожалуйста"
   },
   "matchmaking_modal": {
@@ -1189,7 +1189,7 @@
   },
   "news_box": {
     "dismiss": "Отклонить",
-    "firefox_warning": "OpenFront.io плохо работает с [браузерами, основанными на Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Мы рекомендуем использовать [браузеры, основанные на Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) для лучшей производительности.",
+    "firefox_warning": "FrontLine плохо работает с [браузерами, основанными на Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Мы рекомендуем использовать [браузеры, основанные на Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) для лучшей производительности.",
     "go_to_item": "Перейти к пункту {num}",
     "news": "НОВОСТИ",
     "tournament": "ТУРНИР",
@@ -1442,19 +1442,6 @@
     "toggle_achievements": "Переключение достижений",
     "water_nukes": "Водные бомбы"
   },
-  "steam": {
-    "link_signpost": "Уже есть аккаунт OpenFront? Привязка аккаунта появится в будущих обновлениях."
-  },
-  "steam_user_header": {
-    "avatar_alt": "Аватар Steam",
-    "default_name": "Игрок Steam"
-  },
-  "steam_wishlist": {
-    "cta": "Добавьте в список желаемого",
-    "on_steam": "OpenFront в Steam",
-    "release": "Выпуск III квартала 2026",
-    "title": "Добавьте OpenFront в список желаемого в Steam!"
-  },
   "store": {
     "already_subscribed": "Подписка уже оформлена.",
     "change_tier_failed": "Не удалось обновить подписку. Попробуйте ещё раз.",
@@ -1553,7 +1540,7 @@
     "browser": "Браузер",
     "canvas_2d_no_gpu": "2D-полотно (без видеокарты)",
     "charging": "Зарядка",
-    "chromium_tip": "OpenFront лучше всего работает в браузерах на базе Chromium.",
+    "chromium_tip": "FrontLine лучше всего работает в браузерах на базе Chromium.",
     "copied_to_clipboard": "Информация скопирована в буфер обмена! Не забудьте поделиться ей в нашем Discord, если вам нужна помощь.",
     "device_pixel_ratio": "Пиксельное соотношение устройства (DPR)",
     "environment": "Среда",
@@ -1754,7 +1741,7 @@
     "other_won": "Игрок {player} победил!",
     "requeue": "Играть ещё раз",
     "spectate": "Наблюдать",
-    "support_openfront": "Поддержите OpenFront!",
+    "support_openfront": "Поддержите FrontLine!",
     "territory_pattern": "Купите скин территории, чтобы избавиться от рекламы!",
     "you_won": "Вы победили!",
     "your_team": "Ваша команда победила!",

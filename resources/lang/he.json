@@ -9,7 +9,7 @@
     "close": "סגור"
   },
   "main": {
-    "title": "OpenFront (ALPHA)",
+    "title": "FrontLine (ALPHA)",
     "join_discord": "הצטרף לשרת הדיסקורד!",
     "login_discord": "התחבר עם דיסקורד",
     "checking_login": "בודק התחברות...",
@@ -401,8 +401,7 @@
     "you_won": "זכית!",
     "other_won": "{player} זכה!",
     "exit": "צא מהמשחק",
-    "keep": "המשך לשחק",
-    "wishlist": "הוסף ל-wishlist ב-Steam!"
+    "keep": "המשך לשחק"
   },
   "leaderboard": {
     "title": "שחקנים מובילים",
@@ -531,8 +530,8 @@
       "cursor": "סמן",
       "hand": "יד",
       "radiation": "קרינה",
-      "openfront_qr": "קוד QR של OpenFront.io",
-      "openfront": "OpenFront",
+      "openfront_qr": "קוד QR של FrontLine",
+      "openfront": "FrontLine",
       "t_rex": "טי-רקס",
       "embelem": "סמל",
       "grogu_head": "ראש גרוגו",

@@ -19,6 +19,7 @@ import {
   UT_CITY,
   UT_DEFENSE_POST,
   UT_FACTORY,
+  UT_FORWARD_BASE,
   UT_MISSILE_SILO,
   UT_PORT,
   UT_SAM_LAUNCHER,
@@ -53,6 +54,7 @@ const STRUCTURE_ORDER = [
   UT_DEFENSE_POST,
   UT_SAM_LAUNCHER,
   UT_MISSILE_SILO,
+  UT_FORWARD_BASE,
 ] as const;
 
 const ATLAS_COLS = STRUCTURE_ORDER.length;
@@ -142,11 +144,12 @@ export class StructurePass {
 
     // Build unitType string → atlas column mapping
     for (let i = 0; i < header.unitTypes.length; i++) {
+      const type = header.unitTypes[i];
       const col = STRUCTURE_ORDER.indexOf(
-        header.unitTypes[i] as (typeof STRUCTURE_ORDER)[number],
+        type as (typeof STRUCTURE_ORDER)[number],
       );
       if (col >= 0) {
-        this.typeToAtlasCol.set(header.unitTypes[i], col);
+        this.typeToAtlasCol.set(type, col);
       }
     }
 

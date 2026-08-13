@@ -168,6 +168,13 @@ export class NationStructureBehavior {
       }
     }
 
+    // Forward bases are reactive like defense posts: triggered by an
+    // active outbound attack rather than the city-ratio build order, so
+    // they also skip the normal pacing/counter system.
+    if (this.placementsCount > 0 && this.tryBuildForwardBase()) {
+      return true;
+    }
+
     if (this.isOnStructureCooldown()) {
       return false;
     }
@@ -254,27 +261,101 @@ export class NationStructureBehavior {
    * attacking players.
    */
   private getAttackFrontTiles(landAttacks: Attack[]): TileRef[] {
+    return this.frontTilesTowardOwners(
+      new Set(landAttacks.map((a) => a.attacker())),
+    );
+  }
+
+  /**
+   * Returns our border tiles that are adjacent to a tile owned by any of
+   * the given players. Shared by incoming-attack (defense post) and
+   * outgoing-attack (forward base) front detection.
+   */
+  private frontTilesTowardOwners(owners: Set<Player>): TileRef[] {
+    if (owners.size === 0) return [];
     const game = this.game;
     const player = this.player;
-    const attackerSet = new Set(landAttacks.map((a) => a.attacker()));
-    if (attackerSet.size === 0) return [];
 
     // Set.forEach + a reused neighbor buffer: border sets are huge, and
     // for..of over a Set allocates an iterator-result object per element.
-    // "Any neighbor is an attacker" is order-insensitive.
+    // "Any neighbor is in owners" is order-insensitive.
     const frontTiles: TileRef[] = [];
     const nbuf = NEIGHBOR_SCRATCH;
     player.borderTiles().forEach((borderTile) => {
       const n = game.neighbors4(borderTile, nbuf);
       for (let i = 0; i < n; i++) {
         const owner = game.owner(nbuf[i]);
-        if (attackerSet.has(owner as Player)) {
+        if (owners.has(owner as Player)) {
           frontTiles.push(borderTile);
           return;
         }
       }
     });
     return frontTiles;
+  }
+
+  /**
+   * Tries to place one Forward Base near an active outbound ground-attack
+   * front, once that front is far enough from the capital that the
+   * supply-line penalty is actually biting. Reactive like defense posts:
+   * not part of the city-ratio build order.
+   */
+  private tryBuildForwardBase(): boolean {
+    const config = this.game.config();
+    if (config.isUnitDisabled(UnitType.ForwardBase)) return false;
+
+    const game = this.game;
+    const player = this.player;
+    const capital = player.spawnTile();
+    if (capital === undefined) return false;
+
+    const groundAttacks = player
+      .outgoingAttacks()
+      .filter((a) => a.sourceTile() === null);
+    if (groundAttacks.length === 0) return false;
+
+    const targets = new Set(
+      groundAttacks
+        .map((a) => a.target())
+        .filter((t): t is Player => t.isPlayer()),
+    );
+    if (targets.size === 0) return false;
+
+    const frontTiles = this.frontTilesTowardOwners(targets);
+    if (frontTiles.length === 0) return false;
+
+    const maxRange =
+      Math.max(game.width(), game.height()) *
+      config.supplyLineMaxRangeFraction();
+    const [, frontDist] = closestTile(game, frontTiles, capital);
+    // Only worth it once the front is over halfway to full supply-line
+    // saturation, roughly where the human-facing "supply line weak"
+    // banner starts showing up.
+    if (frontDist < maxRange * 0.5) return false;
+
+    const { structureSpacing } = this.spacingConstants();
+    const existing = player.units(UnitType.ForwardBase).map((u) => u.tile());
+    const alreadyCovered = existing.some(
+      (fb) => closestTile(game, frontTiles, fb)[1] <= structureSpacing,
+    );
+    if (alreadyCovered) return false;
+
+    const cost = this.cost(UnitType.ForwardBase);
+    if (player.gold() < cost) return false;
+
+    const tiles = this.sampleTilesNearFront(
+      frontTiles,
+      25,
+      UnitType.ForwardBase,
+    );
+    for (const tile of tiles) {
+      if (!player.canBuild(UnitType.ForwardBase, tile)) continue;
+      game.addExecution(
+        new ConstructionExecution(player, UnitType.ForwardBase, tile),
+      );
+      return true;
+    }
+    return false;
   }
 
   /**

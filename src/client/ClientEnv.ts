@@ -73,8 +73,12 @@ export class ClientEnv {
   }
   static jwtIssuer(): string {
     const audience = ClientEnv.jwtAudience();
+    // Absolute "http://localhost:8787" only resolves for a browser running
+    // ON the dev box itself; testers reach this box through a tunneled
+    // domain, so use a same-origin path vite proxies to the local auth
+    // server instead (mirrors Api.ts's getApiBase()).
     return audience === "localhost"
-      ? "http://localhost:8787"
+      ? `${window.location.origin}/authapi`
       : `https://api.${audience}`;
   }
   static async jwkPublicKey(): Promise<JWK> {

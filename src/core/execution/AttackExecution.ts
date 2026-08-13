@@ -1,4 +1,4 @@
-import { renderTroops } from "../../client/Utils";
+import { renderNumber, renderTroops } from "../../client/Utils";
 import {
   Attack,
   Difficulty,
@@ -10,10 +10,11 @@ import {
   PlayerType,
   TerrainType,
   TerraNullius,
+  UnitType,
 } from "../game/Game";
 import { GameMap, TileRef } from "../game/GameMap";
 import { PseudoRandom } from "../PseudoRandom";
-import { assertNever } from "../Util";
+import { assertNever, within } from "../Util";
 import { FlatBinaryHeap } from "./utils/FlatBinaryHeap"; // adjust path if needed
 
 const malusForRetreat = 25;
@@ -44,6 +45,11 @@ export class AttackExecution implements Execution {
     private _targetID: PlayerID | null,
     private sourceTile: TileRef | null = null,
     private removeTroops: boolean = true,
+    // Player-chosen focal point (e.g. the tile they clicked to attack).
+    // Border tiles closer to it get a lower (= earlier-dequeued) priority
+    // in addNeighbors(), so the attack pushes that direction first instead
+    // of spreading evenly across the whole shared border.
+    private directionTile: TileRef | null = null,
   ) {}
 
   public targetID(): PlayerID | null {
@@ -123,6 +129,8 @@ export class AttackExecution implements Execution {
       new Set<TileRef>(),
     );
 
+    this.notifySupplyLineWeakness();
+
     if (this.sourceTile !== null) {
       this.addNeighbors(this.sourceTile);
     } else {
@@ -179,6 +187,43 @@ export class AttackExecution implements Execution {
       }
       this.target.updateRelation(this._owner, relationChange);
     }
+  }
+
+  // Supply-line strength is an invisible multiplier on troop-loss/tiles-
+  // per-tick — real (confirmed by direct measurement: 6-33% in practice)
+  // but imperceptible without a UI cue, since nothing surfaces it anywhere.
+  // One-shot message at attack start, using the same distance-from-capital
+  // math as Config.attackLogic(), so a player can actually see WHY a
+  // far-flung attack feels weak instead of just feeling it feel wrong.
+  private notifySupplyLineWeakness(): void {
+    const capital = this._owner.spawnTile();
+    if (capital === undefined) return;
+    const referenceTile =
+      this.directionTile ?? this._owner.borderTiles().values().next().value;
+    if (referenceTile === undefined) return;
+
+    let dist = this.map.manhattanDist(capital, referenceTile);
+    for (const base of this._owner.units(UnitType.ForwardBase)) {
+      if (!base.isActive()) continue;
+      const baseDist = this.map.manhattanDist(base.tile(), referenceTile);
+      if (baseDist < dist) dist = baseDist;
+    }
+    const maxRange =
+      Math.max(this.map.width(), this.map.height()) *
+      this.mg.config().supplyLineMaxRangeFraction();
+    const t = within(dist / maxRange, 0, 1);
+    const penalty = Math.sqrt(t) * this.mg.config().supplyLineMaxPenalty();
+
+    const NOTIFY_THRESHOLD = 0.15;
+    if (penalty < NOTIFY_THRESHOLD) return;
+
+    this.mg.displayMessage(
+      "events_display.supply_line_weak",
+      MessageType.ATTACK_CANCELLED,
+      this._owner.id(),
+      undefined,
+      { percent: Math.round(penalty * 100) },
+    );
   }
 
   private refreshToConquer() {
@@ -268,7 +313,6 @@ export class AttackExecution implements Execution {
         this.target,
         this.attack.borderSize() + this.random.nextInt(0, 5),
       );
-
     while (numTilesPerTick > 0) {
       if (troopCount < 1) {
         this.attack.delete();
@@ -318,8 +362,50 @@ export class AttackExecution implements Execution {
       if (targetPlayer) {
         targetPlayer.removeTroops(defenderTroopLoss);
       }
+      const isCapitalFall =
+        targetPlayer !== null && tileToConquer === targetPlayer.spawnTile();
       this._owner.conquer(tileToConquer);
       this.handleDeadDefender();
+      if (isCapitalFall && targetPlayer !== null) {
+        this.handleCapitalFall(targetPlayer, tileToConquer);
+      }
+    }
+  }
+
+  /**
+   * Triggered once when the exact capital tile is conquered. Plunders a
+   * fraction of the defender's gold and forces them to relocate their
+   * capital within whatever territory they have left -- which can shift
+   * their supply-line origin mid-fight (see attackLogic). Does not end
+   * the game; the 80%-territory win condition is untouched.
+   */
+  private handleCapitalFall(target: Player, capitalTile: TileRef) {
+    const plunderFraction = this.mg.config().capitalFallGoldPlunderFraction();
+    const plunderAmount =
+      (target.gold() * BigInt(Math.round(plunderFraction * 1000))) / 1000n;
+    const plundered = target.removeGold(plunderAmount);
+    if (plundered > 0n) {
+      this._owner.addGold(plundered, capitalTile);
+    }
+
+    this.mg.displayMessage(
+      "events_display.capital_captured",
+      MessageType.CAPITAL_CAPTURED,
+      this._owner.id(),
+      plundered,
+      { name: target.displayName(), gold: renderNumber(plundered) },
+    );
+    this.mg.displayMessage(
+      "events_display.capital_fallen",
+      MessageType.CAPITAL_LOST,
+      target.id(),
+      undefined,
+      { name: this._owner.displayName() },
+    );
+
+    const remaining = Array.from(target.tiles());
+    if (remaining.length > 0) {
+      target.setSpawnTile(this.random.randElement(remaining));
     }
   }
 
@@ -374,9 +460,20 @@ export class AttackExecution implements Execution {
           break;
       }
 
-      const priority =
+      let priority =
         (this.random.nextInt(0, 7) + 10) * (1 - numOwnedByMe * 0.5 + mag / 2) +
         tickNow;
+
+      if (this.directionTile !== null) {
+        // Raw tile distance, not normalized by map size. Normalizing this
+        // (dividing by map width) was tried and made the bias too weak to
+        // see at all — the version that visibly worked (confirmed by
+        // direct playtest) used raw distance; it just needed a smaller
+        // weight than its original 2, not a different formula.
+        priority +=
+          this.map.manhattanDist(neighbor, this.directionTile) *
+          this.mg.config().directedAttackBiasWeight();
+      }
 
       this.toConquer.enqueue(neighbor, priority);
     }

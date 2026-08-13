@@ -754,13 +754,16 @@ export class GameImpl implements Game {
       throw Error(`cannot conquer impassable terrain`);
     }
     const previousOwner = this.owner(tile) as TerraNullius | PlayerImpl;
+    const isOil = this._map.isOilTile(tile);
     if (previousOwner.isPlayer()) {
       previousOwner._lastTileChange = this._ticks;
       previousOwner._tiles.delete(tile);
       previousOwner._borderTiles.delete(tile);
+      if (isOil) previousOwner._oilTiles--;
     }
     this._map.setOwnerID(tile, owner.smallID());
     owner._tiles.add(tile);
+    if (isOil) owner._oilTiles++;
     owner._lastTileChange = this._ticks;
     this.updateBorders(tile);
     this._map.setFallout(tile, false);
@@ -779,6 +782,7 @@ export class GameImpl implements Game {
     previousOwner._lastTileChange = this._ticks;
     previousOwner._tiles.delete(tile);
     previousOwner._borderTiles.delete(tile);
+    if (this._map.isOilTile(tile)) previousOwner._oilTiles--;
 
     this._map.setOwnerID(tile, 0);
     this.updateBorders(tile);
@@ -1207,6 +1211,9 @@ export class GameImpl implements Game {
   }
   terrainType(ref: TileRef): TerrainType {
     return this._map.terrainType(ref);
+  }
+  isOilTile(ref: TileRef): boolean {
+    return this._map.isOilTile(ref);
   }
   forEachTile(fn: (tile: TileRef) => void): void {
     return this._map.forEachTile(fn);

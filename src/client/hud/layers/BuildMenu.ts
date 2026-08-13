@@ -37,6 +37,7 @@ const atomBombIcon = assetUrl("images/NukeIconWhite.svg");
 const portIcon = assetUrl("images/PortIcon.svg");
 const samlauncherIcon = assetUrl("images/SamLauncherIconWhite.svg");
 const shieldIcon = assetUrl("images/ShieldIconWhite.svg");
+const forwardBaseIcon = assetUrl("images/ForwardBaseIconWhite.svg");
 
 export interface BuildItemDisplay {
   unitType: PlayerBuildableUnitType;
@@ -102,6 +103,13 @@ export const buildTable: BuildItemDisplay[][] = [
       icon: shieldIcon,
       description: "build_menu.desc.defense_post",
       key: "unit_type.defense_post",
+      countable: true,
+    },
+    {
+      unitType: UnitType.ForwardBase,
+      icon: forwardBaseIcon,
+      description: "build_menu.desc.forward_base",
+      key: "unit_type.forward_base",
       countable: true,
     },
     {

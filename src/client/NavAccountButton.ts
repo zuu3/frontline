@@ -4,8 +4,8 @@ import { getDiscordAvatarUrl, translateText } from "./Utils";
 
 // Renders the persistent top-nav account button from the resolved /users/@me
 // response: a linked identity shows its avatar/badge, everything else shows the
-// signed-out prompt. Extracted from Main.ts so the identity precedence — which
-// now includes Steam — is unit-testable in jsdom.
+// signed-out prompt. Extracted from Main.ts so the identity precedence is
+// unit-testable in jsdom.
 export function updateAccountNavButton(userMeResponse: UserMeResponse | false) {
   const button = document.getElementById("nav-account-button");
   if (!button) return;
@@ -32,9 +32,8 @@ export function updateAccountNavButton(userMeResponse: UserMeResponse | false) {
   const navToken = Symbol();
   if (avatarEl) avatarEl._navToken = navToken;
 
-  // Logged in, but with no avatar or badge to show (e.g. Steam without a
-  // cached avatar, or an avatar that failed to load): the person icon alone,
-  // minus the signed-out prompt.
+  // Logged in, but with no avatar or badge to show (e.g. an avatar that
+  // failed to load): the person icon alone, minus the signed-out prompt.
   const showLoggedInPlain = () => {
     avatarEl?.classList.add("hidden");
     personIconEl?.classList.remove("hidden");
@@ -48,7 +47,7 @@ export function updateAccountNavButton(userMeResponse: UserMeResponse | false) {
       avatarEl.alt = alt ?? translateText("main.discord_avatar_alt");
       // If the avatar fails to load (bad URL / CDN issue / offline), fall back
       // to the provider-neutral logged-in state rather than leaving a broken
-      // image or a mismatched default (the button is used by Discord and Steam).
+      // image or a mismatched default.
       avatarEl.onerror = () => {
         if (avatarEl._navToken !== navToken) return;
         avatarEl.onerror = null;
@@ -97,27 +96,6 @@ export function updateAccountNavButton(userMeResponse: UserMeResponse | false) {
       showAvatar(url, avatarAlt);
       return;
     }
-  }
-
-  // Steam is a first-class logged-in identity (parity with Discord). A cached
-  // avatar renders like the Discord avatar; without one — the summaries fetch
-  // failed or hasn't populated yet — fall back to the logged-in person icon,
-  // never the signed-out prompt (the bug that made Steam desktop players look
-  // like guests). Placed after Discord so a future linked account still
-  // prefers the Discord avatar.
-  const steam =
-    userMeResponse !== false ? userMeResponse.user.steam : undefined;
-  if (steam) {
-    if (steam.avatarUrl && avatarEl) {
-      const avatarAlt = translateText("main.user_avatar_alt", {
-        username:
-          steam.personaName ?? translateText("steam_user_header.default_name"),
-      });
-      showAvatar(steam.avatarUrl, avatarAlt);
-    } else {
-      showLoggedInPlain();
-    }
-    return;
   }
 
   const email =

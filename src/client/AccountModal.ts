@@ -4,7 +4,7 @@ import { ClientEnv } from "src/client/ClientEnv";
 import { PlayerStatsTree, UserMeResponse } from "../core/ApiSchemas";
 import { assetUrl } from "../core/AssetUrls";
 import { Cosmetics } from "../core/CosmeticSchemas";
-import { hasLinkedIdentity, isSteamPrimaryUser } from "./AccountIdentity";
+import { hasLinkedIdentity } from "./AccountIdentity";
 import {
   fetchPlayerById,
   getUserMe,
@@ -24,7 +24,6 @@ import "./components/baseComponents/stats/PlayerGameHistoryView";
 import type { PlayerGameHistoryCache } from "./components/baseComponents/stats/PlayerGameHistoryView";
 import "./components/baseComponents/stats/PlayerStatsTable";
 import "./components/baseComponents/stats/PlayerStatsTree";
-import "./components/baseComponents/stats/SteamUserHeader";
 import { BaseModal } from "./components/BaseModal";
 import "./components/CopyButton";
 import "./components/CurrencyDisplay";
@@ -43,7 +42,7 @@ import { translateText } from "./Utils";
 // window.openfrontDesktop is declared `unknown` by DesktopShell.ts (kept loose
 // there on purpose). We know the one function we need, so narrow it locally
 // rather than re-declaring the global (a second `declare global` with a
-// different type triggers TS2717) — mirrors SteamSDK.ts's steamBridge().
+// different type triggers TS2717).
 //
 // Guard on `showLinkGate` specifically, the function actually invoked below —
 // not on a sibling property like `linkGate` (a separate namespace used by the
@@ -157,12 +156,6 @@ export class AccountModal extends BaseModal {
     );
   }
 
-  // Steam is the primary (and only, in v1) identity for a Steam user — no
-  // linking UI (email/Google) is offered for them; see renderSettingsTab.
-  private isSteamPrimary(): boolean {
-    return isSteamPrimaryUser(this.userMeResponse?.user);
-  }
-
   protected modalConfig() {
     if (this.isLoadingUser || !this.isLinkedAccount()) {
       return {};
@@ -256,9 +249,7 @@ export class AccountModal extends BaseModal {
               </button>`
             : nothing}
         </div>
-        ${hasEmail || this.isSteamPrimary()
-          ? nothing
-          : this.renderEmailBinding()}
+        ${hasEmail ? nothing : this.renderEmailBinding()}
       </div>
     `;
   }
@@ -364,11 +355,6 @@ export class AccountModal extends BaseModal {
               <discord-user-header
                 .data=${this.userMeResponse?.user?.discord ?? null}
               ></discord-user-header>
-              ${this.userMeResponse?.user?.steam
-                ? html`<steam-user-header
-                    .data=${this.userMeResponse.user.steam}
-                  ></steam-user-header>`
-                : null}
               ${this.renderLoggedInAs()}
             </div>
           </div>
@@ -598,15 +584,6 @@ export class AccountModal extends BaseModal {
           </div>
           ${this.renderCurrency()} ${this.renderGoogleLink()}
           ${this.renderLogoutButton()}
-        </div>
-      `;
-    } else if (me?.steam) {
-      // Steam is the primary login and v1 does not support linking a second
-      // identity or unlinking Steam itself, so no Discord/Google CTA here —
-      // just the currency balance and (session) logout.
-      return html`
-        <div class="flex flex-col items-center gap-3 w-full">
-          ${this.renderCurrency()} ${this.renderLogoutButton()}
         </div>
       `;
     }

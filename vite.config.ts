@@ -171,7 +171,7 @@ export default defineConfig(({ mode }) => {
     jwtAudience: JSON.stringify(env.DOMAIN ?? "localhost"),
     instanceId: JSON.stringify(env.INSTANCE_ID ?? "DEV_ID"),
     manifestHref: buildAssetUrl("manifest.json", assetManifest, cdnBase),
-    faviconHref: buildAssetUrl("images/Favicon.svg", assetManifest, cdnBase),
+    faviconHref: buildAssetUrl("images/Favicon.png", assetManifest, cdnBase),
     gameplayScreenshotUrl: buildAssetUrl(
       "images/GameplayScreenshot.png",
       assetManifest,
@@ -331,6 +331,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 9000,
       host: process.env.VITE_HOST === "lan",
+      allowedHosts: ["dev-war.zuu3.kr", "fl.zuu3.kr"],
       // Automatically open the browser when the server starts
       open: process.env.SKIP_BROWSER_OPEN !== "true",
       proxy: {
@@ -361,6 +362,15 @@ export default defineConfig(({ mode }) => {
           target: "http://localhost:3000",
           changeOrigin: true,
           secure: false,
+        },
+        // Account/auth service (separate small process, port matches the
+        // ClientEnv/ServerEnv local-dev jwtIssuer default of :8787).
+        "/authapi": {
+          target: "http://localhost:8787",
+          ws: true,
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/authapi/, ""),
         },
       },
     },

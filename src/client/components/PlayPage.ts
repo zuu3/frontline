@@ -4,7 +4,6 @@ import { assetUrl } from "../../core/AssetUrls";
 import { crazyGamesSDK } from "../CrazyGamesSDK";
 import "./CosmeticBackground";
 import "./NewsBox";
-import "./SteamWishlist";
 import "./StreamingNow";
 
 @customElement("play-page")
@@ -58,8 +57,8 @@ export class PlayPage extends LitElement {
               class="col-start-2 flex items-center justify-center text-malibu-blue min-w-0"
             >
               <img
-                src=${assetUrl("images/OpenFrontLogo.svg")}
-                alt="OpenFront"
+                src=${assetUrl("images/FrontLineLogo.png")}
+                alt="FrontLine"
                 class="h-full w-auto"
               />
             </div>
@@ -161,12 +160,6 @@ export class PlayPage extends LitElement {
         </div>
 
         <game-mode-selector></game-mode-selector>
-
-        <!-- Desktop gets the compact footer button instead. -->
-        <steam-wishlist
-          campaign="home_mobile"
-          class="block px-2 pb-4 lg:hidden"
-        ></steam-wishlist>
       </div>
     `;
   }

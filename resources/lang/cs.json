@@ -767,7 +767,7 @@
     "radial_title": "Kruhová nabídka",
     "table_action": "Akce",
     "table_key": "Klávesa",
-    "troubleshooting_desc": "Pokud při hraní OpenFront narazíte na problémy s výkonem, pády nebo jiné potíže, navštivte prosím naši stránku řešení potíží, která vám pomůže s diagnostikou a opravou běžných problémů:",
+    "troubleshooting_desc": "Pokud při hraní FrontLine narazíte na problémy s výkonem, pády nebo jiné potíže, navštivte prosím naši stránku řešení potíží, která vám pomůže s diagnostikou a opravou běžných problémů:",
     "ui_attack_ratio": "Poměr útoku – množství jednotek použitých při útoku. Poměr útoku můžete upravit posuvníkem. Pokud máte více útočících jednotek než obránce, ztratíte při útoku méně jednotek. Pokud jich máte méně, vaše útočící jednotky utrpí větší poškození. Účinek nepřesahuje poměr 2:1.",
     "ui_control": "Ovládací panel",
     "ui_control_desc": "Ovládací panel obsahuje následující prvky:",
@@ -787,7 +787,7 @@
     "ui_wilderness": "Divočina",
     "ui_your_team": "Váš tým:",
     "video_tutorial": "Video návod",
-    "video_tutorial_title": "OpenFront.io Návod"
+    "video_tutorial_title": "FrontLine Návod"
   },
   "host_modal": {
     "anonymous_players": "Anonymní hráči",
@@ -853,14 +853,14 @@
     "got_it": "Rozumím",
     "how": "Návod",
     "later": "Později",
-    "modal_desc": "Váš prohlížeč nepodporuje režim celé obrazovky. Pro lepší zážitek si ale můžete OpenFront přidat na plochu:",
+    "modal_desc": "Váš prohlížeč nepodporuje režim celé obrazovky. Pro lepší zážitek si ale můžete FrontLine přidat na plochu:",
     "modal_title": "Celá obrazovka na iOS",
     "never": "Nikdy",
     "step_add_to_home_label": "Přidat na plochu",
     "step_open": "Otevřete z plochy – spustí se na celé obrazovce bez adresního řádku",
     "step_scroll_and_tap": "Sjeďte dolů a klepněte",
     "step_share": "Klepněte v prohlížeči na tlačítko Sdílet",
-    "text": "Pro režim celé obrazovky přidejte OpenFront na plochu"
+    "text": "Pro režim celé obrazovky přidejte FrontLine na plochu"
   },
   "kick_reason": {
     "admin": "Vyhozen správcem",
@@ -926,7 +926,7 @@
     "solo": "Sólo",
     "store": "Obchod",
     "terms_of_service": "Podmínky používání",
-    "title": "OpenFront (ALPHA)",
+    "title": "FrontLine (ALPHA)",
     "troubleshooting": "Řešení problémů",
     "user_avatar_alt": "Profilový obrázek uživatele {username}",
     "wiki": "Wiki"
@@ -1083,7 +1083,7 @@
     "dismiss": "Zavřít",
     "error": "Nastavení se nepodařilo uložit. Zkuste to znovu.",
     "no": "Ne, děkuji",
-    "title": "Chcete dostávat novinky z OpenFrontu?",
+    "title": "Chcete dostávat novinky z FrontLineu?",
     "yes": "Ano, prosím"
   },
   "matchmaking_modal": {
@@ -1120,7 +1120,7 @@
   },
   "news_box": {
     "dismiss": "Zavřít",
-    "firefox_warning": "OpenFront.io běží nejlépe v [prohlížečích založených na Chromiu](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium). Výkon může být horší v [prohlížečích založených na Firefoxu](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox).",
+    "firefox_warning": "FrontLine běží nejlépe v [prohlížečích založených na Chromiu](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium). Výkon může být horší v [prohlížečích založených na Firefoxu](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox).",
     "go_to_item": "Přejít na položku {num}",
     "news": "NOVINKY",
     "tournament": "TURNAJ",
@@ -1439,7 +1439,7 @@
     "browser": "Prohlížeč",
     "canvas_2d_no_gpu": "Canvas 2D (bez GPU)",
     "charging": "Nabíjení",
-    "chromium_tip": "OpenFront běží nejlépe v prohlížečích založených na Chromiu.",
+    "chromium_tip": "FrontLine běží nejlépe v prohlížečích založených na Chromiu.",
     "copied_to_clipboard": "Informace byly zkopírovány do schránky. Neváhejte nás kontaktovat na Discordu, pokud potřebujete pomoct.",
     "device_pixel_ratio": "Poměr pixelů zařízení",
     "environment": "Prostředí",
@@ -1639,12 +1639,11 @@
     "other_won": "{player} vítězí!",
     "requeue": "Hrát znovu",
     "spectate": "Sledovat",
-    "support_openfront": "Podpořte OpenFront!",
+    "support_openfront": "Podpořte FrontLine!",
     "territory_pattern": "Kupte si vzor území a hrajte bez reklam!",
     "you_won": "Vítězství!",
     "your_team": "Váš tým vyhrál!",
-    "youtube_tutorial": "Potřebujete pomoc?",
-    "wishlist": "Přidat hru do seznamu přání na Steamu!"
+    "youtube_tutorial": "Potřebujete pomoc?"
   },
   "matchmaking_button": {
     "description": "(ALPHA)",

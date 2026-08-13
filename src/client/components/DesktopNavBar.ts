@@ -55,15 +55,11 @@ export class DesktopNavBar extends LitElement {
         <div class="flex flex-col items-center justify-center">
           <div class="h-8">
             <img
-              class="block h-full aspect-[1364/259]"
-              src=${assetUrl("images/OpenFrontLogo.svg")}
-              alt="OpenFront"
+              class="block h-full aspect-[701/100]"
+              src=${assetUrl("images/FrontLineLogo.png")}
+              alt="FrontLine"
             />
           </div>
-          <div
-            id="game-version"
-            class="l-header__highlightText text-center"
-          ></div>
         </div>
         <button
           class="nav-menu-item ${currentPage === "page-play"
