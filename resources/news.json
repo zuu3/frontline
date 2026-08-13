@@ -7,24 +7,45 @@
     "type": "warning"
   },
   {
-    "id": "clan-tournament-spring-2026",
-    "title": "Upcoming: Spring Clan Tournament",
-    "description": "2v2 clan battles — Sign up on Discord before April 12",
-    "url": "https://discord.gg/openfront",
-    "type": "tournament"
+    "id": "frontline-capital-fall-2026",
+    "title": "New: Capital Fall",
+    "description": "Capture an enemy's exact capital tile and plunder their gold — they'll be forced to relocate mid-fight.",
+    "url": null,
+    "type": "announcement"
   },
   {
-    "id": "clan-tournaments-2026",
-    "title": "Clan Tournaments",
-    "description": "Join a clan and compete in weekly tournaments on Discord!",
-    "url": "https://discord.gg/openfront",
-    "type": "tournament"
+    "id": "frontline-capital-markers-2026",
+    "title": "New: Capital Markers",
+    "description": "Every player's capital now shows on the map as a crown icon — yours in gold, everyone else's in white.",
+    "url": null,
+    "type": "announcement"
   },
   {
-    "id": "tutorial-2026",
-    "title": "New Player Tutorial",
-    "description": "Learn the basics of FrontLine in this video guide",
-    "url": "https://www.youtube.com/watch?v=EN2oOog3pSs",
-    "type": "tutorial"
+    "id": "frontline-capital-garrison-2026",
+    "title": "New: Capital Garrison",
+    "description": "Reserve up to 50% of your troops to defend your capital tile specifically — safe from border combat, but still at risk (like your gold) if the capital falls.",
+    "url": null,
+    "type": "announcement"
+  },
+  {
+    "id": "frontline-forward-base-2026",
+    "title": "New: Forward Base & Supply Lines",
+    "description": "Attacks weaken the farther they are from your capital. Build a Forward Base to push your supply line closer to the front.",
+    "url": null,
+    "type": "announcement"
+  },
+  {
+    "id": "frontline-directed-attacks-2026",
+    "title": "New: Directed Attacks",
+    "description": "Click a target and your troops push that direction instead of spreading evenly along the border.",
+    "url": null,
+    "type": "announcement"
+  },
+  {
+    "id": "frontline-ranked-2026",
+    "title": "New: Ranked Matchmaking & Friends",
+    "description": "1v1 and 2v2 ranked ladders with a real Elo leaderboard, plus a friends list — sign in to play.",
+    "url": null,
+    "type": "announcement"
   }
 ]

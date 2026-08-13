@@ -812,6 +812,8 @@
     "info_target": "Place a target mark on the player, marking it for all allies, used to coordinate attacks.",
     "info_title": "Info menu",
     "info_trade": "Use \"Stop trading\" to stop giving the player gold and receiving their gold via trade ships. If you both click \"Start trading\" it will start again.",
+    "mechanic_capital_garrison": "Capital Garrison",
+    "mechanic_capital_garrison_desc": "Reserve a share of your troops as a capital garrison (up to 50%). Garrisoned troops sit out of border combat everywhere else, but join the fight if an enemy reaches your exact capital tile — and if it still falls, the attacker plunders the same fraction of your garrison they plunder in gold.",
     "option_exit": "Exit button.",
     "option_pause": "Pause/Unpause the game - Unavailable in public games.",
     "option_settings": "Settings - Open the settings menu. Inside you can toggle things like Alternate view, Emojis, Dark Mode, Hidden names, action on left click and more.",
