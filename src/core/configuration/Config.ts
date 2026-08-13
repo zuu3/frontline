@@ -644,6 +644,13 @@ export class Config {
   supplyLineMaxPenalty(): number {
     return 0.55;
   }
+  // Max fraction of a player's troops that can be reserved as a capital
+  // garrison. Capped below 1 so a fully-garrisoned player's border is still
+  // meaningfully weaker than an ungarrisoned one — see
+  // docs/superpowers/specs/2026-08-14-capital-garrison-design.md.
+  garrisonMaxRatio(): number {
+    return 0.5;
+  }
   // Fraction of the defender's gold plundered by the attacker when the
   // exact capital tile is conquered.
   capitalFallGoldPlunderFraction(): number {
