@@ -39,6 +39,10 @@ export class PauseGameIntentEvent implements GameEvent {
   constructor(public readonly paused: boolean) {}
 }
 
+export class SendGarrisonRatioIntentEvent implements GameEvent {
+  constructor(public readonly ratio: number) {}
+}
+
 export class SendAllianceRequestIntentEvent implements GameEvent {
   constructor(
     public readonly requestor: PlayerView,
@@ -259,6 +263,9 @@ export class Transport {
     this.eventBus.on(BuildUnitIntentEvent, (e) => this.onBuildUnitIntent(e));
 
     this.eventBus.on(PauseGameIntentEvent, (e) => this.onPauseGameIntent(e));
+    this.eventBus.on(SendGarrisonRatioIntentEvent, (e) =>
+      this.onSendGarrisonRatioIntent(e),
+    );
     this.eventBus.on(SendWinnerEvent, (e) => this.onSendWinnerEvent(e));
     this.eventBus.on(SendLiveStatsEvent, (e) => this.onSendLiveStatsEvent(e));
     this.eventBus.on(SendHashEvent, (e) => this.onSendHashEvent(e));
@@ -596,6 +603,13 @@ export class Transport {
     this.sendIntent({
       type: "toggle_pause",
       paused: event.paused,
+    });
+  }
+
+  private onSendGarrisonRatioIntent(event: SendGarrisonRatioIntentEvent) {
+    this.sendIntent({
+      type: "set_garrison_ratio",
+      ratio: event.ratio,
     });
   }
 
