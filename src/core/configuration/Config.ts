@@ -785,6 +785,11 @@ export class Config {
     }
 
     if (defender.isPlayer()) {
+      const effectiveDefenderTroops =
+        tileToConquer === defender.spawnTile()
+          ? defender.troops()
+          : defender.activeTroops();
+
       const defenseSig =
         1 -
         sigmoid(
@@ -805,10 +810,11 @@ export class Config {
         largeAttackerSpeedBonus = (100_000 / attacker.numTilesOwned()) ** 0.6;
       }
 
-      const defenderTroopLoss = defender.troops() / defender.numTilesOwned();
+      const defenderTroopLoss =
+        effectiveDefenderTroops / defender.numTilesOwned();
       const traitorMod = defender.isTraitor() ? this.traitorDefenseDebuff() : 1;
       const currentAttackerLoss =
-        within(defender.troops() / attackTroops, 0.6, 2) *
+        within(effectiveDefenderTroops / attackTroops, 0.6, 2) *
         mag *
         0.8 *
         largeDefenderAttackDebuff *
@@ -823,7 +829,7 @@ export class Config {
         attackerTroopLoss,
         defenderTroopLoss,
         tilesPerTickUsed:
-          within(defender.troops() / (5 * attackTroops), 0.2, 1.5) *
+          within(effectiveDefenderTroops / (5 * attackTroops), 0.2, 1.5) *
           speed *
           largeDefenderSpeedDebuff *
           largeAttackerSpeedBonus *
