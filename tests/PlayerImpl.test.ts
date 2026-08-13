@@ -169,4 +169,34 @@ describe("PlayerImpl", () => {
       expect(player.numTilesOwned()).toBe(0);
     });
   });
+
+  test("garrisonRatio defaults to 0 and derives active/garrisoned troops", () => {
+    player.setTroops(1000);
+    expect(player.garrisonRatio()).toBe(0);
+    expect(player.garrisonedTroops()).toBe(0);
+    expect(player.activeTroops()).toBe(1000);
+  });
+
+  test("setGarrisonRatio splits troops proportionally", () => {
+    player.setTroops(1000);
+    player.setGarrisonRatio(0.3);
+    expect(player.garrisonRatio()).toBe(0.3);
+    expect(player.garrisonedTroops()).toBe(300);
+    expect(player.activeTroops()).toBe(700);
+  });
+
+  test("setGarrisonRatio clamps to [0, garrisonMaxRatio()]", () => {
+    player.setGarrisonRatio(-1);
+    expect(player.garrisonRatio()).toBe(0);
+
+    player.setGarrisonRatio(0.99);
+    expect(player.garrisonRatio()).toBe(game.config().garrisonMaxRatio());
+  });
+
+  test("activeTroops + garrisonedTroops always sums to troops (within rounding)", () => {
+    player.setTroops(999);
+    player.setGarrisonRatio(0.33);
+    const sum = player.activeTroops() + player.garrisonedTroops();
+    expect(Math.abs(sum - player.troops())).toBeLessThanOrEqual(1);
+  });
 });

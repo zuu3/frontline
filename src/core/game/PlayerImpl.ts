@@ -109,6 +109,7 @@ export class PlayerImpl implements Player {
 
   private _gold: bigint;
   private _troops: bigint;
+  private _garrisonRatio: number = 0;
 
   markedTraitorTick = -1;
   markedDoomsdayClockTick = -1;
@@ -1226,6 +1227,23 @@ export class PlayerImpl implements Player {
     const toRemove = minInt(this._troops, toInt(troops));
     this._troops -= toRemove;
     return Number(toRemove);
+  }
+
+  garrisonRatio(): number {
+    return this._garrisonRatio;
+  }
+
+  setGarrisonRatio(ratio: number): void {
+    const max = this.mg.config().garrisonMaxRatio();
+    this._garrisonRatio = Math.max(0, Math.min(ratio, max));
+  }
+
+  garrisonedTroops(): number {
+    return Math.round(this.troops() * this._garrisonRatio);
+  }
+
+  activeTroops(): number {
+    return this.troops() - this.garrisonedTroops();
   }
 
   captureUnit(unit: Unit): void {

@@ -607,6 +607,10 @@ export interface Player {
   setTroops(troops: number): void;
   addTroops(troops: number): void;
   removeTroops(troops: number): number;
+  garrisonRatio(): number;
+  setGarrisonRatio(ratio: number): void;
+  garrisonedTroops(): number;
+  activeTroops(): number;
 
   // Units
   // Fixed-arity + array overloads instead of a rest parameter: the rest array
