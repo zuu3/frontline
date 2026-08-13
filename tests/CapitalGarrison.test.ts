@@ -1,3 +1,4 @@
+import { AttackExecution } from "../src/core/execution/AttackExecution";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
 import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
@@ -125,5 +126,77 @@ describe("Capital Garrison", () => {
       borderResult.tilesPerTickUsed,
       5,
     );
+  });
+
+  // AttackExecution's priority queue (seeded with a fixed PseudoRandom(123)
+  // every instance, so this is deterministic, not flaky) happens to conquer
+  // border tile 210 first out of defender's 10-tile "ocean_and_land" test
+  // territory. That matters because AttackExecution.handleDeadDefender()
+  // eliminates any defender under 100 tiles as soon as a single tile is
+  // captured (mg.conquerPlayer(...), see the "conquered_no_gold" event) --
+  // which, on this tiny map, happens on the very first capture. Left at its
+  // default spawn tile (240, an interior tile captured later, if ever),
+  // the capital would never actually fall within the siege this test runs,
+  // so handleCapitalFall() -- the method under test -- would never
+  // execute. Relocating the capital to 210 makes the very first (and,
+  // thanks to that early-elimination rule, only) tile captured be the
+  // capital tile, so the capture reliably exercises the code path.
+  const CAPTURED_FIRST_TILE = 210;
+
+  test("capital fall plunders the surviving garrison to the attacker", () => {
+    // Two more confounds make a naive before/after troops() comparison
+    // useless here: (1) Config.troopIncreaseRate adds background
+    // population growth every tick to every living player regardless of
+    // combat, which at the 1,000,000 starting balance infiniteTroops gives
+    // a human player dwarfs any plunder amount within a couple of ticks --
+    // stub it to 0; and (2) once the defender is eliminated, the
+    // pre-existing AttackExecution.retreat() path returns whatever is left
+    // of the attacker's committed 100 troops, independent of plunder. That
+    // committed pool starts at exactly 100 and (with only one outgoing
+    // attack in flight) can only shrink from combat losses, so that
+    // pre-existing mechanic can never hand back more than 100 troops in
+    // total. Spying on addTroops and summing every call lets us prove the
+    // plunder fired by showing the total exceeds that 100 ceiling.
+    vi.spyOn(game.config(), "troopIncreaseRate").mockReturnValue(0);
+    const addTroopsSpy = vi.spyOn(attacker, "addTroops");
+    defender.setSpawnTile(CAPTURED_FIRST_TILE);
+    defender.setTroops(1000);
+    defender.setGarrisonRatio(0.5);
+
+    game.addExecution(new AttackExecution(100, attacker, defender.id()));
+
+    do {
+      game.executeNextTick();
+    } while (attacker.outgoingAttacks().length > 0);
+
+    const totalTroopsAdded = addTroopsSpy.mock.calls.reduce(
+      (sum, [n]) => sum + n,
+      0,
+    );
+    expect(totalTroopsAdded).toBeGreaterThan(100);
+  });
+
+  test("with zero garrison, capital fall grants no troop plunder", () => {
+    // Same rationale as above: relocate the capital to the tile the siege
+    // captures first, neutralize background troop growth, and measure
+    // total troops handed back to the attacker directly, rather than the
+    // noisy net troops() balance.
+    vi.spyOn(game.config(), "troopIncreaseRate").mockReturnValue(0);
+    const addTroopsSpy = vi.spyOn(attacker, "addTroops");
+    defender.setSpawnTile(CAPTURED_FIRST_TILE);
+    defender.setTroops(1000);
+    defender.setGarrisonRatio(0);
+
+    game.addExecution(new AttackExecution(100, attacker, defender.id()));
+
+    do {
+      game.executeNextTick();
+    } while (attacker.outgoingAttacks().length > 0);
+
+    const totalTroopsAdded = addTroopsSpy.mock.calls.reduce(
+      (sum, [n]) => sum + n,
+      0,
+    );
+    expect(totalTroopsAdded).toBeLessThanOrEqual(100);
   });
 });

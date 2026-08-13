@@ -388,12 +388,24 @@ export class AttackExecution implements Execution {
       this._owner.addGold(plundered, capitalTile);
     }
 
+    const troopPlunder = Math.round(
+      target.garrisonedTroops() * plunderFraction,
+    );
+    const plunderedTroops = target.removeTroops(troopPlunder);
+    if (plunderedTroops > 0) {
+      this._owner.addTroops(plunderedTroops);
+    }
+
     this.mg.displayMessage(
       "events_display.capital_captured",
       MessageType.CAPITAL_CAPTURED,
       this._owner.id(),
       plundered,
-      { name: target.displayName(), gold: renderNumber(plundered) },
+      {
+        name: target.displayName(),
+        gold: renderNumber(plundered),
+        troops: renderTroops(plunderedTroops),
+      },
     );
     this.mg.displayMessage(
       "events_display.capital_fallen",
