@@ -502,7 +502,7 @@ In `src/core/configuration/Config.ts`, inside `attackLogic()`, find the `if (def
           : defender.activeTroops();
 ```
 
-Then replace every remaining bare `defender.troops()` reference **inside this same `if (defender.isPlayer())` block** with `effectiveDefenderTroops`. There are exactly four:
+Then replace every remaining bare `defender.troops()` reference **inside this same `if (defender.isPlayer())` block** with `effectiveDefenderTroops`. There are exactly three:
 1. `const defenderTroopLoss = defender.troops() / defender.numTilesOwned();` → `effectiveDefenderTroops / defender.numTilesOwned()`
 2. `within(defender.troops() / attackTroops, 0.6, 2)` (inside `currentAttackerLoss`) → `within(effectiveDefenderTroops / attackTroops, 0.6, 2)`
 3. `within(defender.troops() / (5 * attackTroops), 0.2, 1.5)` (inside the `tilesPerTickUsed` return expression) → `within(effectiveDefenderTroops / (5 * attackTroops), 0.2, 1.5)`
