@@ -48,6 +48,7 @@ export type Intent =
   | MoveWarshipIntent
   | MarkDisconnectedIntent
   | EmbargoAllIntent
+  | SetGarrisonRatioIntent
   | UpgradeStructureIntent
   | DeleteUnitIntent
   | KickPlayerIntent
@@ -60,6 +61,9 @@ export type CancelAttackIntent = z.infer<typeof CancelAttackIntentSchema>;
 export type SpawnIntent = z.infer<typeof SpawnIntentSchema>;
 export type BoatAttackIntent = z.infer<typeof BoatAttackIntentSchema>;
 export type EmbargoAllIntent = z.infer<typeof EmbargoAllIntentSchema>;
+export type SetGarrisonRatioIntent = z.infer<
+  typeof SetGarrisonRatioIntentSchema
+>;
 export type CancelBoatIntent = z.infer<typeof CancelBoatIntentSchema>;
 export type AllianceRequestIntent = z.infer<typeof AllianceRequestIntentSchema>;
 export type AllianceRejectIntent = z.infer<typeof AllianceRejectIntentSchema>;
@@ -508,6 +512,11 @@ export const EmbargoAllIntentSchema = z.object({
   action: z.union([z.literal("start"), z.literal("stop")]),
 });
 
+export const SetGarrisonRatioIntentSchema = z.object({
+  type: z.literal("set_garrison_ratio"),
+  ratio: z.number().min(0).max(1),
+});
+
 export const DonateGoldIntentSchema = z.object({
   type: z.literal("donate_gold"),
   recipient: ID,
@@ -610,6 +619,7 @@ export const IntentSchema = z.discriminatedUnion("type", [
   UpgradeStructureIntentSchema,
   EmbargoIntentSchema,
   EmbargoAllIntentSchema,
+  SetGarrisonRatioIntentSchema,
   MoveWarshipIntentSchema,
   QuickChatIntentSchema,
   AllianceExtensionIntentSchema,
