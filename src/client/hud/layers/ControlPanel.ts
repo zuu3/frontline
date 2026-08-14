@@ -44,13 +44,12 @@ export class ControlPanel extends LitElement implements Controller {
   private _troops: number;
 
   @state()
-  private _activeTroops: number;
-
-  @state()
   private _garrisonedTroops: number;
 
   @state()
   private _garrisonRatio: number = 0;
+
+  private _garrisonDragging = false;
 
   @state()
   private _isVisible = false;
@@ -125,9 +124,10 @@ export class ControlPanel extends LitElement implements Controller {
     this._maxTroops = config.maxTroops(player);
     this._gold = player.gold();
     this._troops = player.troops();
-    this._activeTroops = player.activeTroops();
     this._garrisonedTroops = player.garrisonedTroops();
-    this._garrisonRatio = player.garrisonRatio();
+    if (!this._garrisonDragging) {
+      this._garrisonRatio = player.garrisonRatio();
+    }
     this._attackingTroops = player
       .outgoingAttacks()
       .map((a) => a.troops)
@@ -342,12 +342,21 @@ export class ControlPanel extends LitElement implements Controller {
   private handleGarrisonSliderInput(e: Event) {
     const input = e.target as HTMLInputElement;
     const value = Number(input.value);
+    this._garrisonDragging = true;
     this._garrisonRatio = value / 100;
+  }
+
+  // Commits once per interaction: whichever of pointerup/change lands first
+  // wins, the guard makes the other a no-op.
+  private commitGarrisonRatio() {
+    if (!this._garrisonDragging) return;
+    this._garrisonDragging = false;
     this.eventBus.emit(new SendGarrisonRatioIntentEvent(this._garrisonRatio));
   }
 
   private handleGarrisonSliderPointerUp(e: Event) {
     (e.target as HTMLInputElement).blur();
+    this.commitGarrisonRatio();
   }
 
   private calculateTroopBar(): { greenPercent: number; orangePercent: number } {
@@ -578,13 +587,12 @@ export class ControlPanel extends LitElement implements Controller {
           type="range"
           min="0"
           max=${String(
-            Math.round(
-              (this.game?.config().garrisonMaxRatio() ?? 0.5) * 100,
-            ),
+            Math.round((this.game?.config().garrisonMaxRatio() ?? 0.5) * 100),
           )}
           .value=${String(Math.round(this._garrisonRatio * 100))}
           @input=${(e: Event) => this.handleGarrisonSliderInput(e)}
           @pointerup=${(e: Event) => this.handleGarrisonSliderPointerUp(e)}
+          @change=${() => this.commitGarrisonRatio()}
           class="flex-1 h-1.5 accent-white cursor-pointer"
         />
       </div>
@@ -661,13 +669,12 @@ export class ControlPanel extends LitElement implements Controller {
             type="range"
             min="0"
             max=${String(
-              Math.round(
-                (this.game?.config().garrisonMaxRatio() ?? 0.5) * 100,
-              ),
+              Math.round((this.game?.config().garrisonMaxRatio() ?? 0.5) * 100),
             )}
             .value=${String(Math.round(this._garrisonRatio * 100))}
             @input=${(e: Event) => this.handleGarrisonSliderInput(e)}
             @pointerup=${(e: Event) => this.handleGarrisonSliderPointerUp(e)}
+            @change=${() => this.commitGarrisonRatio()}
             class="w-full h-1.5 accent-white cursor-pointer"
           />
         </div>

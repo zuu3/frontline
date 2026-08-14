@@ -120,10 +120,7 @@ export function diffPlayerUpdate(
     prev.lastDeleteUnitTick === next.lastDeleteUnitTick,
   );
   setIfDifferent("isLobbyCreator", prev.isLobbyCreator === next.isLobbyCreator);
-  setIfDifferent(
-    "garrisonRatio",
-    prev.garrisonRatio === next.garrisonRatio,
-  );
+  setIfDifferent("garrisonRatio", prev.garrisonRatio === next.garrisonRatio);
   setIfDifferent("allies", numberArrayEqual(prev.allies, next.allies));
   setIfDifferent("targets", numberArrayEqual(prev.targets, next.targets));
   setIfDifferent(
