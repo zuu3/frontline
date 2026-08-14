@@ -1,8 +1,13 @@
 import { AttackExecution } from "../src/core/execution/AttackExecution";
+import { Executor } from "../src/core/execution/ExecutionManager";
 import { SpawnExecution } from "../src/core/execution/SpawnExecution";
 import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
 import { TileRef } from "../src/core/game/GameMap";
-import { GameID } from "../src/core/Schemas";
+import {
+  GameID,
+  StampedIntent,
+  StampedIntentSchema,
+} from "../src/core/Schemas";
 import { setup } from "./util/Setup";
 import { UseRealAttackLogic } from "./util/TestConfig";
 
@@ -13,6 +18,9 @@ let defenderSpawn: TileRef;
 let attackerSpawn: TileRef;
 
 const gameID: GameID = "game_id";
+// Must match GAME_ID_REGEX (8 alphanumerics) so StampedIntentSchema.parse
+// accepts it in the intent round-trip test below.
+const DEFENDER_CLIENT_ID = "defendr1";
 
 describe("Capital Garrison", () => {
   beforeEach(async () => {
@@ -42,7 +50,7 @@ describe("Capital Garrison", () => {
     const defenderInfo = new PlayerInfo(
       "defender dude",
       PlayerType.Human,
-      null,
+      DEFENDER_CLIENT_ID,
       "defender_id",
     );
     game.addPlayer(defenderInfo);
@@ -143,6 +151,22 @@ describe("Capital Garrison", () => {
   // capital tile, so the capture reliably exercises the code path.
   const CAPTURED_FIRST_TILE = 210;
 
+  // Records every troop removal the defender takes, along with the troop
+  // count immediately before it, while still applying the removal for real.
+  // Lets the plunder tests below assert the exact plundered amount.
+  function spyOnDefenderRemoveTroops(): {
+    troopsBefore: number;
+    amount: number;
+  }[] {
+    const removals: { troopsBefore: number; amount: number }[] = [];
+    const original = defender.removeTroops.bind(defender);
+    vi.spyOn(defender, "removeTroops").mockImplementation((amount: number) => {
+      removals.push({ troopsBefore: defender.troops(), amount });
+      return original(amount);
+    });
+    return removals;
+  }
+
   test("capital fall plunders the surviving garrison to the attacker", () => {
     // Two more confounds make a naive before/after troops() comparison
     // useless here: (1) Config.troopIncreaseRate adds background
@@ -159,6 +183,7 @@ describe("Capital Garrison", () => {
     // plunder fired by showing the total exceeds that 100 ceiling.
     vi.spyOn(game.config(), "troopIncreaseRate").mockReturnValue(0);
     const addTroopsSpy = vi.spyOn(attacker, "addTroops");
+    const removals = spyOnDefenderRemoveTroops();
     defender.setSpawnTile(CAPTURED_FIRST_TILE);
     defender.setTroops(1000);
     defender.setGarrisonRatio(0.5);
@@ -174,6 +199,32 @@ describe("Capital Garrison", () => {
       0,
     );
     expect(totalTroopsAdded).toBeGreaterThan(100);
+
+    // Exact-amount check. The plunder is the final removeTroops() the
+    // defender takes (handleCapitalFall runs last in the tick that captures
+    // the capital, and the defender is eliminated immediately after), so
+    // assert on that call rather than on a sum, which cannot tell plunder
+    // apart from ordinary combat losses.
+    //
+    // The expected amount is recomputed from the defender's troop count as
+    // observed *outside* the code under test, immediately before the
+    // plunder call. It cannot be hardcoded: the siege erodes the defender's
+    // troops for several ticks before the capital tile falls, so the
+    // garrison at fall time is well below the 500 it started at. Rebuilding
+    // the formula from the observed pre-plunder count still fails loudly if
+    // handleCapitalFall uses troops() instead of garrisonedTroops(), or
+    // drops the fraction multiply -- both would be 4x this value.
+    const plunderFraction = game.config().capitalFallGoldPlunderFraction();
+    const plunder = removals[removals.length - 1];
+    const expectedPlunder = Math.round(
+      Math.round(plunder.troopsBefore * 0.5) * plunderFraction,
+    );
+    expect(expectedPlunder).toBeGreaterThan(0);
+    expect(plunder.amount).toBe(expectedPlunder);
+    // The attacker must receive exactly what the defender lost -- a
+    // duplication bug (troops conjured on the attacker's side) passes the
+    // threshold assertion above but fails this one.
+    expect(addTroopsSpy.mock.calls.map(([n]) => n)).toContain(expectedPlunder);
   });
 
   test("with zero garrison, capital fall grants no troop plunder", () => {
@@ -183,6 +234,7 @@ describe("Capital Garrison", () => {
     // noisy net troops() balance.
     vi.spyOn(game.config(), "troopIncreaseRate").mockReturnValue(0);
     const addTroopsSpy = vi.spyOn(attacker, "addTroops");
+    const removals = spyOnDefenderRemoveTroops();
     defender.setSpawnTile(CAPTURED_FIRST_TILE);
     defender.setTroops(1000);
     defender.setGarrisonRatio(0);
@@ -198,5 +250,33 @@ describe("Capital Garrison", () => {
       0,
     );
     expect(totalTroopsAdded).toBeLessThanOrEqual(100);
+
+    // Same final-removeTroops-call anchor as the test above: with an empty
+    // garrison the plunder call must be for exactly 0, not merely "small".
+    expect(removals[removals.length - 1].amount).toBe(0);
+  });
+
+  test("set_garrison_ratio intent applies through the real execution path", () => {
+    // The other tests all call setGarrisonRatio() directly, which would stay
+    // green if the intent wiring broke. This one goes through the schema and
+    // the Executor switch, so a dropped union member or a mistyped case
+    // string fails here.
+    const executor = new Executor(game, gameID, DEFENDER_CLIENT_ID);
+    const intent = StampedIntentSchema.parse({
+      type: "set_garrison_ratio",
+      ratio: 0.3,
+      clientID: DEFENDER_CLIENT_ID,
+    }) as StampedIntent;
+
+    expect(defender.garrisonRatio()).not.toBe(0.3);
+
+    // Two ticks: the first only init()s the freshly added execution, the
+    // second runs its tick() (same pattern as tests/core/execution/
+    // SpawnExecution.test.ts).
+    game.addExecution(executor.createExec(intent));
+    game.executeNextTick();
+    game.executeNextTick();
+
+    expect(defender.garrisonRatio()).toBe(0.3);
   });
 });
