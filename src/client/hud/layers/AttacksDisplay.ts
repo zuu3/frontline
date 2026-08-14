@@ -203,7 +203,7 @@ export class AttacksDisplay extends LitElement implements Controller {
 
     const counterTroops = Math.min(
       attack.troops,
-      this.uiState.attackRatio * myPlayer.troops(),
+      this.uiState.attackRatio * myPlayer.activeTroops(),
     );
     this.eventBus.emit(new SendAttackIntentEvent(attacker.id(), counterTroops));
   }
