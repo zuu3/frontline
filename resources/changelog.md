@@ -7,7 +7,7 @@ FrontLine is a fork of [OpenFront.io](https://openfront.io/). This changelog cov
 - **Capital Fall** — capture an enemy's exact capital tile and plunder a share of their gold. They're forced to relocate their capital within whatever territory they have left, which can shift their supply lines mid-fight.
 - **Capital markers** — every human player's capital is marked on the map with a crown icon, yours in gold, everyone else's in white, so you always know where to strike (and where to defend).
 - **Supply Lines & Forward Base** — attacks weaken the farther they travel from your capital. Build a Forward Base near the front to act as a secondary supply origin and offset the penalty.
-- **Directed Attacks** — click a target tile and your troops push that direction instead of spreading evenly along the whole border.
+- **Directed Attacks** — click a target tile and your troops push that direction instead of spreading evenly along the whole border. A toggle next to the attack-ratio slider switches between directed and even spread. Also fixed a balance bug where a directed attack on a large territory could tunnel a thin corridor straight to the click point and balloon out from there — the border now advances broadly with a directional lean instead.
 - **Oil Rig resource tiles** — rare tiles that grant passive gold income to whoever holds them.
 
 ## Alpha — Accounts & Ranked

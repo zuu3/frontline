@@ -817,7 +817,7 @@
     "mechanic_capital_fall": "Capital Fall",
     "mechanic_capital_fall_desc": "Capture the exact tile your enemy's capital sits on and you plunder a share of their gold. They're forced to relocate their capital somewhere within whatever territory they have left. Every player's capital is marked on the map with a crown icon (yours gold, others white) so you always know where to strike.",
     "mechanic_directed_attack": "Directed Attacks",
-    "mechanic_directed_attack_desc": "Click a target tile before attacking and your troops push in that direction instead of spreading evenly along the whole border.",
+    "mechanic_directed_attack_desc": "Click a target tile before attacking and your troops push toward it instead of spreading evenly along the whole border. A toggle next to the attack-ratio slider switches between directed and even spread.",
     "mechanic_oil_rig": "Oil Rig",
     "mechanic_oil_rig_desc": "A rare resource tile that grants passive gold income to whoever holds it.",
     "mechanic_supply_lines": "Supply Lines & Forward Base",

@@ -136,7 +136,7 @@
     "info_trade": "‘거래 중단’을 사용하면 해당 플레이어에게 골드를 주거나 무역선을 통해 골드를 받는 것이 멈춥니다. 둘 다 ‘거래 시작’을 클릭하면 다시 거래가 재개됩니다.",
     "mechanics_title": "FrontLine 시스템",
     "mechanic_directed_attack": "지정 공격",
-    "mechanic_directed_attack_desc": "공격 전 목표 타일을 클릭하면 병력이 국경 전체에 고르게 퍼지지 않고 그 방향으로 집중됩니다.",
+    "mechanic_directed_attack_desc": "공격 전 목표 타일을 클릭하면 병력이 국경 전체에 고르게 퍼지지 않고 그 방향으로 집중됩니다. 공격비율 슬라이더 옆 토글로 지정공격/고른확산을 전환할 수 있습니다.",
     "mechanic_supply_lines": "보급선 & 전진기지",
     "mechanic_supply_lines_desc": "공격은 수도에서 멀어질수록 약해집니다. 최전선 근처에 전진기지를 지으면 보조 보급 기점 역할을 해 페널티를 줄일 수 있습니다.",
     "mechanic_oil_rig": "유전",

@@ -35,6 +35,13 @@
     "type": "announcement"
   },
   {
+    "id": "frontline-directed-attacks-toggle-2026",
+    "title": "Directed Attacks: spread/directed toggle + balance fix",
+    "description": "Added a toggle next to the attack-ratio slider to switch between directed and even spread, and fixed a bug where directed attacks on large territories could tunnel a thin corridor to the click point.",
+    "url": null,
+    "type": "announcement"
+  },
+  {
     "id": "frontline-ranked-2026",
     "title": "New: Ranked Matchmaking & Friends",
     "description": "1v1 and 2v2 ranked ladders with a real Elo leaderboard, plus a friends list — sign in to play.",
