@@ -19,6 +19,12 @@ export interface Account {
   // real subscription check here once Stripe (or similar) exists.
   username_status: "unclaimed" | "claimed" | "premium" | "indefinite";
   created_at: Date;
+  // Free currency, earned by winning games (see /game/:gameId in
+  // AuthServer.ts) and spent in /shop/purchase. INTEGER (not BIGINT) so pg
+  // returns it as a plain JS number -- BIGINT comes back as a string from
+  // pg by default, and no account will realistically earn anywhere near
+  // 2^31 from win-based grants.
+  soft_currency: number;
 }
 
 export async function initSchema(): Promise<void> {
@@ -32,8 +38,13 @@ export async function initSchema(): Promise<void> {
       google_email TEXT UNIQUE,
       username_base TEXT UNIQUE,
       username_status TEXT NOT NULL DEFAULT 'unclaimed',
-      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      soft_currency INTEGER NOT NULL DEFAULT 0
     );
+    -- CREATE TABLE IF NOT EXISTS is a no-op on an already-existing table
+    -- (the common case once this account was created before this column
+    -- existed), so the column also needs an explicit migration here.
+    ALTER TABLE accounts ADD COLUMN IF NOT EXISTS soft_currency INTEGER NOT NULL DEFAULT 0;
     CREATE TABLE IF NOT EXISTS refresh_tokens (
       token_hash TEXT PRIMARY KEY,
       account_id UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
@@ -89,7 +100,60 @@ export async function initSchema(): Promise<void> {
       losses INT NOT NULL DEFAULT 0,
       PRIMARY KEY (account_id, ranked_type)
     );
+    -- Persists cosmetic ownership as flare strings (e.g. "pattern:diamonds"),
+    -- matching the flare format cosmeticRelationship()/patternRelationship()
+    -- already check client-side (src/client/Cosmetics.ts) -- granted by
+    -- /shop/purchase, read back into accountToUserMe()'s player.flares.
+    CREATE TABLE IF NOT EXISTS account_flares (
+      account_id UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+      flare TEXT NOT NULL,
+      granted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      PRIMARY KEY (account_id, flare)
+    );
   `);
+}
+
+export async function getAccountFlares(accountId: string): Promise<string[]> {
+  const { rows } = await pool.query<{ flare: string }>(
+    "SELECT flare FROM account_flares WHERE account_id = $1",
+    [accountId],
+  );
+  return rows.map((r) => r.flare);
+}
+
+export async function grantFlare(
+  accountId: string,
+  flare: string,
+): Promise<void> {
+  await pool.query(
+    `INSERT INTO account_flares (account_id, flare) VALUES ($1, $2)
+     ON CONFLICT (account_id, flare) DO NOTHING`,
+    [accountId, flare],
+  );
+}
+
+export async function addSoftCurrency(
+  accountId: string,
+  amount: number,
+): Promise<void> {
+  await pool.query(
+    "UPDATE accounts SET soft_currency = soft_currency + $2 WHERE id = $1",
+    [accountId, amount],
+  );
+}
+
+// Atomic conditional deduct -- returns false (no row updated, no changes
+// made) if the balance is insufficient at the moment the query runs, so a
+// double-click or two tabs can't both succeed against the same balance.
+export async function trySpendSoftCurrency(
+  accountId: string,
+  amount: number,
+): Promise<boolean> {
+  const { rowCount } = await pool.query(
+    "UPDATE accounts SET soft_currency = soft_currency - $2 WHERE id = $1 AND soft_currency >= $2",
+    [accountId, amount],
+  );
+  return (rowCount ?? 0) > 0;
 }
 
 export async function findAccountByDiscordId(

@@ -6,13 +6,18 @@ import { SignJWT } from "jose";
 import { z } from "zod";
 import { WebSocket, WebSocketServer } from "ws";
 import { base64urlToUuid, uuidToBase64url } from "../core/Base64";
+import { cosmeticsCatalog } from "./cosmeticsCatalog";
 import {
   Account,
+  addSoftCurrency,
   findAccountByDiscordId,
   findAccountByGoogleEmail,
   findAccountById,
+  getAccountFlares,
+  grantFlare,
   initSchema,
   pool,
+  trySpendSoftCurrency,
 } from "./db";
 import { loadOrCreateKeyPair } from "./keys";
 
@@ -133,9 +138,10 @@ async function fetchRankedElo(
 
 async function accountToUserMe(account: Account) {
   const username = account.username_base;
-  const [achievements, leaderboard] = await Promise.all([
+  const [achievements, leaderboard, flares] = await Promise.all([
     fetchSingleplayerAchievements(account.id),
     fetchRankedElo(account.id),
+    getAccountFlares(account.id),
   ]);
   return {
     user: {
@@ -164,6 +170,10 @@ async function accountToUserMe(account: Account) {
       usernameStatus: account.username_status,
       usernameClaimExpiresAt: null,
       nextUsernameChangeAt: null,
+      flares,
+      // No real-money purchase backend -- only `soft` is ever nonzero.
+      // Earned by winning games (/game/:gameId), spent in /shop/purchase.
+      currency: { soft: account.soft_currency, hard: 0 },
       achievements: { singleplayerMap: achievements },
       leaderboard,
       friends: [],
@@ -184,6 +194,13 @@ async function main() {
 
   app.get("/.well-known/jwks.json", (_req, res) => {
     res.json({ keys: [publicJwk] });
+  });
+
+  // Public catalog -- no auth required to browse the store. Ownership is
+  // resolved separately client-side from /users/@me's flares (see
+  // cosmeticsCatalog.ts for why everything here is free).
+  app.get("/cosmetics.json", (_req, res) => {
+    res.json(cosmeticsCatalog);
   });
 
   // --- Discord OAuth ---
@@ -404,6 +421,46 @@ async function main() {
       return;
     }
     res.json(await accountToUserMe(account));
+  });
+
+  // Matches purchaseWithCurrency()'s contract exactly (src/client/Api.ts):
+  // POST body { cosmeticType, cosmeticName, currencyType, colorPaletteName? },
+  // 200 on success, any non-2xx read as failure client-side, 401 logs out.
+  // Only cosmeticType "pattern" and currencyType "soft" are supported --
+  // there is no real-money purchase path (see cosmeticsCatalog.ts).
+  app.post("/shop/purchase", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const PurchaseBodySchema = z.object({
+      cosmeticType: z.string(),
+      cosmeticName: z.string(),
+      currencyType: z.string(),
+    });
+    const parsed = PurchaseBodySchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "invalid request" });
+      return;
+    }
+    const { cosmeticType, cosmeticName, currencyType } = parsed.data;
+    if (cosmeticType !== "pattern" || currencyType !== "soft") {
+      res.status(400).json({ error: "unsupported purchase" });
+      return;
+    }
+    const item = cosmeticsCatalog.patterns[cosmeticName];
+    if (!item || item.priceSoft === undefined) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const spent = await trySpendSoftCurrency(accountId, item.priceSoft);
+    if (!spent) {
+      res.status(402).json({ error: "insufficient funds" });
+      return;
+    }
+    await grantFlare(accountId, `pattern:${cosmeticName}`);
+    res.status(200).json({ ok: true });
   });
 
   app.put("/users/@me/username", async (req, res) => {
@@ -731,24 +788,29 @@ async function main() {
       );
 
       const winningClientIds = new Set<string>(winner ? winner.slice(1) : []);
+      // Free soft currency awarded to a winning account per game, spendable
+      // in /shop/purchase. Tunable -- 25 buys a common (50) pattern every
+      // other win.
+      const SOFT_CURRENCY_PER_WIN = 25;
       for (const p of players) {
         let accountId: string | null = null;
         if (p.persistentID) {
           const acc = await findAccountById(p.persistentID);
           if (acc) accountId = acc.id;
         }
-        await pool.query(
+        const won = winningClientIds.has(p.clientID);
+        const { rowCount } = await pool.query(
           `INSERT INTO game_players (game_id, client_id, account_id, username, won)
            VALUES ($1,$2,$3,$4,$5)
            ON CONFLICT (game_id, client_id) DO NOTHING`,
-          [
-            gameId,
-            p.clientID,
-            accountId,
-            (p as { username?: string }).username ?? null,
-            winningClientIds.has(p.clientID),
-          ],
+          [gameId, p.clientID, accountId, (p as { username?: string }).username ?? null, won],
         );
+        // rowCount === 0 means this exact (game_id, client_id) was already
+        // ingested (a retried POST) -- skip the award so a retry can't
+        // double-grant currency for the same win.
+        if ((rowCount ?? 0) > 0 && won && accountId) {
+          await addSoftCurrency(accountId, SOFT_CURRENCY_PER_WIN);
+        }
       }
 
       if (rankedType === "1v1" || rankedType === "2v2") {
