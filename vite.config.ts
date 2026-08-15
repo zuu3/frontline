@@ -117,22 +117,39 @@ function steamLinkAliasRedirect(): Plugin {
 // footer's Terms of Service / Privacy Policy links use clean extensionless
 // URLs (/terms-of-service, /privacy-policy) instead of exposing the .html
 // files directly, in dev as well as prod.
+//
+// Streams the file directly rather than rewriting req.url and calling
+// next() to let Vite's own publicDir static handling pick it up -- that
+// was tried first and silently served the SPA app shell instead: with a
+// browser-realistic `Accept: text/html` header, Vite's own HTML-navigation
+// handling intercepts any .html-looking request and runs it through the
+// transformIndexHtml/SPA-fallback pipeline rather than serving it as a
+// plain static file (confirmed by curl -H "Accept: text/html" reproducing
+// it; a bare curl without that header did not, which is what made the
+// bug easy to miss testing from the command line). Matches
+// serveProprietaryDir's approach above: read the file and end the
+// response directly, no dependency on Vite's internal HTML handling.
 const EXTENSIONLESS_HTML_PAGES = ["/terms-of-service", "/privacy-policy"];
-function extensionlessHtmlPages(): Plugin {
+function extensionlessHtmlPages(resourcesDir: string): Plugin {
   return {
     name: "extensionless-html-pages",
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        if (!req.url) return next();
-        const pathname = decodeURIComponent(
-          new URL(req.url, "http://x").pathname,
-        );
+        // originalUrl, not url -- see steamLinkAliasRedirect's comment two
+        // functions up for why req.url cannot be trusted at this point.
+        const requested = (req as { originalUrl?: string }).originalUrl;
+        if (!requested) return next();
+        let pathname: string;
+        try {
+          pathname = decodeURIComponent(new URL(requested, "http://x").pathname);
+        } catch {
+          return next();
+        }
         if (!EXTENSIONLESS_HTML_PAGES.includes(pathname)) return next();
-        // Rewrite in place so Vite's own publicDir static handling (which
-        // runs later in the chain) resolves it as a normal file request --
-        // no need to duplicate its MIME/caching logic here.
-        req.url = pathname + ".html";
-        next();
+        const filePath = path.join(resourcesDir, pathname.slice(1) + ".html");
+        if (!fs.existsSync(filePath)) return next();
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        fs.createReadStream(filePath).pipe(res);
       });
     },
   };
@@ -297,7 +314,7 @@ export default defineConfig(({ mode }) => {
             serveProprietaryDir(proprietaryDir, resourcesDir),
             randomWorkerCreateProxy(devNumWorkers),
             steamLinkAliasRedirect(),
-            extensionlessHtmlPages(),
+            extensionlessHtmlPages(resourcesDir),
           ]
         : []),
       ...(isProduction
