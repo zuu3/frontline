@@ -205,6 +205,17 @@ export class UserSettings {
     this.setBool("settings.leftClickOpensMenu", !this.leftClickOpensMenu());
   }
 
+  directedAttackMode() {
+    return this.getBool("settings.directedAttackMode", true);
+  }
+
+  toggleDirectedAttackMode() {
+    this.setBool(
+      "settings.directedAttackMode",
+      !this.directedAttackMode(),
+    );
+  }
+
   toggleEmojis() {
     this.setBool("settings.emojis", !this.emojis());
   }

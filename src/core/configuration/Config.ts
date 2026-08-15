@@ -660,6 +660,19 @@ export class Config {
   directedAttackBiasWeight(): number {
     return 0.2;
   }
+  // Manhattan-distance-to-click is uncapped otherwise, so on a large
+  // territory it dwarfs the terrain/adjacency terms in addNeighbors()'s
+  // priority formula (typically a range of roughly -8 to 34) and the
+  // priority queue degenerates into "dequeue whatever is closest to the
+  // click, in order" — a single thin corridor tunnels toward the click
+  // point using the whole tick's tile budget, then balloons into a
+  // disconnected diamond (Manhattan iso-distance rings are diamonds) once
+  // it arrives, instead of the border advancing broadly with a directional
+  // lean. Capping the distance term keeps its contribution comparable in
+  // size to the terrain/adjacency terms so those can still compete.
+  directedAttackBiasMaxDistance(): number {
+    return 40;
+  }
   armyLimitWarningThreshold(): number {
     return 0.8;
   }

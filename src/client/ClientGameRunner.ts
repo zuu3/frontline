@@ -1086,7 +1086,7 @@ export class ClientGameRunner {
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
             this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
-            tile,
+            new UserSettings().directedAttackMode() ? tile : null,
           ),
         );
       } else if (this.canAutoBoat(actions.buildableUnits, tile)) {
@@ -1246,7 +1246,7 @@ export class ClientGameRunner {
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
             this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
-            tile,
+            new UserSettings().directedAttackMode() ? tile : null,
           ),
         );
       }

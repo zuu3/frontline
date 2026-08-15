@@ -470,9 +470,19 @@ export class AttackExecution implements Execution {
         // see at all — the version that visibly worked (confirmed by
         // direct playtest) used raw distance; it just needed a smaller
         // weight than its original 2, not a different formula.
+        //
+        // Capped: past directedAttackBiasMaxDistance(), every tile gets the
+        // same (maximum) bias credit instead of an ever-growing one, so the
+        // terrain/adjacency terms above can still compete on far tiles. See
+        // directedAttackBiasMaxDistance()'s comment for why — without this,
+        // a single tile-wide corridor wins every tick's priority ordering
+        // all the way from the border to the click point on a large
+        // territory, instead of the whole border advancing with a lean.
         priority +=
-          this.map.manhattanDist(neighbor, this.directionTile) *
-          this.mg.config().directedAttackBiasWeight();
+          Math.min(
+            this.map.manhattanDist(neighbor, this.directionTile),
+            this.mg.config().directedAttackBiasMaxDistance(),
+          ) * this.mg.config().directedAttackBiasWeight();
       }
 
       this.toConquer.enqueue(neighbor, priority);

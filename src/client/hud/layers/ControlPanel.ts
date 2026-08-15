@@ -34,6 +34,9 @@ export class ControlPanel extends LitElement implements Controller {
   private attackRatio: number = 0.2;
 
   @state()
+  private _directedAttackMode: boolean = true;
+
+  @state()
   private _maxTroops: number;
 
   @state()
@@ -77,6 +80,7 @@ export class ControlPanel extends LitElement implements Controller {
   init() {
     this.attackRatio = new UserSettings().attackRatio();
     this.uiState.attackRatio = this.attackRatio;
+    this._directedAttackMode = new UserSettings().directedAttackMode();
     this.eventBus.on(AttackRatioEvent, (event) => {
       let newAttackRatio = this.attackRatio + event.attackRatio / 100;
 
@@ -310,6 +314,12 @@ export class ControlPanel extends LitElement implements Controller {
     this.uiState.attackRatio = newRatio;
   }
 
+  private toggleDirectedAttackMode() {
+    const settings = new UserSettings();
+    settings.toggleDirectedAttackMode();
+    this._directedAttackMode = settings.directedAttackMode();
+  }
+
   setVisibile(visible: boolean) {
     this._isVisible = visible;
     this.requestUpdate();
@@ -538,6 +548,19 @@ export class ControlPanel extends LitElement implements Controller {
           @pointerup=${(e: Event) => this.handleRatioSliderPointerUp(e)}
           class="flex-1 h-1.5 accent-aquarius cursor-pointer"
         />
+        <button
+          type="button"
+          title=${this._directedAttackMode
+            ? "Directed attack: pushes toward where you click. Click to switch to even spread."
+            : "Even spread: attacks the whole border evenly. Click to switch to directed."}
+          @click=${() => this.toggleDirectedAttackMode()}
+          class="shrink-0 w-7 h-7 flex items-center justify-center rounded-md border text-sm cursor-pointer ${this
+            ._directedAttackMode
+            ? "border-aquarius text-aquarius bg-aquarius/10"
+            : "border-gray-600 text-white/50"}"
+        >
+          🎯
+        </button>
       </div>
     `;
   }
@@ -596,6 +619,19 @@ export class ControlPanel extends LitElement implements Controller {
             class="w-full h-1.5 accent-aquarius cursor-pointer"
           />
         </div>
+        <button
+          type="button"
+          title=${this._directedAttackMode
+            ? "Directed attack. Tap to switch to even spread."
+            : "Even spread. Tap to switch to directed."}
+          @click=${() => this.toggleDirectedAttackMode()}
+          class="shrink-0 w-6 h-6 flex items-center justify-center rounded-md border text-xs cursor-pointer ${this
+            ._directedAttackMode
+            ? "border-aquarius text-aquarius bg-aquarius/10"
+            : "border-gray-600 text-white/50"}"
+        >
+          🎯
+        </button>
       </div>
     `;
   }
