@@ -112,6 +112,32 @@ function steamLinkAliasRedirect(): Plugin {
   };
 }
 
+// Dev-only stand-in for the production static-file server's `extensions:
+// ["html"]` lookup (see Master.ts's express.static options) -- lets the
+// footer's Terms of Service / Privacy Policy links use clean extensionless
+// URLs (/terms-of-service, /privacy-policy) instead of exposing the .html
+// files directly, in dev as well as prod.
+const EXTENSIONLESS_HTML_PAGES = ["/terms-of-service", "/privacy-policy"];
+function extensionlessHtmlPages(): Plugin {
+  return {
+    name: "extensionless-html-pages",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (!req.url) return next();
+        const pathname = decodeURIComponent(
+          new URL(req.url, "http://x").pathname,
+        );
+        if (!EXTENSIONLESS_HTML_PAGES.includes(pathname)) return next();
+        // Rewrite in place so Vite's own publicDir static handling (which
+        // runs later in the chain) resolves it as a normal file request --
+        // no need to duplicate its MIME/caching logic here.
+        req.url = pathname + ".html";
+        next();
+      });
+    },
+  };
+}
+
 // Dev-only stand-in for the nginx random-worker routing (the openfront_workers
 // upstream). Forwards these prefix-less POSTs to a randomly chosen worker port
 // so the worker can mint a self-owned id. Runs as direct middleware (before
@@ -271,6 +297,7 @@ export default defineConfig(({ mode }) => {
             serveProprietaryDir(proprietaryDir, resourcesDir),
             randomWorkerCreateProxy(devNumWorkers),
             steamLinkAliasRedirect(),
+            extensionlessHtmlPages(),
           ]
         : []),
       ...(isProduction

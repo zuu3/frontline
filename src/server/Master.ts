@@ -47,6 +47,10 @@ app.use(async (req, res, next) => {
 app.use(
   express.static(path.join(__dirname, "../../static"), {
     maxAge: "1y", // Set max-age to 1 year for all static assets
+    // Lets clean URLs like /terms-of-service resolve to
+    // terms-of-service.html without exposing the extension -- see the
+    // matching dev-only extensionlessHtmlPages() plugin in vite.config.ts.
+    extensions: ["html"],
     setHeaders: (res) => {
       applyStaticAssetCacheControl(
         res.setHeader.bind(res),
