@@ -1,4 +1,24 @@
-import { Cosmetics } from "../core/CosmeticSchemas";
+import { ColorPaletteSchema, Cosmetics } from "../core/CosmeticSchemas";
+import { z } from "zod/v4";
+
+// A pattern with NO colorPalettes resolves through patternRelationship()'s
+// "backwards compatibility" branch (colorPalette === null), which only ever
+// returns "owned" or "blocked" -- it never checks price at all, so an
+// unowned priced pattern with no palette can never become "purchasable"
+// and just silently never appears in the store grid. Every pattern here
+// must reference at least one palette for its price to actually apply.
+const COLOR_PALETTES: Record<string, z.infer<typeof ColorPaletteSchema>> = {
+  crimson: { name: "crimson", primaryColor: "#8b1e1e", secondaryColor: "#e8c4c4" },
+  ocean: { name: "ocean", primaryColor: "#1e4d8b", secondaryColor: "#c4dde8" },
+  forest: { name: "forest", primaryColor: "#1e6b3a", secondaryColor: "#c9e8c4" },
+  sunset: { name: "sunset", primaryColor: "#c9701e", secondaryColor: "#f5dcae" },
+  royal: { name: "royal", primaryColor: "#4a1e8b", secondaryColor: "#d8c4e8" },
+  monochrome: { name: "monochrome", primaryColor: "#2a2a2a", secondaryColor: "#e0e0e0" },
+};
+const PALETTE_NAMES = Object.keys(COLOR_PALETTES).map((name) => ({
+  name,
+  isArchived: false,
+}));
 
 // Original geometric patterns, not copied from OpenFront's proprietary
 // catalog (see LICENSE-ASSETS: premium skins/patterns accessed via API are
@@ -21,6 +41,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4AAAAAP____8AAAAA_____wAAAAD_____AAAAAP____8",
   },
   vertical_stripes: {
@@ -28,6 +49,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMw",
   },
   diagonal_stripes: {
@@ -35,6 +57,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4zMxmZjMzmZnMzGZmMzOZmczMZmYzM5mZzMxmZjMzmZk",
   },
   anti_diagonal_stripes: {
@@ -42,6 +65,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4zMyZmTMzZmbMzJmZMzNmZszMmZkzM2ZmzMyZmTMzZmY",
   },
   checkerboard: {
@@ -49,6 +73,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4zMzMzDMzMzPMzMzMMzMzM8zMzMwzMzMzzMzMzDMzMzM",
   },
   fine_checkerboard: {
@@ -56,6 +81,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "common",
     priceSoft: 50,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4qqpVVaqqVVWqqlVVqqpVVaqqVVWqqlVVqqpVVaqqVVU",
   },
   dots: {
@@ -63,6 +89,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "uncommon",
     priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4AAAiIgAAAAAAACIiAAAAAAAAIiIAAAAAAAAiIgAAAAA",
   },
   small_dots: {
@@ -70,6 +97,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "uncommon",
     priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4SZIAAAAASZIAAAAASZIAAAAASZIAAAAASZIAAAAASZI",
   },
   crosshatch: {
@@ -77,6 +105,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "uncommon",
     priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4__8RERERERH__xEREREREf__ERERERER__8RERERERE",
   },
   grid: {
@@ -84,6 +113,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "uncommon",
     priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4iIiIiIiI__-IiIiIiIj__4iIiIiIiP__iIiIiIiI__8",
   },
   diamonds: {
@@ -91,6 +121,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "rare",
     priceSoft: 200,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4AAAQEDg4bGzGxmxsODgQEAAAEBA4OGxsxsZsbDg4EBA",
   },
   brick: {
@@ -98,6 +129,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "rare",
     priceSoft: 200,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4__8BAQEB__8QEBAQ__8BAQEB__8QEBAQ__8BAQEB__8",
   },
   border_frame: {
@@ -105,6 +137,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "rare",
     priceSoft: 200,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4__8BgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGA__8",
   },
   plus_grid: {
@@ -112,6 +145,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "uncommon",
     priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4IiJ3dyIiAAAiInd3IiIAACIid3ciIgAAIiJ3dyIiAAA",
   },
   triangles: {
@@ -119,6 +153,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "rare",
     priceSoft: 200,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4AAABAQMDBwcPDx8fPz9_fwAAAQEDAwcHDw8fHz8_f38",
   },
   concentric_squares: {
@@ -126,6 +161,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "epic",
     priceSoft: 400,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4__8BgP2_BaD1rxWo1atVqlWq1asVqPWvBaD9vwGA__8",
   },
   zigzag: {
@@ -133,6 +169,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "rare",
     priceSoft: 200,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4g4PHx-7ufHw4OBAQAAAAAIODx8fu7nx8ODgQEAAAAAA",
   },
   ordered_dither: {
@@ -140,6 +177,7 @@ const PATTERNS: Cosmetics["patterns"] = {
     product: null,
     rarity: "epic",
     priceSoft: 400,
+    colorPalettes: PALETTE_NAMES,
     pattern: "AHI4UFUAokRVAKhVdSCqVNWAqlX3oqpV_aiqdf-qutX_quo",
   },
 };
@@ -147,4 +185,5 @@ const PATTERNS: Cosmetics["patterns"] = {
 export const cosmeticsCatalog: Cosmetics = {
   patterns: PATTERNS,
   flags: {},
+  colorPalettes: COLOR_PALETTES,
 };
