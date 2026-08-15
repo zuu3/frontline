@@ -1085,7 +1085,7 @@ export class ClientGameRunner {
         this.eventBus.emit(
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
-            this.myPlayer!.activeTroops() * this.renderer.uiState.attackRatio,
+            this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
             tile,
           ),
         );
@@ -1245,7 +1245,7 @@ export class ClientGameRunner {
         this.eventBus.emit(
           new SendAttackIntentEvent(
             this.gameView.owner(tile).id(),
-            this.myPlayer!.activeTroops() * this.renderer.uiState.attackRatio,
+            this.myPlayer!.troops() * this.renderer.uiState.attackRatio,
             tile,
           ),
         );
@@ -1283,7 +1283,7 @@ export class ClientGameRunner {
 
     const counterTroops = Math.min(
       mostRecentAttack.troops,
-      this.renderer.uiState.attackRatio * this.myPlayer.activeTroops(),
+      this.renderer.uiState.attackRatio * this.myPlayer.troops(),
     );
     this.eventBus.emit(new SendAttackIntentEvent(attacker.id(), counterTroops));
   }
@@ -1370,7 +1370,7 @@ export class ClientGameRunner {
     this.eventBus.emit(
       new SendBoatAttackIntentEvent(
         tile,
-        this.myPlayer.activeTroops() * this.renderer.uiState.attackRatio,
+        this.myPlayer.troops() * this.renderer.uiState.attackRatio,
       ),
     );
   }

@@ -36,7 +36,6 @@ function ps(overrides: Partial<PlayerState> = {}): PlayerState {
     tilesOwned: 0,
     gold: 0,
     troops: 0,
-    garrisonRatio: 0,
     isTraitor: false,
     traitorRemainingTicks: 0,
     inDoomsdayClock: false,

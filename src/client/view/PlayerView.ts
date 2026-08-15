@@ -82,7 +82,6 @@ function stateFromUpdate(pu: PlayerUpdate): PlayerState {
     tilesOwned: pu.tilesOwned!,
     gold: Number(pu.gold!),
     troops: pu.troops!,
-    garrisonRatio: pu.garrisonRatio ?? 0,
     isTraitor: pu.isTraitor!,
     traitorRemainingTicks: Math.max(0, pu.traitorRemainingTicks ?? 0),
     inDoomsdayClock: pu.inDoomsdayClock ?? false,
@@ -515,18 +514,6 @@ export class PlayerView {
 
   troops(): number {
     return this.state.troops;
-  }
-
-  garrisonRatio(): number {
-    return this.state.garrisonRatio;
-  }
-
-  garrisonedTroops(): number {
-    return Math.round(this.troops() * this.state.garrisonRatio);
-  }
-
-  activeTroops(): number {
-    return this.troops() - this.garrisonedTroops();
   }
 
   totalUnitLevels(type: UnitType): number {

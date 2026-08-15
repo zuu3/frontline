@@ -22,7 +22,6 @@ import { NoOpExecution } from "./NoOpExecution";
 import { PauseExecution } from "./PauseExecution";
 import { QuickChatExecution } from "./QuickChatExecution";
 import { RetreatExecution } from "./RetreatExecution";
-import { SetGarrisonRatioExecution } from "./SetGarrisonRatioExecution";
 import { SpawnExecution } from "./SpawnExecution";
 import { TargetPlayerExecution } from "./TargetPlayerExecution";
 import { TransportShipExecution } from "./TransportShipExecution";
@@ -107,8 +106,6 @@ export class Executor {
         return new EmbargoExecution(player, intent.targetID, intent.action);
       case "embargo_all":
         return new EmbargoAllExecution(player, intent.action);
-      case "set_garrison_ratio":
-        return new SetGarrisonRatioExecution(player, intent.ratio);
       case "build_unit":
         return new ConstructionExecution(
           player,

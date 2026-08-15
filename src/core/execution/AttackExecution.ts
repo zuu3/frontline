@@ -119,7 +119,7 @@ export class AttackExecution implements Execution {
       .config()
       .attackAmount(this._owner, this.target);
     if (this.removeTroops) {
-      this.startTroops = Math.min(this._owner.activeTroops(), this.startTroops);
+      this.startTroops = Math.min(this._owner.troops(), this.startTroops);
       this._owner.removeTroops(this.startTroops);
     }
     this.attack = this._owner.createAttack(
@@ -388,24 +388,12 @@ export class AttackExecution implements Execution {
       this._owner.addGold(plundered, capitalTile);
     }
 
-    const troopPlunder = Math.round(
-      target.garrisonedTroops() * plunderFraction,
-    );
-    const plunderedTroops = target.removeTroops(troopPlunder);
-    if (plunderedTroops > 0) {
-      this._owner.addTroops(plunderedTroops);
-    }
-
     this.mg.displayMessage(
       "events_display.capital_captured",
       MessageType.CAPITAL_CAPTURED,
       this._owner.id(),
       plundered,
-      {
-        name: target.displayName(),
-        gold: renderNumber(plundered),
-        troops: renderTroops(plunderedTroops),
-      },
+      { name: target.displayName(), gold: renderNumber(plundered) },
     );
     this.mg.displayMessage(
       "events_display.capital_fallen",

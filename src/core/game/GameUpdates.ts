@@ -238,7 +238,6 @@ export interface PlayerUpdate {
   tilesOwned?: number;
   gold?: Gold;
   troops?: number;
-  garrisonRatio?: number;
   allies?: number[];
   embargoes?: Set<PlayerID>;
   isTraitor?: boolean;

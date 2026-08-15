@@ -1184,14 +1184,6 @@ export class HelpModal extends BaseModal {
                   ${translateText("help_modal.mechanic_capital_fall_desc")}
                 </p>
               </div>
-              <div class="bg-white/5 rounded-xl border border-white/10 p-4">
-                <div class="font-bold text-white mb-1">
-                  ${translateText("help_modal.mechanic_capital_garrison")}
-                </div>
-                <p class="text-white/60 text-sm">
-                  ${translateText("help_modal.mechanic_capital_garrison_desc")}
-                </p>
-              </div>
             </div>
           </section>
 

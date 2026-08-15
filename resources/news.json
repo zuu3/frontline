@@ -21,13 +21,6 @@
     "type": "announcement"
   },
   {
-    "id": "frontline-capital-garrison-2026",
-    "title": "New: Capital Garrison",
-    "description": "Reserve up to 50% of your troops to defend your capital tile specifically — safe from border combat, but still at risk (like your gold) if the capital falls.",
-    "url": null,
-    "type": "announcement"
-  },
-  {
     "id": "frontline-forward-base-2026",
     "title": "New: Forward Base & Supply Lines",
     "description": "Attacks weaken the farther they are from your capital. Build a Forward Base to push your supply line closer to the front.",

@@ -57,7 +57,6 @@ export function diffPlayerUpdate(
     prev.betrayals === next.betrayals &&
     prev.lastDeleteUnitTick === next.lastDeleteUnitTick &&
     prev.isLobbyCreator === next.isLobbyCreator &&
-    prev.garrisonRatio === next.garrisonRatio &&
     numberArrayEqual(prev.allies, next.allies) &&
     numberArrayEqual(prev.targets, next.targets) &&
     stringArrayEqual(
@@ -120,7 +119,6 @@ export function diffPlayerUpdate(
     prev.lastDeleteUnitTick === next.lastDeleteUnitTick,
   );
   setIfDifferent("isLobbyCreator", prev.isLobbyCreator === next.isLobbyCreator);
-  setIfDifferent("garrisonRatio", prev.garrisonRatio === next.garrisonRatio);
   setIfDifferent("allies", numberArrayEqual(prev.allies, next.allies));
   setIfDifferent("targets", numberArrayEqual(prev.targets, next.targets));
   setIfDifferent(
@@ -172,7 +170,6 @@ export function applyStateUpdate(target: PlayerState, pu: PlayerUpdate): void {
   if (pu.tilesOwned !== undefined) target.tilesOwned = pu.tilesOwned;
   if (pu.gold !== undefined) target.gold = Number(pu.gold);
   if (pu.troops !== undefined) target.troops = pu.troops;
-  if (pu.garrisonRatio !== undefined) target.garrisonRatio = pu.garrisonRatio;
   if (pu.isTraitor !== undefined) target.isTraitor = pu.isTraitor;
   if (pu.traitorRemainingTicks !== undefined) {
     target.traitorRemainingTicks = Math.max(0, pu.traitorRemainingTicks);

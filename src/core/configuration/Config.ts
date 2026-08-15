@@ -644,13 +644,6 @@ export class Config {
   supplyLineMaxPenalty(): number {
     return 0.55;
   }
-  // Max fraction of a player's troops that can be reserved as a capital
-  // garrison. Capped below 1 so a fully-garrisoned player's border is still
-  // meaningfully weaker than an ungarrisoned one — see
-  // docs/superpowers/specs/2026-08-14-capital-garrison-design.md.
-  garrisonMaxRatio(): number {
-    return 0.5;
-  }
   // Fraction of the defender's gold plundered by the attacker when the
   // exact capital tile is conquered.
   capitalFallGoldPlunderFraction(): number {
@@ -785,11 +778,6 @@ export class Config {
     }
 
     if (defender.isPlayer()) {
-      const effectiveDefenderTroops =
-        tileToConquer === defender.spawnTile()
-          ? defender.troops()
-          : defender.activeTroops();
-
       const defenseSig =
         1 -
         sigmoid(
@@ -810,11 +798,10 @@ export class Config {
         largeAttackerSpeedBonus = (100_000 / attacker.numTilesOwned()) ** 0.6;
       }
 
-      const defenderTroopLoss =
-        effectiveDefenderTroops / defender.numTilesOwned();
+      const defenderTroopLoss = defender.troops() / defender.numTilesOwned();
       const traitorMod = defender.isTraitor() ? this.traitorDefenseDebuff() : 1;
       const currentAttackerLoss =
-        within(effectiveDefenderTroops / attackTroops, 0.6, 2) *
+        within(defender.troops() / attackTroops, 0.6, 2) *
         mag *
         0.8 *
         largeDefenderAttackDebuff *
@@ -829,7 +816,7 @@ export class Config {
         attackerTroopLoss,
         defenderTroopLoss,
         tilesPerTickUsed:
-          within(effectiveDefenderTroops / (5 * attackTroops), 0.2, 1.5) *
+          within(defender.troops() / (5 * attackTroops), 0.2, 1.5) *
           speed *
           largeDefenderSpeedDebuff *
           largeAttackerSpeedBonus *
