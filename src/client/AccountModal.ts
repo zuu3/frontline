@@ -32,6 +32,7 @@ import "./components/FriendsList";
 import "./components/RewardsPanel";
 import type { RewardsChangedDetail } from "./components/RewardsPanel";
 import "./components/SubscriptionPanel";
+import { showToast } from "./components/Toast";
 import { modalHeader } from "./components/ui/ModalHeader";
 import "./components/UsernamePanel";
 import { fetchCosmetics } from "./Cosmetics";
@@ -237,8 +238,8 @@ export class AccountModal extends BaseModal {
                 aria-label=${translateText("account_modal.marketing_title")}
                 ?disabled=${this.consentBusy}
                 @click=${() => this.setConsent(!on)}
-                class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-malibu-blue/50 disabled:opacity-60 ${on
-                  ? "bg-malibu-blue shadow-[var(--shadow-malibu-blue-pill)]"
+                class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-frontline-red-hover/50 disabled:opacity-60 ${on
+                  ? "bg-frontline-red-dim shadow-[var(--shadow-frontline-red)]"
                   : "bg-white/15"}"
               >
                 <span
@@ -286,10 +287,10 @@ export class AccountModal extends BaseModal {
         .value=${this.email}
         @input=${this.handleEmailInput}
         placeholder=${translateText("account_modal.email_placeholder")}
-        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-malibu-blue/50 focus:border-malibu-blue/50 transition-all font-medium hover:bg-white/10"
+        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-frontline-red-hover/50 focus:border-frontline-red-hover/50 transition-all font-medium hover:bg-white/10"
       />
       <o-button
-        variant="primary"
+        variant="brand"
         width="block"
         size="md"
         translationKey="account_modal.get_magic_link"
@@ -344,10 +345,15 @@ export class AccountModal extends BaseModal {
     }
     return html`
       <div class="flex flex-col gap-6">
-        <div class="bg-white/5 rounded-xl border border-white/10 p-6">
+        <div
+          class="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-frontline-red-dim/15 to-white/5 p-6"
+        >
+          <div
+            class="pixel-rule absolute top-0 left-0 right-0 opacity-60"
+          ></div>
           <div class="flex flex-col items-center gap-4">
             <div
-              class="text-xs text-white/40 uppercase tracking-widest font-bold border-b border-white/5 pb-2 px-8"
+              class="text-xs text-frontline-red-hover uppercase tracking-widest font-bold pb-2"
             >
               ${translateText("account_modal.connected_as")}
             </div>
@@ -404,21 +410,30 @@ export class AccountModal extends BaseModal {
   private renderCrazyGamesAccount(user: CrazyGamesUser): TemplateResult {
     return html`
       <div class="flex flex-col gap-6">
-        <div class="bg-white/5 rounded-xl border border-white/10 p-6">
+        <div
+          class="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-frontline-red-dim/15 to-white/5 p-6"
+        >
+          <div
+            class="pixel-rule absolute top-0 left-0 right-0 opacity-60"
+          ></div>
           <div class="flex flex-col items-center gap-4">
             <div
-              class="text-xs text-white/40 uppercase tracking-widest font-bold border-b border-white/5 pb-2 px-8"
+              class="text-xs text-frontline-red-hover uppercase tracking-widest font-bold pb-2"
             >
               ${translateText("account_modal.connected_as")}
             </div>
             <div class="flex flex-col items-center gap-3">
-              <img
-                src=${user.profilePictureUrl}
-                alt=${user.username}
-                class="w-16 h-16 rounded-full object-cover"
-                referrerpolicy="no-referrer"
-              />
-              <div class="text-white text-lg font-medium">${user.username}</div>
+              <div
+                class="p-[3px] rounded-full bg-frontline-red-dim shadow-[var(--shadow-frontline-red)]"
+              >
+                <img
+                  src=${user.profilePictureUrl}
+                  alt=${user.username}
+                  class="w-14 h-14 rounded-full object-cover block"
+                  referrerpolicy="no-referrer"
+                />
+              </div>
+              <div class="text-white text-lg font-bold">${user.username}</div>
               ${this.renderCurrency()}
             </div>
           </div>
@@ -441,7 +456,7 @@ export class AccountModal extends BaseModal {
             ${translateText("account_modal.sign_in_desc")}
           </p>
           <o-button
-            variant="primary"
+            variant="brand"
             width="block"
             size="md"
             translationKey="main.sign_in"
@@ -704,11 +719,11 @@ export class AccountModal extends BaseModal {
         >
           <div class="text-center mb-8">
             <div
-              class="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-inner"
+              class="w-16 h-16 bg-gradient-to-br from-frontline-red-dim/25 to-frontline-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-inner"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-blue-400"
+                class="w-8 h-8 text-frontline-red-hover"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -795,19 +810,22 @@ export class AccountModal extends BaseModal {
 
   private async handleSubmit() {
     if (!this.email) {
-      alert(translateText("account_modal.enter_email_address"));
+      showToast(translateText("account_modal.enter_email_address"), "error");
       return;
     }
 
     const success = await sendMagicLink(this.email);
     if (success) {
-      alert(
+      showToast(
         translateText("account_modal.recovery_email_sent", {
           email: this.email,
         }),
       );
     } else {
-      alert(translateText("account_modal.failed_to_send_recovery_email"));
+      showToast(
+        translateText("account_modal.failed_to_send_recovery_email"),
+        "error",
+      );
     }
   }
 
@@ -839,7 +857,7 @@ export class AccountModal extends BaseModal {
     // couldn't start it.
     const started = await linkGoogle();
     if (!started) {
-      alert(translateText("account_modal.link_google_failed"));
+      showToast(translateText("account_modal.link_google_failed"), "error");
     }
   }
 
@@ -860,23 +878,16 @@ export class AccountModal extends BaseModal {
       rest ? `#${rest}` : window.location.pathname + window.location.search,
     );
 
-    // Defer so the modal paints before the (blocking) alert. "cancel" needs no
-    // feedback — the user chose to back out.
+    // "cancel" needs no feedback — the user chose to back out.
     if (link === "google") {
-      setTimeout(
-        () => alert(translateText("account_modal.link_google_success")),
-        0,
-      );
+      showToast(translateText("account_modal.link_google_success"));
     } else if (link === "already_linked") {
-      setTimeout(
-        () => alert(translateText("account_modal.link_google_already_linked")),
-        0,
+      showToast(
+        translateText("account_modal.link_google_already_linked"),
+        "error",
       );
     } else if (link === "error") {
-      setTimeout(
-        () => alert(translateText("account_modal.link_google_error")),
-        0,
-      );
+      showToast(translateText("account_modal.link_google_error"), "error");
     }
   }
 

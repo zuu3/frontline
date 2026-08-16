@@ -207,6 +207,16 @@ export const UserMeResponseSchema = z.object({
     currency: CurrencyBalancesSchema.optional(),
     // Unclaimed rewards — NOT included in `currency` balances until claimed.
     rewards: RewardSchema.array().optional(),
+    // Daily-login streak (consecutive days, including today -- advances
+    // automatically on the first GET /users/@me of the UTC day; see
+    // grantDailyCheckinIfEligible in authserver/db.ts). Whether today's
+    // reward is still claimable is NOT a separate field: check `rewards` for
+    // a `reason === "daily_checkin"` entry -- present means unclaimed,
+    // absent means already claimed (grantDailyCheckinIfEligible runs before
+    // this response is built, so streak always reflects today once this
+    // field is present at all). Used by the checkin page,
+    // src/client/CheckinModal.ts.
+    dailyCheckin: z.object({ streak: z.number().int().min(0) }).optional(),
     clans: z
       .array(
         z.object({

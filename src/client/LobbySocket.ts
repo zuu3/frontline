@@ -1,4 +1,5 @@
 import { ClientEnv } from "src/client/ClientEnv";
+import { showToast } from "./components/Toast";
 import { PublicGames, PublicLobbyMessageSchema } from "../core/Schemas";
 
 interface LobbySocketOptions {
@@ -160,7 +161,7 @@ export class PublicLobbySocket {
       this.wsConnectionAttempts++;
     }
     if (this.wsConnectionAttempts >= this.maxWsAttempts) {
-      alert("error connecting to game service");
+      showToast("error connecting to game service", "error");
     } else {
       this.scheduleReconnect();
     }

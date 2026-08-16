@@ -22,6 +22,7 @@ import { BaseModal } from "./components/BaseModal";
 import "./components/GameConfigSettings";
 import { MEDAL_ORDER, medalIcon } from "./components/map/Medals";
 import "./components/ToggleInputCard";
+import { showToast } from "./components/Toast";
 import { modalHeader } from "./components/ui/ModalHeader";
 import { getPlayerCosmetics } from "./Cosmetics";
 import { crazyGamesSDK } from "./CrazyGamesSDK";
@@ -500,7 +501,7 @@ export class SinglePlayerModal extends BaseModal {
               </div>`
             : null}
           <o-button
-            variant="primary"
+            variant="brand"
             width="block"
             size="lg"
             translationKey="single_modal.start"
@@ -804,9 +805,10 @@ export class SinglePlayerModal extends BaseModal {
     if (this.maxTimer) {
       if (!this.maxTimerValue || this.maxTimerValue <= 0) {
         console.error("Max timer is enabled but no valid value is set");
-        alert(
+        showToast(
           translateText("single_modal.max_timer_invalid") ||
             "Please enter a valid max timer value (1-120 minutes)",
+          "error",
         );
         // Focus the input
         const input = this.getEndTimerInput();

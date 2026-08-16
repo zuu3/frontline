@@ -84,8 +84,11 @@ export class MobileNavBar extends LitElement {
           </div>
         </div>
         <!-- Mobile Navigation Menu Items -->
+        <!-- Play is persistently red (not just on .active) to match the
+             desktop nav bar's brand-color treatment; every other item below
+             turns red only on hover/active. -->
         <button
-          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] ${currentPage ===
+          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-frontline-red transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] ${currentPage ===
           "page-play"
             ? "active"
             : ""}"
@@ -98,7 +101,7 @@ export class MobileNavBar extends LitElement {
           @click=${this._notifications.onNewsClick}
         >
           <button
-            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
             data-i18n="main.news"
           ></button>
           ${this._notifications.showNewsDot()
@@ -106,12 +109,23 @@ export class MobileNavBar extends LitElement {
             : ""}
         </div>
         <button
-          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
           data-page="page-leaderboard"
           data-i18n="main.leaderboard"
         ></button>
+        <div class="relative w-full">
+          <button
+            class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+            data-page="page-checkin"
+            data-i18n="main.checkin"
+          ></button>
+          <span
+            data-checkin-streak
+            class="hidden absolute top-1/2 -translate-y-1/2 right-2 text-sm font-bold text-orange-400 pointer-events-none whitespace-nowrap"
+          ></span>
+        </div>
         <button
-          class="no-crazygames nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+          class="no-crazygames nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
           data-page="page-clan"
           data-i18n="main.clans"
         ></button>
@@ -121,7 +135,7 @@ export class MobileNavBar extends LitElement {
           @click=${this._notifications.onStoreClick}
         >
           <button
-            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
             data-i18n="main.store"
           ></button>
           ${this._notifications.showStoreDot()
@@ -129,13 +143,13 @@ export class MobileNavBar extends LitElement {
             : ""}
         </div>
         <button
-          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
           data-page="page-settings"
           data-i18n="main.settings"
         ></button>
         <button
           id="mobile-nav-account-button"
-          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+          class="nav-menu-item block w-full text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
           data-page="page-account"
           data-i18n="main.account"
         ></button>
@@ -145,7 +159,7 @@ export class MobileNavBar extends LitElement {
           @click=${this._notifications.onHelpClick}
         >
           <button
-            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-blue-600 hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] [&.active]:text-blue-600 [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
+            class="block text-left font-bold uppercase tracking-[0.05em] text-white/70 transition-all duration-200 cursor-pointer hover:text-frontline-red-hover hover:translate-x-2.5 hover:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] [&.active]:text-frontline-red-hover [&.active]:translate-x-2.5 [&.active]:drop-shadow-[0_0_20px_rgba(255,42,42,0.5)] text-[clamp(18px,2.8vh,32px)] py-[clamp(0.2rem,0.8vh,0.75rem)]"
             data-i18n="main.help"
           ></button>
           ${this._notifications.showHelpDot()

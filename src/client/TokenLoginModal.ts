@@ -3,6 +3,7 @@ import { customElement } from "lit/decorators.js";
 import { tempTokenLogin } from "./Auth";
 import { BaseModal } from "./components/BaseModal";
 import "./components/Difficulties";
+import { showToast } from "./components/Toast";
 import { modalHeader } from "./components/ui/ModalHeader";
 import { translateText } from "./Utils";
 
@@ -47,16 +48,18 @@ export class TokenLoginModal extends BaseModal {
     return html`
       <div class="flex items-center gap-4">
         <div
-          class="w-12 h-12 rounded-full border border-blue-400/40 bg-blue-500/10 flex items-center justify-center"
+          class="w-12 h-12 rounded-full border border-frontline-red-dim/40 bg-frontline-red-dim/10 flex items-center justify-center"
         >
           <div
-            class="w-6 h-6 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin"
+            class="w-6 h-6 border-2 border-frontline-red-dim/30 border-t-frontline-red-hover rounded-full animate-spin"
           ></div>
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-lg font-semibold text-white">${loggingText}</p>
           <div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-            <div class="h-full w-1/2 bg-blue-400/80 animate-pulse"></div>
+            <div
+              class="h-full w-1/2 bg-frontline-red-hover/80 animate-pulse"
+            ></div>
           </div>
         </div>
       </div>
@@ -110,7 +113,7 @@ export class TokenLoginModal extends BaseModal {
     }
     if (this.attemptCount > 3) {
       this.close();
-      alert("Login failed. Please try again later.");
+      showToast("Login failed. Please try again later.", "error");
       return;
     }
     this.attemptCount++;

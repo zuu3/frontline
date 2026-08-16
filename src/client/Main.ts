@@ -47,8 +47,10 @@ import { initLayout } from "./Layout";
 import "./LeaderboardModal";
 import "./Matchmaking";
 import { MatchmakingModal } from "./Matchmaking";
+import "./CheckinModal";
 import { modalRouter } from "./ModalRouter";
 import { updateAccountNavButton } from "./NavAccountButton";
+import { updateCheckinStreakBadge } from "./NavCheckinBadge";
 import { initNavigation } from "./Navigation";
 import "./NewsModal";
 import "./PlayerProfileModal";
@@ -67,6 +69,8 @@ import { genAnonUsername, UsernameInput } from "./UsernameInput";
 import { incrementGamesPlayed, isInIframe, translateText } from "./Utils";
 import "./components/BannedModal";
 import "./components/MarketingConsentToast";
+import "./components/Toast";
+import { showToast, type ToastVariant } from "./components/Toast";
 import { installSafariPinchZoomBlocker } from "./utilities/DisableSafariPinchZoom";
 
 import "./components/DesktopNavBar";
@@ -214,6 +218,10 @@ class Client {
     });
     modalRouter.register("help", { tag: "help-modal", pageId: "page-help" });
     modalRouter.register("news", { tag: "news-modal", pageId: "page-news" });
+    modalRouter.register("checkin", {
+      tag: "checkin-modal",
+      pageId: "page-checkin",
+    });
     modalRouter.register("language", {
       tag: "language-modal",
       pageId: "page-language",
@@ -400,6 +408,11 @@ class Client {
       } else {
         updateAccountNavButton(userMeResponse);
       }
+      updateCheckinStreakBadge(
+        userMeResponse === false
+          ? 0
+          : (userMeResponse.player.dailyCheckin?.streak ?? 0),
+      );
       const isAdFree =
         userMeResponse !== false && userMeResponse.player?.adfree === true;
       window.adsEnabled =
@@ -651,8 +664,11 @@ class Client {
         window.location.pathname + window.location.search,
       );
 
-    const alertAndStrip = (message: string) => {
-      alert(message);
+    const alertAndStrip = (
+      message: string,
+      variant: ToastVariant = "success",
+    ) => {
+      showToast(message, variant);
       strip();
     };
 
@@ -668,7 +684,7 @@ class Client {
       const status = params.get("status");
 
       if (status !== "true") {
-        alertAndStrip("purchase failed");
+        alertAndStrip("purchase failed", "error");
         return;
       }
 
@@ -686,7 +702,7 @@ class Client {
       }
 
       if (type === "subscription_tier") {
-        alert(translateText("store.subscription_purchase_success"));
+        showToast(translateText("store.subscription_purchase_success"));
         strip();
         invalidateUserMe();
         window.location.reload();
@@ -695,7 +711,7 @@ class Client {
 
       const cosmeticName = params.get("cosmetic");
       if (!cosmeticName) {
-        alert("Something went wrong. Please contact support.");
+        showToast("Something went wrong. Please contact support.", "error");
         console.error("purchase-completed but no pattern name");
         return;
       }
@@ -731,6 +747,7 @@ class Client {
       if (!token) {
         alertAndStrip(
           `login failed! Please try again later or contact support.`,
+          "error",
         );
         return;
       }
@@ -1167,7 +1184,10 @@ async function getTurnstileToken(): Promise<{
       "error-callback": (errorCode: string) => {
         window.turnstile.remove(widgetId);
         console.error(`Turnstile error: ${errorCode}`);
-        alert(`Turnstile error: ${errorCode}. Please refresh and try again.`);
+        showToast(
+          `Turnstile error: ${errorCode}. Please refresh and try again.`,
+          "error",
+        );
         reject(new Error(`Turnstile failed: ${errorCode}`));
       },
     });

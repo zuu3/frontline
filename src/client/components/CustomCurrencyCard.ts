@@ -5,6 +5,7 @@ import { translateText } from "../Utils";
 import "./CosmeticContainer";
 import "./PlutoniumIcon";
 import "./PurchaseButton";
+import { showToast } from "./Toast";
 
 // Fixed rate: 20 plutonium = $1.00 (5 cents each). Bounds and rate are
 // enforced server-side; these are for UX only.
@@ -40,7 +41,7 @@ export class CustomCurrencyCard extends LitElement {
   private buy = async () => {
     const url = await createCustomCurrencyCheckout(this.amount);
     if (url === false) {
-      alert(translateText("store.checkout_failed"));
+      showToast(translateText("store.checkout_failed"), "error");
       return;
     }
     window.location.href = url;

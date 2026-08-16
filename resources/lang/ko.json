@@ -23,7 +23,8 @@
     "none": "없음",
     "copied": "복사 완료!",
     "click_to_copy": "클릭하여 복사",
-    "enabled": "켜짐"
+    "enabled": "켜짐",
+    "loading": "불러오는 중..."
   },
   "main": {
     "title": "FrontLine (시험판)",
@@ -48,7 +49,8 @@
     "help": "도움말",
     "menu": "메뉴",
     "troubleshooting": "문제 해결하기",
-    "go_to_troubleshooting": "문제 해결 페이지로 이동"
+    "go_to_troubleshooting": "문제 해결 페이지로 이동",
+    "checkin": "출석체크"
   },
   "news": {
     "github_link": " (깃허브)",
@@ -234,7 +236,8 @@
     "clear_session": "세션 지우기",
     "failed_to_send_recovery_email": "복구 이메일 전송에 실패했습니다",
     "enter_email_address": "이메일 주소를 입력해주세요",
-    "personal_player_id": "개인 플레이어 ID:"
+    "personal_player_id": "개인 플레이어 ID:",
+    "reward_daily_checkin": "출석체크 ({day}일차)"
   },
   "leaderboard_modal": {
     "title": "리더보드",
@@ -976,5 +979,12 @@
     "description": "(시험판)",
     "login_required": "승급전을 플레이하려면 로그인하세요!",
     "must_login": "승급전 매치메이킹을 플레이하려면 로그인해야 합니다."
+  },
+  "checkin": {
+    "claim_button": "{amount} 받기",
+    "claimed_today": "받을 보상이 없어요",
+    "day_label": "{day}일차",
+    "streak_label": "{streak}일 연속 출석",
+    "title": "출석체크"
   }
 }

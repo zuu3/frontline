@@ -11,6 +11,7 @@ import { translateText } from "../Utils";
 import "./baseComponents/Button";
 import "./CapIcon";
 import "./PlutoniumIcon";
+import { showToast } from "./Toast";
 
 // The new state of the rewards list after a claim. `currency` is the fresh
 // post-claim balances, or null when they couldn't be determined (the parent
@@ -47,7 +48,7 @@ export class RewardsPanel extends LitElement {
     try {
       const result = await claimReward(reward.id);
       if (result === false) {
-        alert(translateText("account_modal.claim_failed"));
+        showToast(translateText("account_modal.claim_failed"), "error");
         return;
       }
       invalidateUserMe();
@@ -79,7 +80,7 @@ export class RewardsPanel extends LitElement {
     try {
       const result = await claimAllRewards();
       if (result === false) {
-        alert(translateText("account_modal.claim_failed"));
+        showToast(translateText("account_modal.claim_failed"), "error");
         return;
       }
       invalidateUserMe();
@@ -99,6 +100,15 @@ export class RewardsPanel extends LitElement {
   }
 
   private rewardLabel(reward: Reward): string {
+    // daily_checkin stores its streak day in `note` (see
+    // grantDailyCheckinIfEligible, authserver/db.ts) for the checkin page's
+    // own use -- shown raw here it'd just read as a bare number ("2"), so
+    // this reason is handled before the generic `note` fallback below.
+    if (reward.reason === "daily_checkin") {
+      return translateText("account_modal.reward_daily_checkin", {
+        day: reward.note ?? "?",
+      });
+    }
     if (reward.note) return reward.note;
     if (reward.reason === "subscription_signup_bonus") {
       return translateText("account_modal.reward_signup_bonus");
@@ -132,7 +142,7 @@ export class RewardsPanel extends LitElement {
           </div>
         </div>
         <o-button
-          variant="primary"
+          variant="brand"
           size="xs"
           translationKey="account_modal.claim"
           .disable=${this.claiming}
@@ -153,7 +163,7 @@ export class RewardsPanel extends LitElement {
           </h3>
           ${this.rewards.length > 1
             ? html`<o-button
-                variant="primary"
+                variant="brand"
                 size="xs"
                 translationKey="account_modal.claim_all"
                 .disable=${this.claiming}

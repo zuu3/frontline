@@ -1,4 +1,6 @@
+import { randomUUID } from "crypto";
 import { Pool } from "pg";
+import { dailyCheckinAmountForStreak } from "../core/DailyCheckin";
 
 export const pool = new Pool({
   connectionString:
@@ -25,6 +27,11 @@ export interface Account {
   // pg by default, and no account will realistically earn anywhere near
   // 2^31 from win-based grants.
   soft_currency: number;
+  // Consecutive daily-check-in count (see grantDailyCheckinIfEligible) and
+  // the UTC date it last advanced on. checkin_streak resets to 1 (not 0) on
+  // the next check-in after a missed day -- 0 only means "never checked in".
+  checkin_streak: number;
+  last_checkin_date: string | null; // YYYY-MM-DD (pg date), null = never
 }
 
 export async function initSchema(): Promise<void> {
@@ -45,6 +52,8 @@ export async function initSchema(): Promise<void> {
     -- (the common case once this account was created before this column
     -- existed), so the column also needs an explicit migration here.
     ALTER TABLE accounts ADD COLUMN IF NOT EXISTS soft_currency INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE accounts ADD COLUMN IF NOT EXISTS checkin_streak INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE accounts ADD COLUMN IF NOT EXISTS last_checkin_date DATE;
     CREATE TABLE IF NOT EXISTS refresh_tokens (
       token_hash TEXT PRIMARY KEY,
       account_id UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
@@ -110,6 +119,25 @@ export async function initSchema(): Promise<void> {
       granted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       PRIMARY KEY (account_id, flare)
     );
+    -- Unclaimed/claimed reward grants (matches RewardSchema in
+    -- src/core/ApiSchemas.ts, id/amount round-trip as strings there since
+    -- amount can in principle exceed Number.MAX_SAFE_INTEGER -- BIGINT here
+    -- for the same reason, though every current grant fits an INTEGER).
+    -- id is app-generated (randomUUID(), matching AuthServer.ts's existing
+    -- pattern) rather than DB-generated -- no pgcrypto/uuid-ossp extension
+    -- is set up for gen_random_uuid().
+    CREATE TABLE IF NOT EXISTS rewards (
+      id UUID PRIMARY KEY,
+      account_id UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+      currency_type TEXT NOT NULL,
+      amount BIGINT NOT NULL,
+      reason TEXT NOT NULL,
+      note TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      claimed_at TIMESTAMPTZ
+    );
+    CREATE INDEX IF NOT EXISTS rewards_unclaimed_idx
+      ON rewards (account_id) WHERE claimed_at IS NULL;
   `);
 }
 
@@ -154,6 +182,107 @@ export async function trySpendSoftCurrency(
     [accountId, amount],
   );
   return (rowCount ?? 0) > 0;
+}
+
+export interface RewardRow {
+  id: string;
+  currency_type: string;
+  amount: string; // BIGINT comes back as a string from pg
+  reason: string;
+  note: string | null;
+}
+
+// Grants today's daily-login reward (per DAILY_CHECKIN_SCHEDULE) if this
+// account hasn't already gotten one today (compared in UTC, so the boundary
+// doesn't drift with server TZ). The UPDATE's WHERE clause is the atomicity
+// guard -- it only affects a row (and returns one) for whichever of two
+// near-simultaneous /users/@me calls (e.g. two tabs) gets there first; the
+// loser sees rowCount 0 and grants nothing. checkin_streak advances only when
+// yesterday (UTC) was the last check-in; any gap (or first-ever check-in)
+// resets it to 1.
+export async function grantDailyCheckinIfEligible(
+  accountId: string,
+): Promise<void> {
+  const { rows } = await pool.query<{ checkin_streak: number }>(
+    `UPDATE accounts
+     SET checkin_streak = CASE
+           WHEN last_checkin_date = (now() AT TIME ZONE 'UTC')::date - 1
+           THEN checkin_streak + 1
+           ELSE 1
+         END,
+         last_checkin_date = (now() AT TIME ZONE 'UTC')::date
+     WHERE id = $1
+       AND (last_checkin_date IS NULL
+            OR last_checkin_date < (now() AT TIME ZONE 'UTC')::date)
+     RETURNING checkin_streak`,
+    [accountId],
+  );
+  const streak = rows[0]?.checkin_streak;
+  if (streak === undefined) return; // already checked in today
+  await pool.query(
+    `INSERT INTO rewards (id, account_id, currency_type, amount, reason, note)
+     VALUES ($1, $2, 'soft', $3, 'daily_checkin', $4)`,
+    [
+      randomUUID(),
+      accountId,
+      dailyCheckinAmountForStreak(streak),
+      String(streak),
+    ],
+  );
+}
+
+export async function getUnclaimedRewards(
+  accountId: string,
+): Promise<RewardRow[]> {
+  const { rows } = await pool.query<RewardRow>(
+    `SELECT id, currency_type, amount::text AS amount, reason, note
+     FROM rewards WHERE account_id = $1 AND claimed_at IS NULL
+     ORDER BY created_at`,
+    [accountId],
+  );
+  return rows;
+}
+
+// Atomically claims one reward (only if it belongs to this account and isn't
+// already claimed) and credits the balance. Returns the claimed row, or null
+// if it didn't exist / wasn't this account's / was already claimed -- the
+// caller treats all three as "not_found" (see claimReward()'s doc comment in
+// Api.ts: indistinguishable by design).
+export async function claimRewardRow(
+  accountId: string,
+  rewardId: string,
+): Promise<RewardRow | null> {
+  const { rows } = await pool.query<RewardRow>(
+    `UPDATE rewards SET claimed_at = now()
+     WHERE id = $1 AND account_id = $2 AND claimed_at IS NULL
+     RETURNING id, currency_type, amount::text AS amount, reason, note`,
+    [rewardId, accountId],
+  );
+  const row = rows[0];
+  if (!row) return null;
+  if (row.currency_type === "soft") {
+    await addSoftCurrency(accountId, Number(row.amount));
+  }
+  return row;
+}
+
+// Claims every unclaimed reward for this account in one round trip.
+export async function claimAllRewardRows(
+  accountId: string,
+): Promise<RewardRow[]> {
+  const { rows } = await pool.query<RewardRow>(
+    `UPDATE rewards SET claimed_at = now()
+     WHERE account_id = $1 AND claimed_at IS NULL
+     RETURNING id, currency_type, amount::text AS amount, reason, note`,
+    [accountId],
+  );
+  const softTotal = rows
+    .filter((r) => r.currency_type === "soft")
+    .reduce((sum, r) => sum + Number(r.amount), 0);
+  if (softTotal > 0) {
+    await addSoftCurrency(accountId, softTotal);
+  }
+  return rows;
 }
 
 export async function findAccountByDiscordId(

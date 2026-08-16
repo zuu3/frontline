@@ -10,10 +10,14 @@ import { cosmeticsCatalog } from "./cosmeticsCatalog";
 import {
   Account,
   addSoftCurrency,
+  claimAllRewardRows,
+  claimRewardRow,
   findAccountByDiscordId,
   findAccountByGoogleEmail,
   findAccountById,
   getAccountFlares,
+  getUnclaimedRewards,
+  grantDailyCheckinIfEligible,
   grantFlare,
   initSchema,
   pool,
@@ -138,11 +142,19 @@ async function fetchRankedElo(
 
 async function accountToUserMe(account: Account) {
   const username = account.username_base;
-  const [achievements, leaderboard, flares] = await Promise.all([
+  const [achievements, leaderboard, flares, rewardRows] = await Promise.all([
     fetchSingleplayerAchievements(account.id),
     fetchRankedElo(account.id),
     getAccountFlares(account.id),
+    getUnclaimedRewards(account.id),
   ]);
+  const rewards = rewardRows.map((r) => ({
+    id: r.id,
+    currencyType: r.currency_type as "soft" | "hard",
+    amount: r.amount,
+    reason: r.reason,
+    note: r.note,
+  }));
   return {
     user: {
       discord: account.discord_id
@@ -178,6 +190,15 @@ async function accountToUserMe(account: Account) {
       leaderboard,
       friends: [],
       subscription: null,
+      // Unclaimed rewards -- NOT reflected in `currency` above until the
+      // player claims them (POST /rewards/:id/claim or /rewards/claim-all).
+      // Currently the only source is the daily-login grant (see
+      // grantDailyCheckinIfEligible(), called from /game/:gameId below);
+      // Main.ts auto-opens <rewards-modal> with these on a clean homepage
+      // load.
+      rewards,
+      // See the `dailyCheckin` field comment in ApiSchemas.ts.
+      dailyCheckin: { streak: account.checkin_streak },
     },
   };
 }
@@ -415,6 +436,9 @@ async function main() {
       res.status(401).json({ error: "unauthorized" });
       return;
     }
+    // No grant here on purpose -- daily_checkin only advances from a visit
+    // to playing a game (see grantDailyCheckinIfEligible's call site in
+    // /game/:gameId below), not to visiting any particular page.
     const account = await findAccountById(accountId);
     if (!account) {
       res.status(401).json({ error: "unauthorized" });
@@ -423,11 +447,47 @@ async function main() {
     res.json(await accountToUserMe(account));
   });
 
+  // Claims matching client's claimReward()/claimAllRewards() contracts
+  // exactly (src/client/Api.ts): both return the post-claim balances so the
+  // UI can update without re-fetching /users/@me. A reward that's unknown,
+  // already claimed, or belongs to another account is deliberately
+  // indistinguishable (404) -- see claimReward()'s doc comment.
+  app.post("/rewards/:rewardId/claim", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const claimed = await claimRewardRow(accountId, req.params.rewardId);
+    if (!claimed) {
+      res.status(404).json({ error: "not_found" });
+      return;
+    }
+    const account = await findAccountById(accountId);
+    res.json({ currency: { soft: account?.soft_currency ?? 0, hard: 0 } });
+  });
+
+  app.post("/rewards/claim-all", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const claimed = await claimAllRewardRows(accountId);
+    const account = await findAccountById(accountId);
+    res.json({
+      claimed: claimed.map((r) => ({ id: r.id })),
+      currency: { soft: account?.soft_currency ?? 0, hard: 0 },
+    });
+  });
+
   // Matches purchaseWithCurrency()'s contract exactly (src/client/Api.ts):
   // POST body { cosmeticType, cosmeticName, currencyType, colorPaletteName? },
   // 200 on success, any non-2xx read as failure client-side, 401 logs out.
-  // Only cosmeticType "pattern" and currencyType "soft" are supported --
-  // there is no real-money purchase path (see cosmeticsCatalog.ts).
+  // cosmeticType "pattern" or "effect", currencyType "soft" only -- there is
+  // no real-money purchase path (see cosmeticsCatalog.ts). Rejects (409) a
+  // repurchase of an already-owned flare before charging, since the store
+  // grid hiding owned items is a UI convenience, not the actual guard.
   app.post("/shop/purchase", async (req, res) => {
     const accountId = requireBearerAccountId(req);
     if (!accountId) {
@@ -445,13 +505,33 @@ async function main() {
       return;
     }
     const { cosmeticType, cosmeticName, currencyType } = parsed.data;
-    if (cosmeticType !== "pattern" || currencyType !== "soft") {
+    if (
+      (cosmeticType !== "pattern" && cosmeticType !== "effect") ||
+      currencyType !== "soft"
+    ) {
       res.status(400).json({ error: "unsupported purchase" });
       return;
     }
-    const item = cosmeticsCatalog.patterns[cosmeticName];
+    // Effects are nested catalog.effects[effectType][name]; the name itself
+    // is unique across effect types in this catalog, so search every bucket
+    // rather than requiring the client to also send effectType.
+    const item =
+      cosmeticType === "pattern"
+        ? cosmeticsCatalog.patterns[cosmeticName]
+        : Object.values(cosmeticsCatalog.effects ?? {})
+            .flatMap((byName) => Object.values(byName ?? {}))
+            .find((e) => e.name === cosmeticName);
     if (!item || item.priceSoft === undefined) {
       res.status(404).json({ error: "not found" });
+      return;
+    }
+    const flare = `${cosmeticType}:${cosmeticName}`;
+    // Reject before charging if already owned -- otherwise a stale grid (or a
+    // double-click racing the post-purchase refresh) re-charges an account
+    // for a flare grantFlare() would just no-op on anyway.
+    const flares = await getAccountFlares(accountId);
+    if (flares.includes(flare) || flares.includes(`${cosmeticType}:*`)) {
+      res.status(409).json({ error: "already_owned" });
       return;
     }
     const spent = await trySpendSoftCurrency(accountId, item.priceSoft);
@@ -459,7 +539,7 @@ async function main() {
       res.status(402).json({ error: "insufficient funds" });
       return;
     }
-    await grantFlare(accountId, `pattern:${cosmeticName}`);
+    await grantFlare(accountId, flare);
     res.status(200).json({ ok: true });
   });
 
@@ -808,8 +888,16 @@ async function main() {
         // rowCount === 0 means this exact (game_id, client_id) was already
         // ingested (a retried POST) -- skip the award so a retry can't
         // double-grant currency for the same win.
-        if ((rowCount ?? 0) > 0 && won && accountId) {
-          await addSoftCurrency(accountId, SOFT_CURRENCY_PER_WIN);
+        if ((rowCount ?? 0) > 0 && accountId) {
+          if (won) {
+            await addSoftCurrency(accountId, SOFT_CURRENCY_PER_WIN);
+          }
+          // Daily-checkin streak advances on playing a game (any result),
+          // not on visiting the checkin page or the homepage -- see
+          // grantDailyCheckinIfEligible's doc comment. The checkin page
+          // (CheckinModal.ts) only displays state and claims; it never
+          // triggers a grant itself.
+          await grantDailyCheckinIfEligible(accountId);
         }
       }
 

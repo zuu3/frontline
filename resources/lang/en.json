@@ -43,6 +43,7 @@
     "reactivate_subscription": "Reactivate",
     "recovery_email_sent": "Recovery email sent to {email}",
     "reward_daily": "Daily subscription reward",
+    "reward_daily_checkin": "Daily check-in (Day {day})",
     "reward_signup_bonus": "Subscription signup bonus",
     "sign_in_desc": "Sign in to save your stats and progress",
     "sub_price_monthly": "{price}/mo",
@@ -213,6 +214,13 @@
       "strong": "[P1] is strong.",
       "weak": "[P1] is weak."
     }
+  },
+  "checkin": {
+    "claim_button": "Claim {amount}",
+    "claimed_today": "No reward to claim yet",
+    "day_label": "Day {day}",
+    "streak_label": "{streak} day streak",
+    "title": "Daily Check-in"
   },
   "clan_modal": {
     "applied": "Applied",
@@ -394,6 +402,7 @@
     "duration_minute_short": "min",
     "duration_second_short": "s",
     "enabled": "Enabled",
+    "loading": "Loading...",
     "map_default": "Map default",
     "month_apr": "April",
     "month_aug": "August",
@@ -1004,6 +1013,7 @@
   },
   "main": {
     "account": "Account",
+    "checkin": "Check-in",
     "clans": "Clans",
     "copyright": "© FrontLine and Contributors",
     "create": "Create Lobby",

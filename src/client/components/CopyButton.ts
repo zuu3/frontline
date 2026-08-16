@@ -4,6 +4,7 @@ import { ClientEnv } from "src/client/ClientEnv";
 import { UserSettings } from "../../core/game/UserSettings";
 import { crazyGamesSDK } from "../CrazyGamesSDK";
 import { copyToClipboard, translateText } from "../Utils";
+import { showToast } from "./Toast";
 
 @customElement("copy-button")
 export class CopyButton extends LitElement {
@@ -87,7 +88,7 @@ export class CopyButton extends LitElement {
   async handleCopy() {
     const text = await this.resolveCopyText();
     if (!text) {
-      alert("Error copying game id");
+      showToast("Error copying game id", "error");
       return;
     }
     await copyToClipboard(

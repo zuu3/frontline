@@ -52,6 +52,9 @@ export class DesktopNavBar extends LitElement {
       <nav
         class="hidden lg:flex w-full bg-zinc-900/90 backdrop-blur-md items-center justify-center gap-8 py-4 shrink-0 z-50 relative"
       >
+        <!-- The one pixel-art seam on an otherwise flat modern bar — bookends
+             with the matching rule above the footer. -->
+        <div class="pixel-rule absolute bottom-0 left-0 right-0"></div>
         <div class="flex flex-col items-center justify-center">
           <div class="h-8">
             <img
@@ -64,16 +67,21 @@ export class DesktopNavBar extends LitElement {
         <button
           class="nav-menu-item ${currentPage === "page-play"
             ? "active"
-            : ""} text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+            : ""} text-frontline-red hover:text-frontline-red-hover font-bold tracking-wider uppercase cursor-pointer transition-colors"
           data-page="page-play"
           data-i18n="main.play"
         ></button>
+        <!-- Utility/engagement items start here — separated from Play so the
+             one thing every visitor actually came for doesn't visually
+             collapse into "just another tab" once they've navigated away
+             from it (it used to be identical weight to Help/Settings). -->
+        <div class="w-px h-5 bg-white/10"></div>
         <!-- Desktop Navigation Menu Items -->
         <div class="relative">
           <button
             class="nav-menu-item ${currentPage === "page-news"
               ? "active"
-              : ""} text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+              : ""} text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
             data-page="page-news"
             data-i18n="main.news"
             @click=${this._notifications.onNewsClick}
@@ -93,7 +101,7 @@ export class DesktopNavBar extends LitElement {
           <button
             class="nav-menu-item ${currentPage === "page-item-store"
               ? "active"
-              : ""} text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+              : ""} text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
             data-page="page-item-store"
             data-i18n="main.store"
             @click=${this._notifications.onStoreClick}
@@ -110,23 +118,34 @@ export class DesktopNavBar extends LitElement {
             : ""}
         </div>
         <button
-          class="nav-menu-item text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+          class="nav-menu-item text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
           data-page="page-settings"
           data-i18n="main.settings"
         ></button>
         <button
-          class="nav-menu-item text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+          class="nav-menu-item text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
           data-page="page-leaderboard"
           data-i18n="main.leaderboard"
         ></button>
+        <div class="relative">
+          <button
+            class="nav-menu-item text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
+            data-page="page-checkin"
+            data-i18n="main.checkin"
+          ></button>
+          <span
+            data-checkin-streak
+            class="hidden absolute -top-2 -right-4 text-[11px] font-bold text-orange-400 pointer-events-none whitespace-nowrap"
+          ></span>
+        </div>
         <button
-          class="no-crazygames nav-menu-item text-white/70 hover:text-blue-500 font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-blue-500"
+          class="no-crazygames nav-menu-item text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
           data-page="page-clan"
           data-i18n="main.clans"
         ></button>
         <div class="relative">
           <button
-            class="nav-menu-item text-white/70 hover:text-malibu-blue  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-malibu-blue "
+            class="nav-menu-item text-white/70 hover:text-frontline-red-hover  font-medium tracking-wider uppercase cursor-pointer transition-colors [&.active]:text-frontline-red-hover "
             data-page="page-help"
             data-i18n="main.help"
             @click=${this._notifications.onHelpClick}

@@ -29,6 +29,7 @@ import {
   invalidateUserMe,
   purchaseWithCurrency,
 } from "./Api";
+import { showToast } from "./components/Toast";
 import { showInGameAlert, showInGameConfirm } from "./InGameModal";
 import { isPlayingVerified } from "./UsernameInput";
 import { translateText } from "./Utils";
@@ -167,7 +168,7 @@ export async function purchaseCosmetic(
     method === "hard" ? (priced.priceHard ?? 0) : (priced.priceSoft ?? 0);
   const userMe = await getUserMe();
   if (userMe === false) {
-    alert(translateText("store.login_required"));
+    showToast(translateText("store.login_required"), "error");
     return;
   }
   const balance =
@@ -208,12 +209,23 @@ export async function purchaseCosmetic(
     colorPaletteName,
   );
   if (!success) {
-    alert(translateText("store.purchase_failed"));
+    showToast(translateText("store.purchase_failed"), "error");
     return;
   }
-  alert(translateText("store.purchase_success", { name: c.name }));
+  showToast(translateText("store.purchase_success", { name: c.name }));
+  // A full page reload isn't needed to reflect the new balance/ownership --
+  // re-fetch and re-broadcast the same "userMeResponse" document event
+  // Main.ts fires on every load (Store.ts, AccountModal, the nav currency
+  // badge, etc. all already listen for it and re-render themselves).
   invalidateUserMe();
-  window.location.reload();
+  const fresh = await getUserMe();
+  document.dispatchEvent(
+    new CustomEvent("userMeResponse", {
+      detail: fresh,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
 }
 
 function simpleHash(str: string): string {
