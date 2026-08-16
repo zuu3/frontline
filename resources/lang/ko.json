@@ -986,5 +986,20 @@
     "day_label": "{day}일차",
     "streak_label": "{streak}일 연속 출석",
     "title": "출석체크"
+  },
+  "store": {
+    "tribes_coming_soon": "준비중"
+  },
+  "clan_modal": {
+    "create_clan": "클랜 창설",
+    "create_tag_placeholder": "태그 (영문/숫자 2-5자)",
+    "create_name_placeholder": "클랜 이름",
+    "create_description_placeholder": "설명 (선택)",
+    "create_open_label": "누구나 가입 가능 (체크 해제 시 승인 필요)",
+    "create_submit": "창설하기",
+    "create_invalid_tag": "태그는 영문/숫자 2-5자여야 합니다.",
+    "create_name_required": "클랜 이름을 입력하세요.",
+    "create_insufficient_funds": "캡스가 부족해서 클랜을 만들 수 없어요.",
+    "create_tag_taken": "이미 사용 중인 태그입니다."
   }
 }

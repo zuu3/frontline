@@ -543,8 +543,14 @@ export class ClanModal extends BaseModal {
             @browse-updated=${(e: CustomEvent<BrowseState>) => {
               this.browseCache = e.detail;
             }}
-            @clan-select=${(e: CustomEvent<{ tag: string }>) =>
-              this.openDetail(e.detail.tag)}
+            @clan-select=${(e: CustomEvent<{ tag: string }>) => {
+              // Refreshes myClans/myClanRoles too -- covers selecting a clan
+              // just created (see ClanBrowseView's handleCreate) as well as
+              // any other case where membership changed since this modal
+              // opened, not just creation.
+              this.loadMyClans({ allowGuest: true });
+              this.openDetail(e.detail.tag);
+            }}
           ></clan-browse-view>`}
     `;
   }
@@ -684,7 +690,7 @@ export class ClanModal extends BaseModal {
           </p>
           <button
             @click=${() => this.setActiveTab("browse")}
-            class="px-6 py-2 text-sm font-bold text-white uppercase tracking-wider bg-malibu-blue hover:bg-aquarius active:bg-malibu-blue/80 rounded-lg transition-all"
+            class="px-6 py-2 text-sm font-bold text-white uppercase tracking-wider pixel-notch bg-frontline-red-dim hover:bg-frontline-red-hover active:bg-frontline-red-dim/80 rounded-lg transition-all"
           >
             ${translateText("clan_modal.browse")}
           </button>

@@ -37,6 +37,8 @@ export function clanApiMockFactory() {
       page: 1,
       limit: 20,
     })),
+    CLAN_CREATE_COST_SOFT: 1500,
+    createClan: vi.fn(),
     joinClan: vi.fn(),
     leaveClan: vi.fn(),
     updateClan: vi.fn(),

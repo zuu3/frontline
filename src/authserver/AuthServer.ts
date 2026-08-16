@@ -10,18 +10,52 @@ import { cosmeticsCatalog } from "./cosmeticsCatalog";
 import {
   Account,
   addSoftCurrency,
+  approveClanRequest,
+  banClanMember,
+  browseClans,
   claimAllRewardRows,
   claimRewardRow,
+  clanExists,
+  computeMemberStats,
+  createClan,
+  denyClanRequest,
+  disbandClan,
+  fetchClanBans,
+  fetchClanGames,
+  fetchClanLeaderboard,
+  fetchClanMembers,
+  fetchClanRequests,
   findAccountByDiscordId,
   findAccountByGoogleEmail,
   findAccountById,
+  getAccountClanRequests,
+  getAccountClans,
   getAccountFlares,
+  getAllClanTags,
+  getClan,
+  getMembership,
+  getPlayerStatsBlobs,
+  getPlayerStatsRows,
+  getPublicPlayerGames,
+  saveGamePlayerStats,
   getUnclaimedRewards,
   grantDailyCheckinIfEligible,
   grantFlare,
   initSchema,
+  joinClan,
+  leaveClan,
+  normalizeClanTag,
   pool,
+  removeMember,
+  setMemberRole,
+  transferLeadership,
   trySpendSoftCurrency,
+  unbanClanMember,
+  updateClan,
+  withdrawClanRequest,
+  type ClanMemberWL,
+  type PlayerStatsBlobRow,
+  type PlayerStatsRow,
 } from "./db";
 import { loadOrCreateKeyPair } from "./keys";
 
@@ -142,18 +176,33 @@ async function fetchRankedElo(
 
 async function accountToUserMe(account: Account) {
   const username = account.username_base;
-  const [achievements, leaderboard, flares, rewardRows] = await Promise.all([
-    fetchSingleplayerAchievements(account.id),
-    fetchRankedElo(account.id),
-    getAccountFlares(account.id),
-    getUnclaimedRewards(account.id),
-  ]);
+  const [achievements, leaderboard, flares, rewardRows, clanRows, clanRequestRows] =
+    await Promise.all([
+      fetchSingleplayerAchievements(account.id),
+      fetchRankedElo(account.id),
+      getAccountFlares(account.id),
+      getUnclaimedRewards(account.id),
+      getAccountClans(account.id),
+      getAccountClanRequests(account.id),
+    ]);
   const rewards = rewardRows.map((r) => ({
     id: r.id,
     currencyType: r.currency_type as "soft" | "hard",
     amount: r.amount,
     reason: r.reason,
     note: r.note,
+  }));
+  const clans = clanRows.map((c) => ({
+    tag: c.tag,
+    name: c.name,
+    role: c.role,
+    joinedAt: c.joined_at.toISOString(),
+    memberCount: Number(c.member_count),
+  }));
+  const clanRequests = clanRequestRows.map((r) => ({
+    tag: r.tag,
+    name: r.name,
+    createdAt: r.created_at.toISOString(),
   }));
   return {
     user: {
@@ -199,6 +248,8 @@ async function accountToUserMe(account: Account) {
       rewards,
       // See the `dailyCheckin` field comment in ApiSchemas.ts.
       dailyCheckin: { streak: account.checkin_streak },
+      clans,
+      clanRequests,
     },
   };
 }
@@ -543,6 +594,889 @@ async function main() {
     res.status(200).json({ ok: true });
   });
 
+  // ---- Clans ----
+  // publicId (sent by the client as targetPublicId in mutation bodies) IS
+  // the account id (accountToUserMe: player.publicId = account.id) -- no
+  // separate lookup needed to resolve a target to an accountId.
+
+  function toClanInfo(clan: {
+    tag: string;
+    name: string;
+    description: string;
+    discord_url: string | null;
+    is_open: boolean;
+    created_at: Date;
+    member_count: string;
+  }) {
+    return {
+      tag: clan.tag,
+      name: clan.name,
+      description: clan.description,
+      discordUrl: clan.discord_url,
+      isOpen: clan.is_open,
+      createdAt: clan.created_at.toISOString(),
+      memberCount: Number(clan.member_count),
+    };
+  }
+
+  const EMPTY_WL = { wins: 0, losses: 0 };
+  function toClanMemberStats(stats: Record<string, ClanMemberWL> | undefined) {
+    const keys = [
+      "total", "ffa", "team", "hvn", "duos", "trios", "quads",
+      "2", "3", "4", "5", "6", "7", "ranked", "1v1",
+    ] as const;
+    const out: Record<string, ClanMemberWL> = {};
+    for (const k of keys) out[k] = stats?.[k] ?? EMPTY_WL;
+    return out;
+  }
+
+  // Officers can act on plain members; leaders can act on anyone but
+  // themselves (self-actions go through dedicated endpoints -- leave,
+  // transfer -- not kick/ban).
+  function canModerate(actorRole: string, targetRole: string | null): boolean {
+    if (actorRole === "leader") return targetRole !== "leader";
+    if (actorRole === "officer") return targetRole === "member" || targetRole === null;
+    return false;
+  }
+
+  app.get("/public/clans/leaderboard", async (req, res) => {
+    const board = await fetchClanLeaderboard();
+    res.json({
+      start: board.start.toISOString(),
+      end: board.end.toISOString(),
+      clans: board.clans.map((c) => ({
+        clanTag: c.clan_tag,
+        games: c.games,
+        wins: c.wins,
+        losses: c.losses,
+        playerSessions: c.player_sessions,
+        // ponytail: weight = 1 -- see fetchClanLeaderboard's doc comment.
+        weightedWins: c.wins,
+        weightedLosses: c.losses,
+        weightedWLRatio: c.wins + c.losses > 0 ? c.wins / (c.wins + c.losses) : 0,
+      })),
+    });
+  });
+
+  app.get("/public/clan/:tag/exists", async (req, res) => {
+    const tag = normalizeClanTag(req.params.tag);
+    if (!tag) {
+      res.status(404).end();
+      return;
+    }
+    const exists = await clanExists(tag);
+    res.status(exists ? 200 : 404).end();
+  });
+
+  app.get("/reserved_clan_tags", async (_req, res) => {
+    res.json(await getAllClanTags());
+  });
+
+  const CLAN_CREATE_COST = 1500;
+
+  app.post("/clans", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const CreateClanSchema = z.object({
+      tag: z.string(),
+      name: z.string().trim().min(1).max(35),
+      description: z.string().trim().max(200).optional(),
+      isOpen: z.boolean().optional(),
+    });
+    const parsed = CreateClanSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "invalid request" });
+      return;
+    }
+    const tag = normalizeClanTag(parsed.data.tag);
+    if (!tag) {
+      res.status(400).json({ error: "invalid_tag" });
+      return;
+    }
+    const result = await createClan(
+      accountId,
+      tag,
+      parsed.data.name,
+      parsed.data.description ?? "",
+      parsed.data.isOpen ?? true,
+    );
+    if (!result.ok) {
+      res
+        .status(result.error === "tag_taken" ? 409 : 402)
+        .json({ error: result.error, cost: CLAN_CREATE_COST });
+      return;
+    }
+    res.status(201).json(toClanInfo(result.clan));
+  });
+
+  app.get("/clans", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 20));
+    const search =
+      typeof req.query.search === "string" && req.query.search.length >= 2
+        ? req.query.search
+        : undefined;
+    const { results, total } = await browseClans(search, page, limit);
+    res.json({
+      results: results.map(toClanInfo),
+      total,
+      page,
+      limit,
+    });
+  });
+
+  app.get("/clans/:tag", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const clan = tag ? await getClan(tag) : null;
+    if (!clan) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.json(toClanInfo(clan));
+  });
+
+  app.get("/clans/:tag/members", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    if (!tag || !(await getClan(tag))) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
+    const sort = typeof req.query.sort === "string" ? req.query.sort : "default";
+    const order = req.query.order === "asc" ? "asc" : undefined;
+    const { results, total } = await fetchClanMembers(tag, page, limit, sort, order);
+    const statsMap = await computeMemberStats(results.map((m) => m.account_id));
+    res.json({
+      results: results.map((m) => ({
+        role: m.role,
+        joinedAt: m.joined_at.toISOString(),
+        publicId: m.account_id,
+        username: m.username_base,
+        stats: toClanMemberStats(statsMap.get(m.account_id)),
+      })),
+      total,
+      page,
+      limit,
+    });
+  });
+
+  app.post("/clans/:tag/join", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    if (!tag) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const result = await joinClan(tag, accountId);
+    if (result.status === "not_found") {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (result.status === "banned") {
+      res.status(403).json({ code: "BANNED", reason: result.reason });
+      return;
+    }
+    if (result.status === "already_member") {
+      res.status(409).json({ message: "already a member" });
+      return;
+    }
+    if (result.status === "already_requested") {
+      res.status(409).json({ message: "request already pending" });
+      return;
+    }
+    res.status(200).json({ status: result.status });
+  });
+
+  app.post("/clans/:tag/leave", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    if (!tag) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const result = await leaveClan(tag, accountId);
+    if (result === "is_leader") {
+      res.status(400).json({ error: "leader_must_transfer" });
+      return;
+    }
+    if (!result) {
+      res.status(404).json({ error: "not a member" });
+      return;
+    }
+    res.status(200).json({ ok: true });
+  });
+
+  app.patch("/clans/:tag", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !role) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const PatchClanSchema = z.object({
+      name: z.string().trim().min(1).max(35).optional(),
+      description: z.string().trim().max(200).optional(),
+      discordUrl: z.string().trim().max(255).nullable().optional(),
+      isOpen: z.boolean().optional(),
+    });
+    const parsed = PatchClanSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "invalid request" });
+      return;
+    }
+    // discordUrl edit is leader-only (ClanManageView.ts only renders the
+    // input for leaders; enforced here too, not just hidden client-side).
+    if (parsed.data.discordUrl !== undefined && role !== "leader") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const clan = await updateClan(tag, parsed.data);
+    if (!clan) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.json(toClanInfo(clan));
+  });
+
+  app.delete("/clans/:tag", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !role) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    await disbandClan(tag);
+    res.status(200).json({ ok: true });
+  });
+
+  const TargetPublicIdSchema = z.object({ targetPublicId: z.string() });
+
+  app.post("/clans/:tag/kick", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !role || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const targetRole = await getMembership(tag, parsed.data.targetPublicId);
+    if (!canModerate(role, targetRole)) {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    await removeMember(tag, parsed.data.targetPublicId);
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/promote", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const targetRole = await getMembership(tag, parsed.data.targetPublicId);
+    if (targetRole !== "member") {
+      res.status(400).json({ error: "not a member" });
+      return;
+    }
+    await setMemberRole(tag, parsed.data.targetPublicId, "officer");
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/demote", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const targetRole = await getMembership(tag, parsed.data.targetPublicId);
+    if (targetRole !== "officer") {
+      res.status(400).json({ error: "not an officer" });
+      return;
+    }
+    await setMemberRole(tag, parsed.data.targetPublicId, "member");
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/transfer", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const targetRole = await getMembership(tag, parsed.data.targetPublicId);
+    if (!targetRole) {
+      res.status(400).json({ error: "not a member" });
+      return;
+    }
+    await transferLeadership(tag, accountId, parsed.data.targetPublicId);
+    res.status(200).json({ ok: true });
+  });
+
+  app.get("/clans/:tag/requests", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !role) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
+    const { results, total } = await fetchClanRequests(tag, page, limit);
+    res.json({
+      results: results.map((r) => ({
+        publicId: r.account_id,
+        username: r.username_base,
+        createdAt: r.created_at.toISOString(),
+      })),
+      total,
+      page,
+      limit,
+    });
+  });
+
+  app.post("/clans/:tag/requests/approve", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const ok = await approveClanRequest(tag, parsed.data.targetPublicId);
+    if (!ok) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/requests/deny", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const ok = await denyClanRequest(tag, parsed.data.targetPublicId);
+    if (!ok) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/requests/withdraw", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    if (!tag) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    const ok = await withdrawClanRequest(tag, accountId);
+    if (!ok) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/ban", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const BanSchema = z.object({
+      targetPublicId: z.string(),
+      reason: z.string().trim().max(200).optional(),
+    });
+    const parsed = BanSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const targetRole = await getMembership(tag, parsed.data.targetPublicId);
+    if (targetRole && !canModerate(role, targetRole)) {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    await banClanMember(
+      tag,
+      parsed.data.targetPublicId,
+      accountId,
+      parsed.data.reason ?? null,
+    );
+    res.status(200).json({ ok: true });
+  });
+
+  app.post("/clans/:tag/unban", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const parsed = TargetPublicIdSchema.safeParse(req.body);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !parsed.success) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const ok = await unbanClanMember(tag, parsed.data.targetPublicId);
+    if (!ok) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.status(200).json({ ok: true });
+  });
+
+  app.get("/clans/:tag/bans", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !role) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    if (role !== "leader" && role !== "officer") {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
+    const { results, total } = await fetchClanBans(tag, page, limit);
+    res.json({
+      results: results.map((b) => ({
+        publicId: b.account_id,
+        username: b.username_base,
+        bannedBy: b.banned_by_account_id,
+        bannedByUsername: b.banned_by_username_base,
+        reason: b.reason,
+        createdAt: b.created_at.toISOString(),
+      })),
+      total,
+      page,
+      limit,
+    });
+  });
+
+  app.get("/clans/:tag/games", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const tag = normalizeClanTag(req.params.tag);
+    const role = tag ? await getMembership(tag, accountId) : null;
+    if (!tag || !(await getClan(tag))) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    // Members-only -- matches the client's distinct 403 handling for this
+    // endpoint (see fetchClanGames's status-code doc comment).
+    if (!role) {
+      res.status(403).json({ error: "forbidden" });
+      return;
+    }
+    const filterParsed = z
+      .enum(["ffa", "team", "hvn", "ranked"])
+      .optional()
+      .safeParse(req.query.filter);
+    const cursor = typeof req.query.cursor === "string" ? req.query.cursor : null;
+    const { results, nextCursor } = await fetchClanGames(
+      tag,
+      filterParsed.success ? filterParsed.data : undefined,
+      cursor,
+    );
+    res.json({
+      results: results.map((g) => ({
+        gameId: g.game_id,
+        start: g.ended_at.toISOString(),
+        durationSeconds: g.duration,
+        map: g.game_map ?? undefined,
+        mode: g.game_mode,
+        playerTeams: g.player_teams,
+        rankedType: g.ranked_type ?? undefined,
+        totalPlayers: g.num_players,
+        clanPlayers: g.players.map((p) => ({
+          publicId: p.account_id,
+          username: p.username,
+          verified: true,
+          won: p.won,
+        })),
+      })),
+      nextCursor,
+    });
+  });
+
+  // ---- Player profile stats/history ----
+  // GameType/GameMode keys ("Public"/"Private"/"Singleplayer",
+  // "Free For All"/"Team") are literal string keys the client's
+  // PlayerStatsTreeSchema/GameModeStatsSchema expect to match
+  // GameType/GameMode enum values exactly -- see core/game/Game.ts.
+  // "Humans Vs Nations" is bucketed as its own top-level mode (not nested
+  // under "Team"), matching PlayerStatsGameModes in ApiSchemas.ts.
+  // A row's (typeKey, modeKey, diffKey) bucket, shared by win/loss rows
+  // (PlayerStatsRow) and raw conquest-stats rows (PlayerStatsBlobRow) so a
+  // leaf's wins/losses and its summed `stats` land in the same place.
+  function bucketKey(r: {
+    game_type: string;
+    game_mode: string;
+    player_teams: string | null;
+    difficulty: string | null;
+  }): [type: string, mode: string, diff: string] {
+    const modeKey =
+      r.player_teams === "Humans Vs Nations" ? "Humans Vs Nations" : r.game_mode;
+    return [r.game_type, modeKey, r.difficulty ?? "Medium"];
+  }
+
+  // Element-wise sum of two BigIntString arrays (different-length arrays are
+  // zero-padded to the longer one -- e.g. one game logged 4 gold sources,
+  // another logged 6 after a schema addition).
+  function sumNumArrays(a: string[] | undefined, b: string[] | undefined): string[] {
+    const len = Math.max(a?.length ?? 0, b?.length ?? 0);
+    const out: string[] = [];
+    for (let i = 0; i < len; i++) {
+      out.push((BigInt(a?.[i] ?? "0") + BigInt(b?.[i] ?? "0")).toString());
+    }
+    return out;
+  }
+
+  function sumRecordArrays(
+    a: Record<string, string[]> | undefined,
+    b: Record<string, string[]> | undefined,
+  ): Record<string, string[]> {
+    const out: Record<string, string[]> = { ...a };
+    for (const [k, v] of Object.entries(b ?? {})) {
+      out[k] = sumNumArrays(out[k], v);
+    }
+    return out;
+  }
+
+  // Sums the subset of ArchivedPlayerStatsSchema (core/StatsSchemas.ts) that
+  // the client's stats UI actually displays -- attacks/gold/conquests
+  // (fixed-index arrays) and boats/bombs/units (per-unit-type arrays).
+  // Skips fields that aren't meaningful summed across games (killedBy/
+  // killedAt/deathPosition/finalTiles/kills -- all describe a single game's
+  // ending, not an aggregate).
+  function sumPlayerStats(blobs: unknown[]): Record<string, unknown> {
+    let attacks: string[] | undefined;
+    let gold: string[] | undefined;
+    let conquests: string[] | undefined;
+    let betrayals = 0n;
+    let boats: Record<string, string[]> = {};
+    let bombs: Record<string, string[]> = {};
+    let units: Record<string, string[]> = {};
+    for (const raw of blobs) {
+      const b = raw as {
+        attacks?: string[];
+        gold?: string[];
+        conquests?: string[];
+        betrayals?: string;
+        boats?: Record<string, string[]>;
+        bombs?: Record<string, string[]>;
+        units?: Record<string, string[]>;
+      };
+      attacks = sumNumArrays(attacks, b.attacks);
+      gold = sumNumArrays(gold, b.gold);
+      conquests = sumNumArrays(conquests, b.conquests);
+      betrayals += BigInt(b.betrayals ?? "0");
+      boats = sumRecordArrays(boats, b.boats);
+      bombs = sumRecordArrays(bombs, b.bombs);
+      units = sumRecordArrays(units, b.units);
+    }
+    const out: Record<string, unknown> = {};
+    if (attacks) out.attacks = attacks;
+    if (gold) out.gold = gold;
+    if (conquests) out.conquests = conquests;
+    if (betrayals > 0n) out.betrayals = betrayals.toString();
+    if (Object.keys(boats).length) out.boats = boats;
+    if (Object.keys(bombs).length) out.bombs = bombs;
+    if (Object.keys(units).length) out.units = units;
+    return out;
+  }
+
+  function buildStatsTree(rows: PlayerStatsRow[], blobRows: PlayerStatsBlobRow[]) {
+    const tree: Record<string, Record<string, Record<string, unknown>>> = {};
+    const ranked: Record<string, unknown> = {};
+    const blobsByKey = new Map<string, unknown[]>();
+    const rankedBlobsByType = new Map<string, unknown[]>();
+    for (const r of blobRows) {
+      const key = bucketKey(r).join("|");
+      const list = blobsByKey.get(key) ?? [];
+      list.push(r.stats);
+      blobsByKey.set(key, list);
+      if (r.ranked_type) {
+        const rlist = rankedBlobsByType.get(r.ranked_type) ?? [];
+        rlist.push(r.stats);
+        rankedBlobsByType.set(r.ranked_type, rlist);
+      }
+    }
+    for (const r of rows) {
+      const wins = r.wins;
+      const losses = r.losses;
+      const total = String(Number(r.wins) + Number(r.losses));
+      const [typeKey, modeKey, diffKey] = bucketKey(r);
+      const key = [typeKey, modeKey, diffKey].join("|");
+      const leaf = {
+        wins,
+        losses,
+        total,
+        stats: sumPlayerStats(blobsByKey.get(key) ?? []),
+      };
+      if (!tree[typeKey]) tree[typeKey] = {};
+      // Multiple raw rows (e.g. different player_teams values that all fall
+      // under generic "Team") can collapse onto the same tree leaf -- merge
+      // rather than overwrite.
+      if (!tree[typeKey][modeKey]) tree[typeKey][modeKey] = {};
+      const existing = tree[typeKey][modeKey][diffKey] as
+        | { wins: string; losses: string; total: string }
+        | undefined;
+      tree[typeKey][modeKey][diffKey] = existing
+        ? {
+            wins: String(Number(existing.wins) + Number(wins)),
+            losses: String(Number(existing.losses) + Number(losses)),
+            total: String(Number(existing.total) + Number(total)),
+            stats: leaf.stats,
+          }
+        : leaf;
+      if (r.ranked_type) {
+        const existingRanked = ranked[r.ranked_type] as
+          | { wins: string; losses: string; total: string }
+          | undefined;
+        const rankedLeaf = {
+          wins,
+          losses,
+          total,
+          stats: sumPlayerStats(rankedBlobsByType.get(r.ranked_type) ?? []),
+        };
+        ranked[r.ranked_type] = existingRanked
+          ? {
+              wins: String(Number(existingRanked.wins) + Number(wins)),
+              losses: String(Number(existingRanked.losses) + Number(losses)),
+              total: String(Number(existingRanked.total) + Number(total)),
+              stats: rankedLeaf.stats,
+            }
+          : rankedLeaf;
+      }
+    }
+    return { ...tree, Ranked: ranked };
+  }
+
+  async function buildPlayerProfile(accountId: string) {
+    const account = await findAccountById(accountId);
+    if (!account) return null;
+    const [statsRows, statsBlobRows, clanRows] = await Promise.all([
+      getPlayerStatsRows(accountId),
+      getPlayerStatsBlobs(accountId),
+      getAccountClans(accountId),
+    ]);
+    return {
+      createdAt: account.created_at.toISOString(),
+      username: account.username_base,
+      stats: buildStatsTree(statsRows, statsBlobRows),
+      clans: clanRows.map((c) => ({
+        tag: c.tag,
+        name: c.name,
+        role: c.role,
+        joinedAt: c.joined_at.toISOString(),
+        memberCount: Number(c.member_count),
+      })),
+    };
+  }
+
+  app.get("/player/:publicId", async (req, res) => {
+    const accountId = requireBearerAccountId(req);
+    if (!accountId) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+    const profile = await buildPlayerProfile(req.params.publicId);
+    if (!profile) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.json(profile);
+  });
+
+  app.get("/public/player/:publicId", async (req, res) => {
+    const profile = await buildPlayerProfile(req.params.publicId);
+    if (!profile) {
+      res.status(404).json({ error: "not found" });
+      return;
+    }
+    res.json(profile);
+  });
+
+  app.get("/public/player/:publicId/games", async (req, res) => {
+    const modeParsed = z
+      .enum(["ffa", "team", "hvn", "ranked"])
+      .optional()
+      .safeParse(req.query.filter);
+    const typeParsed = z
+      .enum(["public", "private", "singleplayer"])
+      .optional()
+      .safeParse(req.query.type);
+    const cursor = typeof req.query.cursor === "string" ? req.query.cursor : null;
+    const { results, nextCursor } = await getPublicPlayerGames(
+      req.params.publicId,
+      modeParsed.success ? modeParsed.data : undefined,
+      typeParsed.success ? typeParsed.data : undefined,
+      cursor,
+    );
+    res.json({
+      results: results.map((g) => ({
+        gameId: g.game_id,
+        start: g.ended_at.toISOString(),
+        durationSeconds: g.duration,
+        map: g.game_map ?? "",
+        mode: g.game_mode,
+        type: g.game_type,
+        playerTeams: g.player_teams,
+        // "unranked" sentinel, not null -- matches formatGameType()'s check
+        // in GameTypeLabels.ts (`rankedType && rankedType !== "unranked"`).
+        rankedType: g.ranked_type ?? "unranked",
+        result: g.won ? "victory" : "defeat",
+        totalPlayers: g.num_players,
+        username: g.username ?? "",
+        // Historical per-game clan tag isn't tracked (game_players has no
+        // clan_tag column) -- always null until that's added.
+        clanTag: null,
+      })),
+      nextCursor,
+    });
+  });
+
   app.put("/users/@me/username", async (req, res) => {
     const accountId = requireBearerAccountId(req);
     if (!accountId) {
@@ -847,14 +1781,30 @@ async function main() {
       const info = req.body?.info;
       const gameId = req.params.gameId;
       const config = info?.config ?? {};
-      const players: { clientID: string; persistentID: string | null }[] =
-        info?.players ?? [];
+      const players: {
+        clientID: string;
+        persistentID: string | null;
+        // ArchivedPlayerStatsSchema (core/StatsSchemas.ts) -- already present
+        // on every archived player record; stored verbatim in
+        // game_player_stats for the profile stats aggregation. Untyped here
+        // (not re-declaring the full schema) since this handler only passes
+        // it through to storage, never reads individual fields.
+        stats?: unknown;
+      }[] = info?.players ?? [];
       const winner: [string, ...string[]] | undefined = info?.winner;
       const rankedType: "1v1" | "2v2" | undefined = config.rankedType;
+      // Stringified for clan game-history/stat-bucket labelling (see
+      // GameTypeLabels.ts's formatGameType()) -- config.playerTeams is
+      // number|string on the wire (number for "N Teams", string for the
+      // named presets like "Duos"/"Humans Vs Nations").
+      const playerTeams: string | null =
+        config.playerTeams === undefined || config.playerTeams === null
+          ? null
+          : String(config.playerTeams);
 
       await pool.query(
-        `INSERT INTO games (game_id, game_type, game_mode, ranked_type, game_map, difficulty, duration)
-         VALUES ($1,$2,$3,$4,$5,$6,$7)
+        `INSERT INTO games (game_id, game_type, game_mode, ranked_type, game_map, difficulty, duration, player_teams, num_players)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
          ON CONFLICT (game_id) DO NOTHING`,
         [
           gameId,
@@ -864,6 +1814,8 @@ async function main() {
           config.gameMap ?? null,
           config.difficulty ?? null,
           info?.duration ?? 0,
+          playerTeams,
+          players.length || null,
         ],
       );
 
@@ -898,6 +1850,9 @@ async function main() {
           // (CheckinModal.ts) only displays state and claims; it never
           // triggers a grant itself.
           await grantDailyCheckinIfEligible(accountId);
+        }
+        if ((rowCount ?? 0) > 0 && accountId && p.stats) {
+          await saveGamePlayerStats(gameId, accountId, p.stats);
         }
       }
 

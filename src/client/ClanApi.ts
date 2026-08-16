@@ -217,6 +217,54 @@ export async function fetchClanMembers(
   }
 }
 
+// Must match CLAN_CREATE_COST in AuthServer.ts -- kept as a plain constant
+// (not fetched) since it's one number that changes about as often as any
+// other hardcoded price in this file's callers.
+export const CLAN_CREATE_COST_SOFT = 1500;
+
+export async function createClan(
+  tag: string,
+  name: string,
+  description: string,
+  isOpen: boolean,
+): Promise<ClanInfo | { error: string }> {
+  try {
+    const res = await clanFetch(`/clans`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tag, name, description, isOpen }),
+    });
+    if (res.status === 401) {
+      return { error: "clan_modal.sign_in_for_clans" };
+    }
+    if (res.status === 402) {
+      return { error: "clan_modal.create_insufficient_funds" };
+    }
+    if (res.status === 409) {
+      return { error: "clan_modal.create_tag_taken" };
+    }
+    if (res.status === 400) {
+      const body = await res.json().catch(() => ({}));
+      if ((body as { error?: string }).error === "invalid_tag") {
+        return { error: "clan_modal.create_invalid_tag" };
+      }
+      return { error: "clan_modal.error_failed" };
+    }
+    if (!res.ok) {
+      return { error: "clan_modal.error_failed" };
+    }
+    const json = await res.json();
+    const parsed = ClanInfoSchema.safeParse(json);
+    if (!parsed.success) {
+      console.warn("createClan: Zod validation failed", parsed.error);
+      return { error: "clan_modal.error_failed" };
+    }
+    return parsed.data;
+  } catch {
+    return { error: "clan_modal.error_network" };
+  }
+}
+
 export async function joinClan(
   tag: string,
 ): Promise<

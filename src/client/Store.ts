@@ -10,7 +10,6 @@ import "./components/CurrencyDisplay";
 import "./components/CustomCurrencyCard";
 import "./components/EffectsGrid";
 import "./components/NotLoggedInWarning";
-import "./components/TribesPanel";
 import { modalHeader } from "./components/ui/ModalHeader";
 import {
   fetchCosmetics,
@@ -23,7 +22,6 @@ import { translateText } from "./Utils";
 type StoreTab =
   | "cosmetics"
   | "effects"
-  | "merch"
   | "packs"
   | "subscriptions"
   | "tribes";
@@ -51,7 +49,6 @@ export class StoreModal extends BaseModal {
         { key: "cosmetics", label: translateText("store.cosmetics") },
         { key: "effects", label: translateText("store.effects") },
         { key: "tribes", label: translateText("store.tribes") },
-        { key: "merch", label: translateText("store.merch") },
       ],
     };
   }
@@ -242,38 +239,18 @@ export class StoreModal extends BaseModal {
     `;
   }
 
-  private renderMerchPanel(): TemplateResult {
+  // Placeholder for a tab whose backend isn't built yet -- currently just
+  // Tribes (the client purchase/boost/stats flow exists in full, but
+  // /users/@me/tribe_names* has no server route at all, so <tribes-panel>
+  // would just show load errors).
+  private renderComingSoon(): TemplateResult {
     return html`
       <div
-        class="flex flex-col items-center justify-center gap-6 p-12 min-h-[300px]"
+        class="flex flex-col items-center justify-center gap-2 p-12 min-h-[300px] text-center"
       >
-        <p class="text-white/70 text-lg text-center">
-          ${translateText("store.merch_blurb")}
+        <p class="text-white/70 text-lg font-bold">
+          ${translateText("store.tribes_coming_soon")}
         </p>
-        <a
-          href="https://merch.openfront.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center justify-center gap-3 rounded-xl bg-malibu-blue hover:bg-aquarius text-white font-bold uppercase tracking-wider py-4 px-8 text-lg lg:text-xl transition-all duration-300 transform hover:-translate-y-px"
-        >
-          ${translateText("store.merch_visit_store")}
-          <svg
-            class="h-5 w-5 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path
-              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-            />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
-        </a>
       </div>
     `;
   }
@@ -367,24 +344,16 @@ export class StoreModal extends BaseModal {
     switch (key as StoreTab) {
       case "cosmetics":
         return this.renderCosmeticsPanel();
-      case "merch":
-        return this.renderMerchPanel();
       case "effects":
         return this.renderEffectGrid();
       case "subscriptions":
         return this.renderSubscriptionGrid();
       case "tribes":
-        return this.renderTribeGrid();
+        return this.renderComingSoon();
       case "packs":
       default:
         return this.renderPackGrid();
     }
-  }
-
-  private renderTribeGrid(): TemplateResult {
-    return html`<tribes-panel
-      .userMeResponse=${this.userMeResponse}
-    ></tribes-panel>`;
   }
 
   private renderAffiliateGrid(): TemplateResult {
