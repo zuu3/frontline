@@ -14,7 +14,6 @@ import {
 import {
   discordLogin,
   googleLogin,
-  linkGoogle,
   logOut,
   reauthAfterCrazyGamesChange,
   sendMagicLink,
@@ -255,26 +254,12 @@ export class AccountModal extends BaseModal {
     `;
   }
 
-  // No verified email on the account yet. Offer both ways to attach one:
-  // a magic link to a plain email (the backend associates a not-yet-registered
-  // email with the current session — the "new-association" path), or linking a
-  // Google account. Reuses the login form's email field/handlers.
+  // No verified email on the account yet. Offer a magic link to a plain
+  // email (the backend associates a not-yet-registered email with the
+  // current session — the "new-association" path). Reuses the login form's
+  // email field/handlers.
   private renderEmailBinding(): TemplateResult {
-    return html`
-      <div class="mt-4 space-y-3">
-        ${this.renderEmailField()}
-        <div class="flex items-center gap-4 py-1">
-          <div class="h-px bg-white/10 flex-1"></div>
-          <span
-            class="text-[10px] uppercase tracking-widest text-white/30 font-bold"
-          >
-            ${translateText("account_modal.or")}
-          </span>
-          <div class="h-px bg-white/10 flex-1"></div>
-        </div>
-        ${this.renderLinkGoogleButton()}
-      </div>
-    `;
+    return html`<div class="mt-4 space-y-3">${this.renderEmailField()}</div>`;
   }
 
   // Shared email input + "get magic link" button, used by both the sign-in form
@@ -574,8 +559,7 @@ export class AccountModal extends BaseModal {
     if (me?.discord) {
       return html`
         <div class="flex flex-col items-center gap-3 w-full">
-          ${this.renderCurrency()} ${this.renderGoogleLink()}
-          ${this.renderLogoutButton()}
+          ${this.renderCurrency()} ${this.renderLogoutButton()}
         </div>
       `;
     } else if (me?.google) {
@@ -597,57 +581,11 @@ export class AccountModal extends BaseModal {
               account_name: me.email,
             })}
           </div>
-          ${this.renderCurrency()} ${this.renderGoogleLink()}
-          ${this.renderLogoutButton()}
+          ${this.renderCurrency()} ${this.renderLogoutButton()}
         </div>
       `;
     }
     return html``;
-  }
-
-  // Show the Google link state: a confirmation line when a Google account is
-  // already linked, otherwise the button to link one.
-  private renderGoogleLink(): TemplateResult {
-    const google = this.userMeResponse?.user?.google;
-    if (google) {
-      const label = google.email
-        ? translateText("account_modal.linked_to_google_email", {
-            email: google.email,
-          })
-        : translateText("account_modal.linked_to_google");
-      return html`
-        <div class="flex items-center gap-2 text-white/70 text-sm">
-          <img
-            src=${assetUrl("images/GoogleLogo.svg")}
-            alt=${translateText("account_modal.google_alt")}
-            class="w-4 h-4"
-          />
-          <span>${label}</span>
-        </div>
-      `;
-    }
-    return this.renderLinkGoogleButton();
-  }
-
-  // Shown when logged in without a Google identity yet. Lets the user attach
-  // Google to their existing account (we never auto-merge by email).
-  private renderLinkGoogleButton(): TemplateResult {
-    if (this.userMeResponse?.user?.google) return html``;
-    return html`
-      <button
-        @click=${this.handleLinkGoogle}
-        class="w-full px-6 py-3 text-[#1f1f1f] bg-white hover:bg-[#f7f8f8] border border-[#dadce0] rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4285F4] transition-colors duration-200 flex items-center justify-center gap-3 shadow-lg"
-      >
-        <img
-          src=${assetUrl("images/GoogleLogo.svg")}
-          alt=${translateText("account_modal.google_alt")}
-          class="w-5 h-5"
-        />
-        <span class="font-bold tracking-wide"
-          >${translateText("account_modal.link_google")}</span
-        >
-      </button>
-    `;
   }
 
   private async viewGame(gameId: string): Promise<void> {
@@ -851,49 +789,8 @@ export class AccountModal extends BaseModal {
     googleLogin();
   }
 
-  private async handleLinkGoogle(): Promise<void> {
-    // On success linkGoogle navigates to Google; the result comes back as a
-    // `link=...` router arg handled in handleLinkResult. A false return means we
-    // couldn't start it.
-    const started = await linkGoogle();
-    if (!started) {
-      showToast(translateText("account_modal.link_google_failed"), "error");
-    }
-  }
-
-  // The Google link callback returns us to #modal=account&link=<result>, so the
-  // router reopens this modal with a `link` arg. Surface the outcome, then strip
-  // the one-shot param from the URL so a refresh/re-open doesn't replay it.
-  private handleLinkResult(args?: Record<string, unknown>): void {
-    const link = typeof args?.link === "string" ? args.link : undefined;
-    if (link === undefined) return;
-
-    // replaceState doesn't fire hashchange, so removing the param won't re-route.
-    const params = new URLSearchParams(window.location.hash.slice(1));
-    params.delete("link");
-    const rest = params.toString();
-    history.replaceState(
-      null,
-      "",
-      rest ? `#${rest}` : window.location.pathname + window.location.search,
-    );
-
-    // "cancel" needs no feedback — the user chose to back out.
-    if (link === "google") {
-      showToast(translateText("account_modal.link_google_success"));
-    } else if (link === "already_linked") {
-      showToast(
-        translateText("account_modal.link_google_already_linked"),
-        "error",
-      );
-    } else if (link === "error") {
-      showToast(translateText("account_modal.link_google_error"), "error");
-    }
-  }
-
-  protected onOpen(args?: Record<string, unknown>): void {
+  protected onOpen(): void {
     this.isLoadingUser = true;
-    this.handleLinkResult(args);
 
     this.refreshCrazyGamesUser();
 

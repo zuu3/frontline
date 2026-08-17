@@ -916,7 +916,11 @@ export function getApiBase() {
     );
   }
 
-  return `https://api.${domainname}`;
+  // ClientEnv.jwtIssuer() already applies the server-injected apiOrigin
+  // override (falls back to `https://api.${domainname}` when unset) -- see
+  // ServerEnv.apiOrigin()'s doc comment for why the plain "api." prefix
+  // isn't always reachable (e.g. wildcard cert coverage).
+  return ClientEnv.jwtIssuer();
 }
 
 export function getAudience() {

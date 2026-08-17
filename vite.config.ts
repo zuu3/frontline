@@ -212,6 +212,7 @@ export default defineConfig(({ mode }) => {
       env.TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA",
     ),
     jwtAudience: JSON.stringify(env.DOMAIN ?? "localhost"),
+    apiOrigin: JSON.stringify(env.API_ORIGIN_OVERRIDE ?? null),
     instanceId: JSON.stringify(env.INSTANCE_ID ?? "DEV_ID"),
     manifestHref: buildAssetUrl("manifest.json", assetManifest, cdnBase),
     faviconHref: buildAssetUrl("images/Favicon.png", assetManifest, cdnBase),

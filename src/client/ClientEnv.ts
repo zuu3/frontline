@@ -40,6 +40,9 @@ export class ClientEnv {
       numWorkers: bc.numWorkers,
       turnstileSiteKey: bc.turnstileSiteKey,
       jwtAudience: bc.jwtAudience,
+      // Absent on older cached HTML shells mid-deploy -- treat as "no
+      // override" rather than throwing, same tolerance as serverHost below.
+      apiOrigin: bc.apiOrigin ?? null,
       instanceId: bc.instanceId,
       gitCommit: bc.gitCommit,
       // Optional: only the desktop app injects an explicit game-server host.
@@ -77,9 +80,8 @@ export class ClientEnv {
     // ON the dev box itself; testers reach this box through a tunneled
     // domain, so use a same-origin path vite proxies to the local auth
     // server instead (mirrors Api.ts's getApiBase()).
-    return audience === "localhost"
-      ? `${window.location.origin}/authapi`
-      : `https://api.${audience}`;
+    if (audience === "localhost") return `${window.location.origin}/authapi`;
+    return ClientEnv.get().apiOrigin ?? `https://api.${audience}`;
   }
   static async jwkPublicKey(): Promise<JWK> {
     if (ClientEnv.publicKey) return ClientEnv.publicKey;
@@ -164,6 +166,7 @@ export interface ClientEnvValues {
   numWorkers: number;
   turnstileSiteKey: string;
   jwtAudience: string;
+  apiOrigin: string | null;
   instanceId: string;
   gitCommit: string;
   serverHost?: string;

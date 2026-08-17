@@ -28,6 +28,7 @@ export async function renderHtmlContent(htmlPath: string): Promise<string> {
     numWorkers: JSON.stringify(ServerEnv.numWorkers()),
     turnstileSiteKey: JSON.stringify(ServerEnv.turnstileSiteKey()),
     jwtAudience: JSON.stringify(ServerEnv.jwtAudience()),
+    apiOrigin: JSON.stringify(ServerEnv.apiOrigin()),
     instanceId: JSON.stringify(ServerEnv.instanceId()),
     manifestHref: buildAssetUrl("manifest.json", assetManifest, cdnBase),
     faviconHref: buildAssetUrl("images/Favicon.svg", assetManifest, cdnBase),

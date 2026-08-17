@@ -82,6 +82,7 @@
         numWorkers: <%- numWorkers %>,
         turnstileSiteKey: <%- turnstileSiteKey %>,
         jwtAudience: <%- jwtAudience %>,
+        apiOrigin: <%- apiOrigin %>,
         instanceId: <%- instanceId %>,<%- typeof serverHost !== "undefined" && serverHost ? "\n        serverHost: " + serverHost + "," : "" %>
       };
       document.documentElement.style.setProperty(

@@ -96,6 +96,16 @@ export class ServerEnv {
       ? "http://localhost:8787"
       : `https://api.${audience}`;
   }
+  // Browser-facing auth API origin, injected into BOOTSTRAP_CONFIG so the
+  // client doesn't have to independently derive `api.${audience}` (which
+  // breaks when the auth hostname isn't a plain "api." prefix of the game
+  // domain -- e.g. a second-level subdomain like api.fl.zuu3.kr falls
+  // outside Cloudflare's default *.zuu3.kr wildcard cert, so a sibling
+  // hostname like api-fl.zuu3.kr is used instead). null means "no
+  // override, client computes the default api.<domain> itself".
+  static apiOrigin(): string | null {
+    return process.env.API_ORIGIN_OVERRIDE ?? null;
+  }
   static async jwkPublicKey(): Promise<JWK> {
     if (ServerEnv.publicKey) return ServerEnv.publicKey;
     const jwksUrl = ServerEnv.jwtIssuer() + "/.well-known/jwks.json";

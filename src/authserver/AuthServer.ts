@@ -122,7 +122,12 @@ async function issueSession(
     .setSubject(uuidToBase64url(accountId))
     .setIssuedAt(now)
     .setIssuer(ISSUER)
-    .setAudience("localhost")
+    // Must match ClientEnv.jwtAudience() (= DOMAIN) exactly -- Auth.ts's
+    // client-side check only skips aud comparison when ITS OWN audience is
+    // "localhost", so a real DOMAIN here has to actually be the real
+    // domain, not a hardcoded "localhost" that happened to never get
+    // exercised until a deploy set DOMAIN to something else.
+    .setAudience(process.env.DOMAIN ?? "localhost")
     .setExpirationTime(now + ACCESS_TOKEN_TTL_SECONDS)
     .sign(privateKey);
 
@@ -263,6 +268,35 @@ async function main() {
   // Full game records carry per-turn history and can get large on long
   // games -- express's 100kb default is too small.
   app.use(express.json({ limit: "50mb" }));
+
+  // The game client and this auth service now live on separate hostnames
+  // (e.g. fl.zuu3.kr vs api-fl.zuu3.kr) in any deploy where the auth
+  // hostname isn't a literal "api." prefix of the game domain (see
+  // ServerEnv.apiOrigin()'s doc comment) -- browsers treat that as
+  // cross-origin, so the credentialed fetches in src/client/Auth.ts
+  // (credentials: "include") need an explicit CORS allowlist or the
+  // refresh_token cookie never makes it back, silently logging players out
+  // on next visit. Only ever reflects the game domain itself, not "*",
+  // since Access-Control-Allow-Credentials forbids a wildcard origin.
+  const ALLOWED_ORIGIN =
+    process.env.DOMAIN && process.env.DOMAIN !== "localhost"
+      ? `https://${process.env.DOMAIN}`
+      : null;
+  app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && origin === ALLOWED_ORIGIN) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Vary", "Origin");
+    }
+    if (req.method === "OPTIONS") {
+      res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+      res.status(204).end();
+      return;
+    }
+    next();
+  });
 
   app.get("/.well-known/jwks.json", (_req, res) => {
     res.json({ keys: [publicJwk] });

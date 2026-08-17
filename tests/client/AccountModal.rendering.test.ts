@@ -104,10 +104,7 @@ describe("AccountModal — rendering", () => {
     await modal.updateComplete;
   }
 
-  // Pins `account_modal.link_google` *positively*, so a rename of the key
-  // breaks this test loudly instead of the assertion silently decaying into
-  // a no-op.
-  it("shows the Google-link CTA for a Discord user", async () => {
+  it("shows the logged-in view for a Discord user", async () => {
     const userMe = makeUserMe({
       discord: {
         id: "1",
@@ -120,8 +117,6 @@ describe("AccountModal — rendering", () => {
     await setLoggedInUser(userMe);
 
     const text = modal.textContent ?? "";
-
-    expect(text).toContain("account_modal.link_google");
 
     // Still a logged-in view, not the login-options screen.
     expect(modal.querySelector("currency-display")).toBeTruthy();

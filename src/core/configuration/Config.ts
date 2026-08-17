@@ -33,6 +33,10 @@ declare global {
       numWorkers?: number;
       turnstileSiteKey?: string;
       jwtAudience?: string;
+      // Server-injected override for the auth API's public origin; null
+      // means "no override, client derives https://api.<jwtAudience>".
+      // See ServerEnv.apiOrigin()'s doc comment.
+      apiOrigin?: string | null;
       instanceId?: string;
       // Desktop-only: explicit game-server host for the WebSocket origin.
       // Absent on the web build (client falls back to same-origin location).
