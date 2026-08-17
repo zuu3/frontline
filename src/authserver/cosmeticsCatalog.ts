@@ -55,6 +55,35 @@ function pattern(
 // Sorted by rarity tier (common -> uncommon -> rare -> epic) so the catalog
 // source matches the intended store ordering.
 const PATTERNS: Cosmetics["patterns"] = {
+  // -- custom (100) --
+  // BSSM (Busan Software Meister High School) logo skins, requested by the
+  // server owner (their own school) -- fixed price 100 outside the rarity
+  // tiers below, so not routed through pattern()'s PRICE_BY_RARITY lookup.
+  // Encoded from the school's own public logo assets (Wikimedia Commons /
+  // school YouTube channel), alpha-threshold (no dither) at 48x48/64x64 so
+  // the ring/wordmark stay crisp instead of dissolving into dither noise.
+  // Pinned first (object insertion order = store grid order, see
+  // Cosmetics.ts's resolveCosmetics()) rather than sorted by rarity like
+  // everything else here.
+  bssm_badge: {
+    name: "bssm_badge",
+    product: null,
+    rarity: "common",
+    priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
+    pattern:
+      "AHC5__8DgP___38AAP7__x8AAPj__wcAAOD__wMAAMD__wAAAAD_fwAAAAD-PwAAAAD8HwAAAAD4HwDgDwD4DwD8PwDwBwD__wDgB8Cf8QPgA-AP8AfAA_AP4A_AAfAP8A-AAfif-R-AAciTATCAAIwDADAAAIwDADAAAA4AwHEAAA4AwHEAAI4jxHEAAI4jxHEAAA4gBHAAAA5gBnAAAB7wD3gAAP7__38AAAYoAGAAAARAACAAAAQBACAAAQAAACCAAfgEYBuAAXAAAA6AA3AAAA7AA2AAEAbAB8D__wPgBwD__wDgDwD__wDwHwAAAAD4HwAAAAD4PwAAAAD8PwAAAAD8PwAAAAD4HwAAAAD4DwAAAADw_wMAAMD__wMAAMD_",
+  },
+  bssm_wordmark: {
+    name: "bssm_wordmark",
+    product: null,
+    rarity: "common",
+    priceSoft: 100,
+    colorPalettes: PALETTE_NAMES,
+    pattern:
+      "APD5_______________________________________________________________________________________________________________________________________________7v___________________qqv-_________________6q7_v________________-qq_7_________________-______________________________f9_93d_8_-q-iq6qq_n_9X9X_VVX9v_gPiKuqqv5__V_V__V__z-qKqq7-r_-f1VVXf31X_2_iAiMqui__n9VFV3_9X__P7oLLrr6v_5__R9f__Vf_b_4Dw766L_-f_0fX__1f_8_-g8--vq__n_dRV_81V39v4gIPvyoqv5_VRV__VVV__-qij_-q6r-__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________8",
+  },
+
   // -- common (300) --
   // Kept from the original procedural textile batch -- the rest (plain
   // stripes/dots/noise-style ones) were pruned as low quality now that
@@ -111,32 +140,6 @@ const PATTERNS: Cosmetics["patterns"] = {
   lonely_heart: pattern("lonely_heart", "epic", "ANBYD_wDPwAPwAFgABgAAIBgAAAADwAA8AAAAAYAAAAAAAAAAAAAAAAAAAAAAQAAGAAAgAMAADwAAMAHAAD-AADwHwCA_wMA_H8A4P8PAP__A_z___D_"),
   fluffy_nap: pattern("fluffy_nap", "epic", "AIjp_________________________________________________________d______13_9____f__3____f93V_____3Vd_____9_V3f___________3_d3f3____3______9fFV39____f_X3____39Vd_____19d_f___13V1f____93d______d1f3_____f______f1VH9____________393d____________f9Xd_f___________9_d3f____________9XVd3_____________3V31______93____f1VV_f___________9XdVf3_____f_f__39VVVX9______X___9f3V3V____V1V1____V1VV1f___1VV____V1VVVfX_f3VVVff__1VVVVX9_39dVfX__99VVVVV__9fV1V1_39VVVVV1f__11VV___fXV1V3fX__________________________________________________w8"),
   tabby_trot: pattern("tabby_trot", "epic", "ABjS__________________________________________________________________________________________X_____________________Vf________9f__________9H_f_______19V_f_______1VV________f1X1________RAT8______9fVdX_______9XVfT__39VVVVVff___09ERERExf___1VVVVX1_f__V1VVVVX1____VVVVVX_9__9fRERERNX___9XVVVVd____39VVVVV1f___19VVVV9_____0VERERV____f1VVVfX3____V1VVVVX9____VXVX1f____9fRFREVPX___9XVVdVf____39VRVRV1f___19VVVd9_f___0UEUEVV____V9VfVXX1____VPVHVFX9__9fVX9V1dX__0_kxA9cfPT__1Vd_dVXV___f8RXf3T11f__VX_1V19d_f9fxE_8wMVH__9X_dVffXX1_____9VfVF_9____f_VX__f_____R35AffX_____________________________________________________________________Pw"),
-
-  // -- custom (100) --
-  // BSSM (Busan Software Meister High School) logo skins, requested by the
-  // server owner (their own school) -- fixed price 100 outside the rarity
-  // tiers above, so not routed through pattern()'s PRICE_BY_RARITY lookup.
-  // Encoded from the school's own public logo assets (Wikimedia Commons /
-  // school YouTube channel), alpha-threshold (no dither) at 48x48/64x64 so
-  // the ring/wordmark stay crisp instead of dissolving into dither noise.
-  bssm_badge: {
-    name: "bssm_badge",
-    product: null,
-    rarity: "common",
-    priceSoft: 100,
-    colorPalettes: PALETTE_NAMES,
-    pattern:
-      "AHC5__8DgP___38AAP7__x8AAPj__wcAAOD__wMAAMD__wAAAAD_fwAAAAD-PwAAAAD8HwAAAAD4HwDgDwD4DwD8PwDwBwD__wDgB8Cf8QPgA-AP8AfAA_AP4A_AAfAP8A-AAfif-R-AAciTATCAAIwDADAAAIwDADAAAA4AwHEAAA4AwHEAAI4jxHEAAI4jxHEAAA4gBHAAAA5gBnAAAB7wD3gAAP7__38AAAYoAGAAAARAACAAAAQBACAAAQAAACCAAfgEYBuAAXAAAA6AA3AAAA7AA2AAEAbAB8D__wPgBwD__wDgDwD__wDwHwAAAAD4HwAAAAD4PwAAAAD8PwAAAAD8PwAAAAD4HwAAAAD4DwAAAADw_wMAAMD__wMAAMD_",
-  },
-  bssm_wordmark: {
-    name: "bssm_wordmark",
-    product: null,
-    rarity: "common",
-    priceSoft: 100,
-    colorPalettes: PALETTE_NAMES,
-    pattern:
-      "APD5_______________________________________________________________________________________________________________________________________________7v___________________qqv-_________________6q7_v________________-qq_7_________________-______________________________f9_93d_8_-q-iq6qq_n_9X9X_VVX9v_gPiKuqqv5__V_V__V__z-qKqq7-r_-f1VVXf31X_2_iAiMqui__n9VFV3_9X__P7oLLrr6v_5__R9f__Vf_b_4Dw766L_-f_0fX__1f_8_-g8--vq__n_dRV_81V39v4gIPvyoqv5_VRV__VVV__-qij_-q6r-__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________8",
-  },
 };
 
 // Effects: animated recolors (trails/structures/warship/detonations), a
