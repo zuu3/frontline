@@ -102,8 +102,13 @@ export async function initSchema(): Promise<void> {
       account_id UUID REFERENCES accounts(id) ON DELETE SET NULL,
       username TEXT,
       won BOOLEAN NOT NULL,
+      -- Clan tag as displayed in THIS game (PlayerRecordSchema.clanTag from
+      -- the archive payload), not the account's current clan -- a player may
+      -- switch/leave clans after playing, so this is a per-game snapshot.
+      clan_tag TEXT,
       PRIMARY KEY (game_id, client_id)
     );
+    ALTER TABLE game_players ADD COLUMN IF NOT EXISTS clan_tag TEXT;
     CREATE INDEX IF NOT EXISTS game_players_account_idx ON game_players (account_id);
     -- ponytail: simplified team-average Elo (real accounts only; guest
     -- opponents are priced at DEFAULT_ELO for the calculation but never
@@ -1198,6 +1203,7 @@ export async function getPublicPlayerGames(
     num_players: number | null;
     username: string | null;
     won: boolean;
+    clan_tag: string | null;
   }[];
   nextCursor: string | null;
 }> {
@@ -1239,9 +1245,10 @@ export async function getPublicPlayerGames(
     num_players: number | null;
     username: string | null;
     won: boolean;
+    clan_tag: string | null;
   }>(
     `SELECT g.game_id, g.ended_at, g.duration, g.game_map, g.game_mode, g.game_type,
-            g.player_teams, g.ranked_type, g.num_players, gp.username, gp.won
+            g.player_teams, g.ranked_type, g.num_players, gp.username, gp.won, gp.clan_tag
      FROM games g JOIN game_players gp ON gp.game_id = g.game_id
      WHERE gp.account_id = $1 ${modeClause} ${typeClause} ${cursorClause}
      ORDER BY g.ended_at DESC, g.game_id DESC

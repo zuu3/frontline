@@ -1469,9 +1469,7 @@ async function main() {
         result: g.won ? "victory" : "defeat",
         totalPlayers: g.num_players,
         username: g.username ?? "",
-        // Historical per-game clan tag isn't tracked (game_players has no
-        // clan_tag column) -- always null until that's added.
-        clanTag: null,
+        clanTag: g.clan_tag,
       })),
       nextCursor,
     });
@@ -1784,6 +1782,7 @@ async function main() {
       const players: {
         clientID: string;
         persistentID: string | null;
+        clanTag?: string | null;
         // ArchivedPlayerStatsSchema (core/StatsSchemas.ts) -- already present
         // on every archived player record; stored verbatim in
         // game_player_stats for the profile stats aggregation. Untyped here
@@ -1832,10 +1831,17 @@ async function main() {
         }
         const won = winningClientIds.has(p.clientID);
         const { rowCount } = await pool.query(
-          `INSERT INTO game_players (game_id, client_id, account_id, username, won)
-           VALUES ($1,$2,$3,$4,$5)
+          `INSERT INTO game_players (game_id, client_id, account_id, username, won, clan_tag)
+           VALUES ($1,$2,$3,$4,$5,$6)
            ON CONFLICT (game_id, client_id) DO NOTHING`,
-          [gameId, p.clientID, accountId, (p as { username?: string }).username ?? null, won],
+          [
+            gameId,
+            p.clientID,
+            accountId,
+            (p as { username?: string }).username ?? null,
+            won,
+            p.clanTag ?? null,
+          ],
         );
         // rowCount === 0 means this exact (game_id, client_id) was already
         // ingested (a retried POST) -- skip the award so a retry can't
