@@ -89,7 +89,9 @@
     "username_temporary_prompt": "Ваше имя было взято другим игроком. Выбрать новое? Это бесплатно.",
     "username_temporary_prompt_confirm": "Выберите имя",
     "username_title": "Имя игрока",
-    "your_subscription": "Ваша подписка"
+    "your_subscription": "Ваша подписка",
+    "link_existing_account": "Привязать существующий аккаунт",
+    "reward_daily_checkin": "Ежедневный чек-ин (День {day})"
   },
   "build_menu": {
     "desc": {
@@ -102,10 +104,12 @@
       "missile_silo": "Используется для запуска ракет",
       "port": "Отправляет торговые корабли для генерации золота",
       "sam_launcher": "Защищает от ядерных ударов",
-      "warship": "Захватывает торговые суда, уничтожает корабли и суда"
+      "warship": "Захватывает торговые суда, уничтожает корабли и суда",
+      "forward_base": "Служит дополнительным источником снабжения, ослабляя штраф линии снабжения при дальних атаках"
     },
     "not_enough_money": "Недостаточно средств",
-    "warship_shift_hint": "Удерживайте Shift и перетаскивайте, чтобы выбрать несколько военных кораблей сразу"
+    "warship_shift_hint": "Удерживайте Shift и перетаскивайте, чтобы выбрать несколько военных кораблей сразу",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -359,7 +363,17 @@
     "transfer_leadership": "Передать лидерство",
     "transfer_warning": "Выбранный участник станет новым лидером. Вы станете обычным участником. Это действие невозможно отменить.",
     "unban": "Разблокировать",
-    "history_game_id": "ID игры"
+    "history_game_id": "ID игры",
+    "create_clan": "Создать клан",
+    "create_description_placeholder": "Описание (необязательно)",
+    "create_insufficient_funds": "Недостаточно крышек, чтобы создать клан.",
+    "create_invalid_tag": "Тег должен состоять из 2-5 букв или цифр.",
+    "create_name_placeholder": "Название клана",
+    "create_name_required": "Введите название клана.",
+    "create_open_label": "Может вступить любой (снимите галочку, чтобы требовать одобрение)",
+    "create_submit": "Создать",
+    "create_tag_placeholder": "ТЕГ (2-5 букв)",
+    "create_tag_taken": "Этот тег уже занят."
   },
   "common": {
     "available": "Доступно",
@@ -399,7 +413,8 @@
     "summary_keep": "Остаток",
     "summary_send": "Перевод",
     "target_dead": "Цель устранена",
-    "target_dead_note": "Невозможно отправить ресурсы устранённому игроку."
+    "target_dead_note": "Невозможно отправить ресурсы устранённому игроку.",
+    "loading": "Загрузка..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Вы можете атаковать отсоединившихся игроков, даже если вы с ними союзники.",
@@ -430,7 +445,8 @@
     "unlimited_ranked_info": "Неограниченное количество рейтинговых матчей.",
     "usd_value": "Цена: {usd}",
     "verified_name": "Подтверждённое имя игрока",
-    "verified_name_info": "Ваше имя игрока закреплено за вашим аккаунтом и отображается в игре со значком подтверждения."
+    "verified_name_info": "Ваше имя игрока закреплено за вашим аккаунтом и отображается в игре со значком подтверждения.",
+    "signup_bonus": "Бонус за регистрацию"
   },
   "difficulty": {
     "difficulty": "Сложность наций",
@@ -453,7 +469,8 @@
     "title": "Часы Судного дня",
     "unstable": "Нестабильны",
     "you": "Вы: {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "Угасание: -{rate} клеток/с"
   },
   "doomsday_clock_speed": {
     "fast": "Быстро",
@@ -528,13 +545,17 @@
     "trade_ship_captured": "{name} захватывает ваш торговый корабль",
     "unit_destroyed": "Ваш юнит «{unit}» был уничтожен",
     "unit_voluntarily_deleted": "Юнит добровольно удалён",
-    "wants_to_renew_alliance": "{name} хочет продлить ваш союз"
+    "wants_to_renew_alliance": "{name} хочет продлить ваш союз",
+    "capital_captured": "Вы захватили столицу {name} и разграбили {gold} золота!",
+    "capital_fallen": "Ваша столица пала под натиском {name}! Она была перенесена.",
+    "supply_line_weak": "Линии снабжения растянуты: эта атака слабее на {percent}% из-за удалённости от столицы"
   },
   "featured_stream": {
     "expand": "Развернуть",
     "live": "В ЭФИРЕ",
     "minimize": "Свернуть",
-    "open_on_twitch": "Открыть {channel} на Twitch"
+    "open_on_twitch": "Открыть {channel} на Twitch",
+    "hide_today": "Скрыть на сегодня"
   },
   "flag_input": {
     "button_title": "Выбери флаг!",
@@ -606,7 +627,8 @@
   },
   "game_mode": {
     "ffa": "Каждый против каждого (FFA)",
-    "teams": "Команды"
+    "teams": "Команды",
+    "hvn": "Люди против наций (HvN)"
   },
   "game_starting_modal": {
     "code_license": "Код лицензирован согласно AGPL-3.0 (без гарантий)",
@@ -821,7 +843,18 @@
     "ui_wilderness": "Пустошь",
     "ui_your_team": "Ваша команда:",
     "video_tutorial": "Видеоинструкция",
-    "video_tutorial_title": "Руководство FrontLine"
+    "video_tutorial_title": "Руководство FrontLine",
+    "build_forward_base": "Передовая база",
+    "build_forward_base_desc": "Служит дополнительным источником снабжения для атак поблизости, снижая штраф линий снабжения у линии фронта. Не улучшается.",
+    "mechanic_capital_fall": "Падение столицы",
+    "mechanic_capital_fall_desc": "Захватите именно ту клетку, на которой стоит столица врага, и вы разграбите часть его золота. Ему придётся перенести столицу куда-нибудь на оставшуюся территорию. Столица каждого игрока отмечена на карте значком короны (ваша — золотая, чужие — белые), так что вы всегда знаете, куда бить.",
+    "mechanic_directed_attack": "Направленные атаки",
+    "mechanic_directed_attack_desc": "Нажмите на клетку-цель перед атакой, и ваши войска устремятся к ней вместо равномерного распределения по всей границе. Переключатель рядом с ползунком соотношения атаки меняет режим между направленной атакой и равномерным распределением.",
+    "mechanic_oil_rig": "Нефтяная вышка",
+    "mechanic_oil_rig_desc": "Редкая ресурсная клетка, приносящая пассивный доход золотом её владельцу.",
+    "mechanic_supply_lines": "Линии снабжения и передовая база",
+    "mechanic_supply_lines_desc": "Атаки слабеют по мере удаления от вашей столицы. Постройте передовую базу у линии фронта, чтобы получить дополнительный источник снабжения и компенсировать штраф.",
+    "mechanics_title": "Механики FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Анонимные игроки",
@@ -984,7 +1017,8 @@
     "title": "FrontLine (АЛЬФА)",
     "troubleshooting": "Устранение неполадок",
     "user_avatar_alt": "Аватар {username}",
-    "wiki": "Вики"
+    "wiki": "Вики",
+    "checkin": "Чек-ин"
   },
   "map": {
     "achiran": "Акиран",
@@ -1108,7 +1142,8 @@
     "world": "Мир",
     "worldinverted": "Инвертированный мир",
     "yellowsea": "Жёлтое море",
-    "yenisei": "Енисей"
+    "yenisei": "Енисей",
+    "yangtzeriver": "Река Янцзы"
   },
   "map_categories": {
     "africa": "Африка",
@@ -1175,7 +1210,8 @@
     "ranked_title": "Рейтинговая игра",
     "teams_count": "Команды: {teamCount}",
     "teams_of": "Команды: {teamCount} по {playersPerTeam}",
-    "teams_title": "Команды"
+    "teams_title": "Команды",
+    "ranked_pairing_note": "В командных режимах соклановцы и друзья из очереди по возможности попадают в одну команду. Сначала распределяются пары друзей, затем соклановцы. Если ваш рейтинг слишком сильно отличается, вас распределят отдельно, чтобы игра оставалась честной."
   },
   "new_lobby_prompt": {
     "confirm": "Создать новое лобби? Все игроки получат приглашение.",
@@ -1296,7 +1332,17 @@
     },
     "war": "Войны",
     "weapon": "Оружие",
-    "workers": "Рабочие"
+    "workers": "Рабочие",
+    "attack_stats": "Статистика атак",
+    "betrayals": "Предательства",
+    "diplomacy_stats": "Дипломатия",
+    "gold_stats": "Статистика золота",
+    "incoming": "Входящие",
+    "intercepted": "Перехвачено",
+    "piracy": "Пиратство",
+    "trains": "Поезда",
+    "trains_external": "Чужие поезда",
+    "warship_stats": "Статистика военных кораблей"
   },
   "player_stats_tree": {
     "mode": "Режим",
@@ -1310,7 +1356,39 @@
     "stats_games_played": "Игр сыграно",
     "stats_losses": "Поражения",
     "stats_wins": "Победы",
-    "stats_wlr": "Соотношение побед:поражений"
+    "stats_wlr": "Соотношение побед:поражений",
+    "all": "Все",
+    "stats_cities_per_game": "Построено городов",
+    "stats_defense_posts_per_game": "Построено укреплений",
+    "stats_factories_per_game": "Построено фабрик",
+    "stats_group_buildings": "Сооружения",
+    "stats_group_combat": "Бой",
+    "stats_group_gold": "Заработано золота",
+    "stats_group_naval": "Флот",
+    "stats_last_100": "Последние 100",
+    "stats_nukes_launched_per_game": "Запущено бомб",
+    "stats_others_train_gold_per_game": "Золото от чужих поездов",
+    "stats_outgoing_short": "Исходящие",
+    "stats_per_game_suffix": "/ игра",
+    "stats_piracy_gold_per_game": "Золото от пиратства",
+    "stats_played": "Сыграно",
+    "stats_ports_per_game": "Построено портов",
+    "stats_summary": "Сводка результатов",
+    "stats_trade_arrived_per_game": "Прибыло торговых кораблей",
+    "stats_trade_arrived_short": "Торговля прибыла",
+    "stats_trade_captured_per_game": "Захвачено торговых кораблей",
+    "stats_trade_captured_short": "Торговля захвачена",
+    "stats_trade_gold_per_game": "Золото от торговли",
+    "stats_train_gold_per_game": "Золото от поездов",
+    "stats_transports_landed_per_game": "Высажено транспортов",
+    "stats_transports_landed_short": "Транспорт высажен",
+    "stats_transports_sent_per_game": "Отправлено транспортов",
+    "stats_transports_sent_short": "Транспорт отправлен",
+    "stats_troops_incoming_per_game": "Входящая атака",
+    "stats_troops_sent_per_game": "Исходящая атака",
+    "stats_victories": "Победы",
+    "stats_warships_built_per_game": "Построено военных кораблей",
+    "stats_win_rate": "Процент побед"
   },
   "player_type": {
     "bot": "Племя",
@@ -1379,7 +1457,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Нажмите, чтобы удалить ближайший юнит",
-    "delete_unit_title": "Удалить юнит"
+    "delete_unit_title": "Удалить юнит",
+    "upgrade_x": "Улучшить x{amount}"
   },
   "relation": {
     "default": "По умолчанию",
@@ -1502,7 +1581,19 @@
     "tribes_login_required": "Войдите, чтобы покупать названия племён и управлять ими.",
     "tribes_purchase_description": "Ваше имя будет присвоено боту-племени в настоящих сетевых матчах. Оно станет доступно сразу же.",
     "tribes_purchase_heading": "Покупка названия племени",
-    "your_tribes_heading": "Ваши названия племён"
+    "your_tribes_heading": "Ваши названия племён",
+    "cosmetics": "Косметика",
+    "tribe_stats_boosted": "Буст ×{multiplier}",
+    "tribe_stats_button": "Статистика",
+    "tribe_stats_failed": "Не удалось загрузить статистику. Попробуйте позже.",
+    "tribe_stats_games": "Игры",
+    "tribe_stats_lifetime": "За всё время",
+    "tribe_stats_owner": "Владелец",
+    "tribe_stats_reach": "Охват игроков",
+    "tribe_stats_reach_tooltip": "Встречалось в играх с {count} игроками",
+    "tribe_stats_window": "Последние {days} дн. ({start} – {end})",
+    "tribe_stats_window_short": "Последние {days} дн.",
+    "tribes_coming_soon": "Скоро"
   },
   "streaming_now": {
     "live_count": "{count} в эфире",
@@ -1573,7 +1664,8 @@
     "missile_silo": "Ракетная шахта",
     "port": "Порт",
     "sam_launcher": "ПУ ЗРК",
-    "warship": "Военный корабль"
+    "warship": "Военный корабль",
+    "forward_base": "Передовая база"
   },
   "user_setting": {
     "alert_frame_desc": "Переключить рамку тревоги. При включении рамка будет отображаться, когда вас предают или атакуют по суше.",
@@ -1707,7 +1799,13 @@
     "zoom_in": "Приблизить",
     "zoom_in_desc": "Приблизить карту",
     "zoom_out": "Отдалить",
-    "zoom_out_desc": "Отдалить карту"
+    "zoom_out_desc": "Отдалить карту",
+    "build_forward_base": "Разместить передовую базу",
+    "build_forward_base_desc": "Разместить передовую базу под курсором.",
+    "section_display": "Экран",
+    "section_gameplay": "Геймплей",
+    "section_interface": "Интерфейс",
+    "section_privacy": "Конфиденциальность"
   },
   "username": {
     "account_invalid_chars": "Имя игрока может содержать только латинские буквы, цифры, подчёркивания и дефисы.",
@@ -1746,5 +1844,36 @@
     "you_won": "Вы победили!",
     "your_team": "Ваша команда победила!",
     "youtube_tutorial": "Нужна помощь?"
+  },
+  "ban_notice": {
+    "appeal": "Если вы считаете, что это ошибка, свяжитесь с нами в Discord.",
+    "category": {
+      "cheating": "Читерство или использование стороннего ПО",
+      "child_safety": "Нарушение правил безопасности детей",
+      "disruptive_play": "Деструктивное поведение, гриферство или спам",
+      "exploiting": "Использование багов",
+      "harassment": "Домогательства, угрозы или оскорбления",
+      "hate_speech": "Разжигание ненависти или дискриминация",
+      "inappropriate_content": "Неприемлемый или откровенный контент",
+      "multi_accounting": "Мультиаккаунтинг / обход блокировки",
+      "offensive_identifier": "Оскорбительное имя, тег клана или флаг",
+      "other": "Нарушение пользовательского соглашения",
+      "rank_manipulation": "Манипуляция рангом или рейтингом",
+      "teaming": "Объединение в команды или сговор"
+    },
+    "permanent": "Эта блокировка постоянна.",
+    "reason": "Причина: {reason}",
+    "title": "Ваш аккаунт заблокирован",
+    "until": "Заблокирован до {date}."
+  },
+  "checkin": {
+    "claim_button": "Получить {amount}",
+    "claimed_today": "Пока нет доступной награды",
+    "day_label": "День {day}",
+    "streak_label": "Серия: {streak} дн.",
+    "title": "Ежедневный чек-ин"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Осталась одна минута!"
   }
 }

@@ -89,7 +89,9 @@
     "username_temporary_prompt": "Ваше ім’я гравця було зайняте іншим гравцем. Обрати нове зараз? Перейменування безплатне.",
     "username_temporary_prompt_confirm": "Оберіть ім’я",
     "username_title": "Ім’я гравця",
-    "your_subscription": "Ваша підписка"
+    "your_subscription": "Ваша підписка",
+    "link_existing_account": "Приєднати наявний акаунт",
+    "reward_daily_checkin": "Щоденна відмітка (День {day})"
   },
   "build_menu": {
     "desc": {
@@ -102,10 +104,12 @@
       "missile_silo": "Використовується для запуску ракет",
       "port": "Відправляє торгові кораблі для генерації золота",
       "sam_launcher": "Захищає від ядерних ударів",
-      "warship": "Захоплює торгові судна, знищує кораблі та судна"
+      "warship": "Захоплює торгові судна, знищує кораблі та судна",
+      "forward_base": "Діє як додаткове джерело постачання, послаблюючи штраф лінії постачання для дальніх атак"
     },
     "not_enough_money": "Недостатньо коштів",
-    "warship_shift_hint": "Утримуйте Shift і перетягуйте, щоб виділити декілька військових кораблів одночасно"
+    "warship_shift_hint": "Утримуйте Shift і перетягуйте, щоб виділити декілька військових кораблів одночасно",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -359,7 +363,17 @@
     "transfer_leadership": "Передати лідерство",
     "transfer_warning": "Обраний учасник стане новим лідером. Ви станете звичайним учасником. Цю дію неможливо скасувати.",
     "unban": "Розблокувати",
-    "history_game_id": "ID гри"
+    "history_game_id": "ID гри",
+    "create_clan": "Створити клан",
+    "create_description_placeholder": "Опис (необов’язково)",
+    "create_insufficient_funds": "Недостатньо Кришечок, щоб створити клан.",
+    "create_invalid_tag": "Тег має складатися з 2–5 літер/цифр.",
+    "create_name_placeholder": "Назва клану",
+    "create_name_required": "Введіть назву клану.",
+    "create_open_label": "Будь-хто може вступити (зніміть прапорець, щоб вимагати підтвердження)",
+    "create_submit": "Створити",
+    "create_tag_placeholder": "ТЕГ (2-5 літер)",
+    "create_tag_taken": "Цей тег вже зайнятий."
   },
   "common": {
     "available": "Доступно",
@@ -399,7 +413,8 @@
     "summary_keep": "Залишок",
     "summary_send": "Переказ",
     "target_dead": "Ціль знищено",
-    "target_dead_note": "Неможливо надіслати ресурси полеглому гравцю."
+    "target_dead_note": "Неможливо надіслати ресурси полеглому гравцю.",
+    "loading": "Завантаження..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Ви можете атакувати гравців, які від’єдналися, навіть якщо ви союзники з ними.",
@@ -430,7 +445,8 @@
     "unlimited_ranked_info": "Необмежена кількість рейтингових матчів.",
     "usd_value": "Ціна: {usd}",
     "verified_name": "Підтверджене ім’я гравця",
-    "verified_name_info": "Ваше ім’я гравця зарезервоване для вашого акаунту і показується в грі зі значком підтвердження."
+    "verified_name_info": "Ваше ім’я гравця зарезервоване для вашого акаунту і показується в грі зі значком підтвердження.",
+    "signup_bonus": "Бонус за реєстрацію"
   },
   "difficulty": {
     "difficulty": "Складність націй",
@@ -453,7 +469,8 @@
     "title": "Годинник Судного дня",
     "unstable": "Нестабільний",
     "you": "Ви: {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "Спад: -{rate} клітинок/с"
   },
   "doomsday_clock_speed": {
     "fast": "Швидко",
@@ -528,13 +545,17 @@
     "trade_ship_captured": "{name} захоплює ваш торговий корабель",
     "unit_destroyed": "Ваш юніт «{unit}» було знищено",
     "unit_voluntarily_deleted": "Юніт добровільно видалено",
-    "wants_to_renew_alliance": "{name} хоче поновити ваш союз"
+    "wants_to_renew_alliance": "{name} хоче поновити ваш союз",
+    "capital_captured": "Ви захопили столицю гравця {name} і пограбували {gold} золота!",
+    "capital_fallen": "Вашу столицю захопив {name}! Її було перенесено.",
+    "supply_line_weak": "Лінії постачання розтягнуті: ця атака на {percent}% слабша через відстань від вашої столиці"
   },
   "featured_stream": {
     "expand": "Розгорнути",
     "live": "НАЖИВО",
     "minimize": "Згорнути",
-    "open_on_twitch": "Відкрити {channel} на Twitch"
+    "open_on_twitch": "Відкрити {channel} на Twitch",
+    "hide_today": "Приховати на сьогодні"
   },
   "flag_input": {
     "button_title": "Обери прапор!",
@@ -606,7 +627,8 @@
   },
   "game_mode": {
     "ffa": "Усі проти всіх",
-    "teams": "Команди"
+    "teams": "Команди",
+    "hvn": "Люди проти націй"
   },
   "game_starting_modal": {
     "code_license": "Код ліцензовано під AGPL-3.0 (без гарантій)",
@@ -821,7 +843,18 @@
     "ui_wilderness": "Пустир",
     "ui_your_team": "Ваша команда:",
     "video_tutorial": "Відеопосібник",
-    "video_tutorial_title": "Посібник з FrontLine"
+    "video_tutorial_title": "Посібник з FrontLine",
+    "build_forward_base": "Передова база",
+    "build_forward_base_desc": "Слугує додатковим джерелом постачання для атак, запущених поблизу неї, зменшуючи штраф ліній постачання біля фронту. Не покращується.",
+    "mechanic_capital_fall": "Падіння столиці",
+    "mechanic_capital_fall_desc": "Захопіть саме ту клітинку, на якій стоїть столиця ворога, і ви пограбуєте частину його золота. Йому доведеться перенести столицю кудись на територію, що в нього залишилась. Столиця кожного гравця позначена на мапі значком корони (ваша — золота, чужі — білі), тож ви завжди знатимете, куди завдати удар.",
+    "mechanic_directed_attack": "Спрямовані атаки",
+    "mechanic_directed_attack_desc": "Клацніть на цільову клітинку перед атакою, і ваші війська рушать до неї, замість того щоб рівномірно розтікатися по всьому кордону. Перемикач біля повзунка коефіцієнта атаки перемикає між спрямованою та рівномірною атакою.",
+    "mechanic_oil_rig": "Нафтова вишка",
+    "mechanic_oil_rig_desc": "Рідкісна ресурсна клітинка, яка дає пасивний дохід золота тому, хто нею володіє.",
+    "mechanic_supply_lines": "Лінії постачання та передова база",
+    "mechanic_supply_lines_desc": "Атаки слабшають, що далі вони проходять від вашої столиці. Побудуйте передову базу ближче до фронту, щоб вона слугувала додатковим джерелом постачання й компенсувала штраф.",
+    "mechanics_title": "Механіки FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Анонімні гравці",
@@ -984,7 +1017,8 @@
     "title": "FrontLine (АЛЬФА)",
     "troubleshooting": "Усунення неполадок",
     "user_avatar_alt": "Аватар {username}",
-    "wiki": "Вікі"
+    "wiki": "Вікі",
+    "checkin": "Відмітка"
   },
   "map": {
     "achiran": "Акіран",
@@ -1108,7 +1142,8 @@
     "world": "Світ",
     "worldinverted": "Інвертований світ",
     "yellowsea": "Жовте море",
-    "yenisei": "Єнісей"
+    "yenisei": "Єнісей",
+    "yangtzeriver": "Річка Янцзи"
   },
   "map_categories": {
     "africa": "Африка",
@@ -1175,7 +1210,8 @@
     "ranked_title": "Рейтингова гра",
     "teams_count": "Команди: {teamCount}",
     "teams_of": "Команди: {teamCount} по {playersPerTeam}",
-    "teams_title": "Команди"
+    "teams_title": "Команди",
+    "ranked_pairing_note": "У командних режимах друзі та учасники клану в черзі за можливості потрапляють в одну команду. Спочатку об’єднуються друзі, потім учасники клану. Якщо різниця рейтингів завелика, вас розподілять окремо, щоб гра залишалася справедливою."
   },
   "new_lobby_prompt": {
     "confirm": "Створити нове лобі? Усі гравці будуть запрошені.",
@@ -1296,7 +1332,17 @@
     },
     "war": "Війни",
     "weapon": "Зброя",
-    "workers": "Робітники"
+    "workers": "Робітники",
+    "attack_stats": "Статистика атак",
+    "betrayals": "Зради",
+    "diplomacy_stats": "Дипломатія",
+    "gold_stats": "Статистика золота",
+    "incoming": "Вхідні",
+    "intercepted": "Перехоплено",
+    "piracy": "Піратство",
+    "trains": "Поїзди",
+    "trains_external": "Поїзди інших",
+    "warship_stats": "Статистика військових кораблів"
   },
   "player_stats_tree": {
     "mode": "Режим",
@@ -1310,7 +1356,39 @@
     "stats_games_played": "Зіграні ігри",
     "stats_losses": "Невдачі",
     "stats_wins": "Перемоги",
-    "stats_wlr": "Коефіцієнт П:Н"
+    "stats_wlr": "Коефіцієнт П:Н",
+    "all": "Усе",
+    "stats_cities_per_game": "Побудовані міста",
+    "stats_defense_posts_per_game": "Побудовані пункти оборони",
+    "stats_factories_per_game": "Побудовані фабрики",
+    "stats_group_buildings": "Будівлі",
+    "stats_group_combat": "Бойові дії",
+    "stats_group_gold": "Зароблене золото",
+    "stats_group_naval": "Флот",
+    "stats_last_100": "Останні 100",
+    "stats_nukes_launched_per_game": "Запущені бомби",
+    "stats_others_train_gold_per_game": "Золото від чужих поїздів",
+    "stats_outgoing_short": "Вихідні",
+    "stats_per_game_suffix": "/ гру",
+    "stats_piracy_gold_per_game": "Золото з піратства",
+    "stats_played": "Зіграно",
+    "stats_ports_per_game": "Побудовані порти",
+    "stats_summary": "Огляд результатів",
+    "stats_trade_arrived_per_game": "Прибулі торгові кораблі",
+    "stats_trade_arrived_short": "Прибуло",
+    "stats_trade_captured_per_game": "Захоплені торгові кораблі",
+    "stats_trade_captured_short": "Захоплено",
+    "stats_trade_gold_per_game": "Золото з торгівлі",
+    "stats_train_gold_per_game": "Золото з поїздів",
+    "stats_transports_landed_per_game": "Приземлені транспортні кораблі",
+    "stats_transports_landed_short": "Приземлено",
+    "stats_transports_sent_per_game": "Відправлені транспортні кораблі",
+    "stats_transports_sent_short": "Відправлено",
+    "stats_troops_incoming_per_game": "Вхідні атаки",
+    "stats_troops_sent_per_game": "Вихідні атаки",
+    "stats_victories": "Перемоги",
+    "stats_warships_built_per_game": "Побудовані військові кораблі",
+    "stats_win_rate": "Відсоток перемог"
   },
   "player_type": {
     "bot": "Племʼя",
@@ -1379,7 +1457,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Клацніть, щоб видалити найближчий юніт",
-    "delete_unit_title": "Видалити юніт"
+    "delete_unit_title": "Видалити юніт",
+    "upgrade_x": "Покращити x{amount}"
   },
   "relation": {
     "default": "Типове",
@@ -1502,7 +1581,19 @@
     "tribes_login_required": "Увійдіть, щоб купувати назви племен і керувати ними.",
     "tribes_purchase_description": "Ваше ім’я буде присвоєно боту-племені у справжніх мережевих іграх. Воно стане доступним одразу.",
     "tribes_purchase_heading": "Купити назву племені",
-    "your_tribes_heading": "Ваші назви племен"
+    "your_tribes_heading": "Ваші назви племен",
+    "cosmetics": "Косметика",
+    "tribe_stats_boosted": "{multiplier}× буст",
+    "tribe_stats_button": "Статистика",
+    "tribe_stats_failed": "Не вдалося завантажити статистику. Спробуйте пізніше.",
+    "tribe_stats_games": "Ігри",
+    "tribe_stats_lifetime": "За весь час",
+    "tribe_stats_owner": "Власник",
+    "tribe_stats_reach": "Охоплення гравців",
+    "tribe_stats_reach_tooltip": "З’являлися в іграх з {count} гравцями",
+    "tribe_stats_window": "Останні {days} дн. ({start} – {end})",
+    "tribe_stats_window_short": "Останні {days} дн.",
+    "tribes_coming_soon": "Незабаром"
   },
   "streaming_now": {
     "live_count": "{count} в етері",
@@ -1573,7 +1664,8 @@
     "missile_silo": "Ракетна шахта",
     "port": "Порт",
     "sam_launcher": "ПУ ЗРК",
-    "warship": "Військовий корабель"
+    "warship": "Військовий корабель",
+    "forward_base": "Передова база"
   },
   "user_setting": {
     "alert_frame_desc": "Перемкнути рамку тривоги. Якщо увімкнено, рамка показуватиметься, коли вас зраджують або атакують по суші.",
@@ -1707,7 +1799,13 @@
     "zoom_in": "Збільшити масштаб",
     "zoom_in_desc": "Збільшити масштаб мапи",
     "zoom_out": "Зменшити масштаб",
-    "zoom_out_desc": "Зменшити масштаб мапи"
+    "zoom_out_desc": "Зменшити масштаб мапи",
+    "build_forward_base": "Розмістити передову базу",
+    "build_forward_base_desc": "Розмістити передову базу під курсором.",
+    "section_display": "Дисплей",
+    "section_gameplay": "Ігровий процес",
+    "section_interface": "Інтерфейс",
+    "section_privacy": "Приватність"
   },
   "username": {
     "account_invalid_chars": "Імʼя гравця може містити лише латинські літери, цифри, знаки підкреслення та дефіси.",
@@ -1746,5 +1844,36 @@
     "you_won": "Ви перемогли!",
     "your_team": "Ваша команда перемогла!",
     "youtube_tutorial": "Потрібна допомога?"
+  },
+  "ban_notice": {
+    "appeal": "Якщо ви вважаєте, що це помилка, зв'яжіться з нами в Discord.",
+    "category": {
+      "cheating": "Шахрайство або несанкціоноване програмне забезпечення",
+      "child_safety": "Порушення безпеки дітей",
+      "disruptive_play": "Деструктивна гра, гріфінг або спам",
+      "exploiting": "Використання багів",
+      "harassment": "Переслідування, погрози або образи",
+      "hate_speech": "Мова ворожнечі або дискримінація",
+      "inappropriate_content": "Непристойний або відвертий контент",
+      "multi_accounting": "Мультиакаунтинг / обхід блокування",
+      "offensive_identifier": "Образливе ім’я гравця, тег клану або прапор",
+      "other": "Порушення умов користування",
+      "rank_manipulation": "Маніпуляція рангом або рейтингом",
+      "teaming": "Командна змова гравців"
+    },
+    "permanent": "Це блокування є постійним.",
+    "reason": "Причина: {reason}",
+    "title": "Ваш акаунт заблоковано",
+    "until": "Заблоковано до {date}."
+  },
+  "checkin": {
+    "claim_button": "Отримати {amount}",
+    "claimed_today": "Ще немає винагороди для отримання",
+    "day_label": "День {day}",
+    "streak_label": "{streak} дн. поспіль",
+    "title": "Щоденна відмітка"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Залишилась одна хвилина!"
   }
 }

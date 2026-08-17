@@ -15,6 +15,25 @@ type LanguageMetadata = {
   svg: string;
 };
 
+// Nominal grouping only (no UI label) -- these sort ahead of the rest of the
+// alphabetical list because their translation coverage is actively
+// maintained; everything else still shows normally, just further down.
+const PRIORITY_LANG_CODES = new Set([
+  "ko",
+  "zh-CN",
+  "ja",
+  "de",
+  "fr",
+  "es",
+  "it",
+  "pt-BR",
+  "ru",
+  "pl",
+  "tr",
+  "id",
+  "uk",
+]);
+
 @customElement("lang-selector")
 export class LangSelector extends LitElement {
   @state() public translations: Record<string, string> | undefined;
@@ -181,7 +200,12 @@ export class LangSelector extends LitElement {
           l.code !== "debug",
       );
 
-      list.sort((a, b) => a.en.localeCompare(b.en));
+      list.sort((a, b) => {
+        const aPriority = PRIORITY_LANG_CODES.has(a.code) ? 0 : 1;
+        const bPriority = PRIORITY_LANG_CODES.has(b.code) ? 0 : 1;
+        if (aPriority !== bPriority) return aPriority - bPriority;
+        return a.en.localeCompare(b.en);
+      });
 
       const finalList: any[] = [];
       if (currentLangEntry) finalList.push(currentLangEntry);

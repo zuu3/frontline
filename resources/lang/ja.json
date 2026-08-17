@@ -91,7 +91,10 @@
     "your_subscription": "あなたのサブスクリプション",
     "not_found": "データが読み込めません。",
     "public_player_id": "公開プレイヤーID：",
-    "stats_overview": "統計の概要"
+    "stats_overview": "統計の概要",
+    "link_existing_account": "既存のアカウントを連携する",
+    "reward_daily_checkin": "デイリーチェックイン（{day}日目）",
+    "tab_clans": "クラン"
   },
   "build_menu": {
     "desc": {
@@ -104,10 +107,12 @@
       "missile_silo": "ミサイルの発射に使用される",
       "port": "貿易船を送って資金を獲得する",
       "sam_launcher": "飛来する核ミサイルを迎撃する",
-      "warship": "貿易船を拿捕し、戦艦や輸送船を破壊する"
+      "warship": "貿易船を拿捕し、戦艦や輸送船を破壊する",
+      "forward_base": "補給の中継地点として機能し、遠方への攻撃時の補給線ペナルティを軽減する"
     },
     "not_enough_money": "資金不足",
-    "warship_shift_hint": "Shiftを押しながらドラッグすると戦艦を複数選択できます"
+    "warship_shift_hint": "Shiftを押しながらドラッグすると戦艦を複数選択できます",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -361,7 +366,17 @@
     "title": "クラン",
     "transfer_leadership": "クランリーダーの移譲",
     "transfer_warning": "選択したメンバーを新たなクランリーダーにします。あなたは通常のメンバーになり、この操作は取り消すことができません。",
-    "unban": "Ban解除"
+    "unban": "Ban解除",
+    "create_clan": "クランを作成",
+    "create_description_placeholder": "説明（任意）",
+    "create_insufficient_funds": "クランの作成に必要なクラウンキャップが不足しています。",
+    "create_invalid_tag": "タグは2〜5文字の英数字で入力してください。",
+    "create_name_placeholder": "クランの名前",
+    "create_name_required": "クランの名前を入力してください。",
+    "create_open_label": "誰でも参加可能（チェックを外すと承認制になります）",
+    "create_submit": "作成",
+    "create_tag_placeholder": "TAG（2〜5文字）",
+    "create_tag_taken": "そのタグは既に使用されています。"
   },
   "common": {
     "available": "利用可能",
@@ -400,7 +415,8 @@
     "summary_keep": "保持",
     "summary_send": "送る",
     "target_dead": "ターゲットは排除されました",
-    "target_dead_note": "排除されたプレイヤーにはリソースを送ることができません。"
+    "target_dead_note": "排除されたプレイヤーにはリソースを送ることができません。",
+    "loading": "読み込み中…"
   },
   "control_panel": {
     "allied_afk_neighbor_info": "同盟を組んでいても接続が切れたプレイヤーに攻撃することができます。",
@@ -427,7 +443,12 @@
     "title": "見た目",
     "uncommon": "アンコモン",
     "unlimited_ranked": "ランク戦無制限",
-    "usd_value": "価格: {usd}"
+    "usd_value": "価格: {usd}",
+    "public_lobbies_info": "誰でも参加できる公開ロビーを作成できます。",
+    "signup_bonus": "登録ボーナス",
+    "unlimited_ranked_info": "ランク戦を無制限にプレイできます。",
+    "verified_name": "認証済みユーザーネーム",
+    "verified_name_info": "あなたのユーザーネームはアカウント専用として予約され、ゲーム内で認証バッジが表示されます。"
   },
   "difficulty": {
     "difficulty": "国家の難易度",
@@ -450,7 +471,8 @@
     "title": "終末時計",
     "unstable": "不安定",
     "you": "あなた {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "崩壊中 -{rate}タイル/秒"
   },
   "doomsday_clock_speed": {
     "fast": "速い",
@@ -468,7 +490,8 @@
       "nukeExplosion": "核爆発",
       "nukeTrail": "核の軌跡",
       "structures": "建造物",
-      "transportShipTrail": "ボートの道"
+      "transportShipTrail": "ボートの道",
+      "warship": "戦艦"
     }
   },
   "error_modal": {
@@ -525,7 +548,10 @@
     "unit_destroyed": "あなたの{unit}は破壊されました",
     "unit_voluntarily_deleted": "ユニットは自己破壊しました",
     "wants_to_renew_alliance": "{name}が同盟の更新を要請しています",
-    "mirv_warheads_intercepted": "{count, plural, other {{count}発の MIRV 弾頭を迎撃}}"
+    "mirv_warheads_intercepted": "{count, plural, other {{count}発の MIRV 弾頭を迎撃}}",
+    "capital_captured": "{name}の首都を占領し、{gold}ゴールドを略奪しました！",
+    "capital_fallen": "あなたの首都は{name}に陥落しました！首都は移転されました。",
+    "supply_line_weak": "補給線が伸びきっています：首都からこれだけ離れると、この攻撃は{percent}%弱体化します"
   },
   "flag_input": {
     "button_title": "国旗を選択！",
@@ -597,7 +623,8 @@
   },
   "game_mode": {
     "ffa": "バトルロワイヤル",
-    "teams": "チーム"
+    "teams": "チーム",
+    "hvn": "人類 vs 国家"
   },
   "game_starting_modal": {
     "code_license": "本ゲームのコードは AGPL-3.0 ライセンスに基づき公開されています（無保証）",
@@ -671,7 +698,33 @@
     "territory_sat_desc": "領土の色の彩度を調節します（低いほど灰色に近くなります）",
     "territory_sat_label": "領土の彩度",
     "title": "画質設定",
-    "section_accessibility": "アクセシビリティ"
+    "section_accessibility": "アクセシビリティ",
+    "advanced_desc": "各グラフィック項目を個別に調整します",
+    "advanced_label": "詳細設定",
+    "copy_json_copied": "コピーしました！",
+    "copy_json_desc": "現在の設定をJSON形式でコピーして友達と共有できます",
+    "copy_json_label": "設定をJSONでコピー",
+    "import_json_apply": "適用",
+    "import_json_desc": "友達から受け取った設定JSONを貼り付けて適用します",
+    "import_json_invalid": "有効な設定JSONではないようです",
+    "import_json_label": "設定JSONをインポート",
+    "layer_nukeable": "核攻撃可能",
+    "layer_placement_land": "陸地レイヤー",
+    "layer_placement_water": "水域レイヤー",
+    "preset_colorblind": "色覚サポート",
+    "preset_colorblind_desc": "色覚異常の方にも見やすい領土・国境の配色",
+    "preset_custom": "カスタム",
+    "preset_default": "デフォルト",
+    "preset_default_desc": "FrontLineの標準的な見た目",
+    "preset_delete_confirm": "プリセット「{name}」を削除しますか？",
+    "preset_migrated_name": "自分の設定",
+    "preset_name_placeholder": "プリセット名",
+    "preset_night": "ナイト",
+    "preset_night_desc": "マップを暗くし、建造物とユニットが光る表示",
+    "save_preset_label": "セーブ",
+    "section_custom_presets": "カスタムプリセット",
+    "section_map_layers": "マップレイヤー",
+    "section_presets": "プリセット"
   },
   "heads_up_message": {
     "catching_up": "取戻し中…",
@@ -787,7 +840,18 @@
     "ui_wilderness": "荒野",
     "ui_your_team": "あなたのチーム :",
     "video_tutorial": "チュートリアル動画",
-    "video_tutorial_title": "FrontLine チュートリアル"
+    "video_tutorial_title": "FrontLine チュートリアル",
+    "build_forward_base": "前線基地",
+    "build_forward_base_desc": "近くから発進する攻撃の補給の中継地点として機能し、前線付近での補給線の距離ペナルティを軽減します。アップグレードはできません。",
+    "mechanic_capital_fall": "首都陥落",
+    "mechanic_capital_fall_desc": "敵の首都が置かれているタイルを正確に占領すると、相手の資金の一部を略奪できます。相手は残された領土内のどこかへ首都を移転せざるを得なくなります。各プレイヤーの首都はマップ上に王冠アイコンで表示されるため（自分はゴールド、他プレイヤーは白）、常にどこを狙えばよいかが分かります。",
+    "mechanic_directed_attack": "指向攻撃",
+    "mechanic_directed_attack_desc": "攻撃前に目標タイルをクリックすると、国境全体に均等に広がる代わりに、その方向へ兵力が集中します。攻撃比率スライダーの隣にあるトグルで、指向攻撃と均等展開を切り替えられます。",
+    "mechanic_oil_rig": "石油リグ",
+    "mechanic_oil_rig_desc": "保有すると自動的にゴールド収入を得られる、貴重な資源タイルです。",
+    "mechanic_supply_lines": "補給線と前線基地",
+    "mechanic_supply_lines_desc": "攻撃は首都から遠く離れるほど弱くなります。前線付近に前線基地を建設すれば、補給の中継地点となりペナルティを軽減できます。",
+    "mechanics_title": "FrontLineのゲームシステム"
   },
   "host_modal": {
     "anonymous_players": "匿名のプレイヤー",
@@ -866,7 +930,8 @@
     "admin": "管理者によってキックされました。",
     "duplicate_session": "ゲームから追い出されました（他のタブでもプレイしている可能性があります）",
     "host_left": "ホストがロビーを退出しました。",
-    "lobby_creator": "ロビー作成者によってキックされました。"
+    "lobby_creator": "ロビー作成者によってキックされました。",
+    "match_cancelled": "マッチがキャンセルされました：接続に失敗したプレイヤーがいます。ELOは失われていません。"
   },
   "leaderboard": {
     "cities": "街",
@@ -879,7 +944,15 @@
     "team": "チーム",
     "warships": "戦艦",
     "show_control": "操作方法を表示",
-    "show_units": "ユニットを表示"
+    "show_units": "ユニットを表示",
+    "allies": "同盟",
+    "betrayals": "裏切り",
+    "clan": "クラン",
+    "configure_columns": "列を設定",
+    "factories": "工場",
+    "ports": "港",
+    "rank": "ランク",
+    "troops": "兵力"
   },
   "leaderboard_modal": {
     "clan": "クラン",
@@ -902,7 +975,21 @@
     "win_loss_ratio": "勝利 / 敗北",
     "win_score": "勝利スコア",
     "win_score_tooltip": "参加しているクランとマッチの難易度を元に計算されたスコア。",
-    "your_ranking": "あなたのランキング"
+    "your_ranking": "あなたのランキング",
+    "ranked_2v2_tab": "2v2ランク",
+    "ranked_no_stats": "このランクではまだランクマッチがプレイされていません",
+    "tribes_boost": "ブースト",
+    "tribes_boost_tooltip": "ブーストされた名前は、他プレイヤーのゲームでより多く登場します",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "他プレイヤーのゲームで{multiplier}倍の頻度で登場します",
+    "tribes_games_tooltip": "{count}試合に登場",
+    "tribes_name": "名前",
+    "tribes_no_stats": "まだ部族が試合に登場していません",
+    "tribes_reach": "到達プレイヤー数",
+    "tribes_reach_tooltip": "この名前が登場した試合の合計プレイヤー数です。",
+    "tribes_reach_value_tooltip": "{count}人のプレイヤーが参加した試合に登場しました",
+    "tribes_tab": "部族",
+    "tribes_window": "過去{days}日間（{start} – {end}）"
   },
   "main": {
     "account": "アカウント",
@@ -929,7 +1016,8 @@
     "title": "FrontLine (ALPHA)",
     "troubleshooting": "トラブルシューティング",
     "user_avatar_alt": "{username}のアバター",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "checkin": "チェックイン"
   },
   "map": {
     "achiran": "アチラン",
@@ -1044,7 +1132,17 @@
     "world": "世界",
     "worldinverted": "反転した世界",
     "yellowsea": "黄海",
-    "yenisei": "エニセイ川"
+    "yenisei": "エニセイ川",
+    "balkhash": "バルハシ湖",
+    "clearwaterlakes": "クリアウォーター湖群",
+    "crimea": "クリミア",
+    "fingerlakes": "フィンガー・レイクス",
+    "france": "フランス",
+    "hecatestrait": "ヘカテ海峡",
+    "lasvegasstrip": "ラスベガス・ストリップ",
+    "sol": "ソル",
+    "vietnam": "ベトナム",
+    "yangtzeriver": "長江"
   },
   "map_categories": {
     "africa": "アフリカ",
@@ -1097,7 +1195,11 @@
     "searching": "対戦相手を検索中…",
     "title": "1v1ランクマッチを作成。 (アルファ版) ",
     "title_2v2": "2対2ランクマッチ（アルファ版）",
-    "waiting_for_game": "ゲーム開始を待っています…"
+    "waiting_for_game": "ゲーム開始を待っています…",
+    "clan_verification_failed": "クランのメンバーシップを確認できませんでした。もう一度マッチメイキングをお試しください。",
+    "invalid_clan": "選択したクランは現在無効です。有効なクランを選択して、もう一度キューに参加してください。",
+    "must_login": "ランクマッチをプレイするにはログインする必要があります。",
+    "queue_size": "キュー内のプレイヤー数：{count}"
   },
   "mode_selector": {
     "coming_soon": "近日公開",
@@ -1106,7 +1208,8 @@
     "ranked_title": "ランク戦",
     "teams_count": "{teamCount}チーム",
     "teams_of": "{teamCount}つの{playersPerTeam}人チーム",
-    "teams_title": "チーム"
+    "teams_title": "チーム",
+    "ranked_pairing_note": "チーム戦では、キュー内のクランメンバーやフレンドは可能な限り同じチームに配置されます。フレンドが優先的にペアになり、その後クランメンバーがペアになります。レーティング差が大きすぎる場合は、公平な試合を保つために別々にマッチングされます。"
   },
   "new_lobby_prompt": {
     "confirm": "新しいロビーを作成しますか？すべてのプレイヤーに参加招待が送信されます。",
@@ -1184,7 +1287,8 @@
     "not_found": "プレイヤーのプロフィールが見つかりません",
     "share": "プロフィールをシェア",
     "title": "プレイヤーのプロフィール",
-    "view": "プロフィールを表示"
+    "view": "プロフィールを表示",
+    "no_clans": "このプレイヤーはどのクランにも所属していません。"
   },
   "player_stats_table": {
     "arrived": "到着",
@@ -1226,7 +1330,17 @@
     },
     "war": "戦争",
     "weapon": "兵器",
-    "workers": "労働者"
+    "workers": "労働者",
+    "attack_stats": "攻撃統計情報",
+    "betrayals": "裏切り",
+    "diplomacy_stats": "外交統計情報",
+    "gold_stats": "資金統計情報",
+    "incoming": "被弾",
+    "intercepted": "迎撃",
+    "piracy": "海賊行為",
+    "trains": "列車",
+    "trains_external": "他プレイヤーの列車",
+    "warship_stats": "戦艦統計情報"
   },
   "player_stats_tree": {
     "mode": "モード",
@@ -1240,7 +1354,39 @@
     "stats_games_played": "プレイ数",
     "stats_losses": "敗北数",
     "stats_wins": "勝利数",
-    "stats_wlr": "勝敗比"
+    "stats_wlr": "勝敗比",
+    "all": "すべて",
+    "stats_cities_per_game": "都市建設数",
+    "stats_defense_posts_per_game": "防衛ポスト建設数",
+    "stats_factories_per_game": "工場建設数",
+    "stats_group_buildings": "建造物",
+    "stats_group_combat": "戦闘",
+    "stats_group_gold": "獲得資金",
+    "stats_group_naval": "海軍",
+    "stats_last_100": "直近100試合",
+    "stats_nukes_launched_per_game": "核ミサイル発射数",
+    "stats_others_train_gold_per_game": "他プレイヤーの列車による資金",
+    "stats_outgoing_short": "出撃",
+    "stats_per_game_suffix": "/ 試合",
+    "stats_piracy_gold_per_game": "海賊行為による資金",
+    "stats_played": "プレイ数",
+    "stats_ports_per_game": "港建設数",
+    "stats_summary": "成績概要",
+    "stats_trade_arrived_per_game": "貿易船到着数",
+    "stats_trade_arrived_short": "貿易到着",
+    "stats_trade_captured_per_game": "貿易船拿捕数",
+    "stats_trade_captured_short": "貿易拿捕",
+    "stats_trade_gold_per_game": "貿易資金",
+    "stats_train_gold_per_game": "列車による資金",
+    "stats_transports_landed_per_game": "輸送船上陸数",
+    "stats_transports_landed_short": "輸送船上陸",
+    "stats_transports_sent_per_game": "輸送船派遣数",
+    "stats_transports_sent_short": "輸送船派遣",
+    "stats_troops_incoming_per_game": "被攻撃兵力",
+    "stats_troops_sent_per_game": "出撃兵力",
+    "stats_victories": "勝利数",
+    "stats_warships_built_per_game": "戦艦建造数",
+    "stats_win_rate": "勝率"
   },
   "player_type": {
     "bot": "部族",
@@ -1309,7 +1455,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "クリックで最も近いユニットを削除します",
-    "delete_unit_title": "ユニットを削除する"
+    "delete_unit_title": "ユニットを削除する",
+    "upgrade_x": "アップグレード ×{amount}"
   },
   "relation": {
     "default": "デフォルト",
@@ -1407,7 +1554,44 @@
     "subscription_purchase_success": "サブスクリプションが有効になりました！",
     "subscriptions": "サブスクリプション",
     "switch_button": "切り替える",
-    "title": "ストア"
+    "title": "ストア",
+    "cosmetics": "見た目",
+    "no_tribes": "まだ部族名を購入していません。",
+    "purchase_tribe_button": "購入",
+    "tribe_boost_button": "ブースト",
+    "tribe_boost_confirm": "「{name}」を{price}プルトニウムでブーストしますか？今後{days}日間、他プレイヤーのゲームでより多く登場するようになります。",
+    "tribe_boost_count": "ブースト1回",
+    "tribe_boost_count_plural": "ブースト{count}回",
+    "tribe_boost_failed": "ブーストに失敗しました。もう一度お試しください。",
+    "tribe_boost_gone": "この名前は既に有効ではないため、ブーストできません。",
+    "tribe_boost_heading": "部族名をブースト",
+    "tribe_boost_next_expiry": "次のブーストの有効期限：{date}",
+    "tribe_boost_success": "「{name}」をブーストしました。",
+    "tribe_duplicate": "その名前は既に使用されています。",
+    "tribe_name_placeholder": "部族名を入力",
+    "tribe_name_required": "先に名前を入力してください。",
+    "tribe_purchase_failed": "購入に失敗しました。やり直してください。",
+    "tribe_purchase_live": "「{name}」がゲーム内で使用可能になりました。",
+    "tribe_rate_limited": "名前の購入が早すぎます。{seconds}秒後にもう一度お試しください。",
+    "tribe_stats_boosted": "{multiplier}×ブースト中",
+    "tribe_stats_button": "統計",
+    "tribe_stats_failed": "統計を読み込めませんでした。しばらくしてからもう一度お試しください。",
+    "tribe_stats_games": "試合数",
+    "tribe_stats_lifetime": "累計",
+    "tribe_stats_owner": "所有者",
+    "tribe_stats_reach": "到達プレイヤー数",
+    "tribe_stats_reach_tooltip": "{count}人のプレイヤーが参加した試合に登場しました",
+    "tribe_stats_window": "過去{days}日間（{start} – {end}）",
+    "tribe_stats_window_short": "過去{days}日間",
+    "tribe_status_active": "有効",
+    "tribe_status_rejected": "却下",
+    "tribes": "部族",
+    "tribes_coming_soon": "近日公開",
+    "tribes_load_failed": "部族名を読み込めませんでした。ストアを開き直して再試行してください。",
+    "tribes_login_required": "部族名を購入・管理するにはログインしてください。",
+    "tribes_purchase_description": "あなたの名前は実際のマルチプレイヤーゲームでボットの部族に割り当てられます。購入後すぐに反映されます。",
+    "tribes_purchase_heading": "部族名を購入",
+    "your_tribes_heading": "あなたの部族名"
   },
   "team_colors": {
     "blue": "青",
@@ -1472,7 +1656,8 @@
     "missile_silo": "ミサイルサイロ",
     "port": "港",
     "sam_launcher": "SAMランチャー",
-    "warship": "戦艦"
+    "warship": "戦艦",
+    "forward_base": "前線基地"
   },
   "user_setting": {
     "alert_frame_desc": "警告フレームの表示を切り替えます。有効時、裏切られたときや陸上から攻撃を受けたときにフレームが表示されます。",
@@ -1606,7 +1791,15 @@
     "zoom_out": "縮小",
     "zoom_out_desc": "画面を縮小します。",
     "colorblind_desc": "色覚特性に配慮された領土と国境の配色",
-    "colorblind_label": "色覚対応モード"
+    "colorblind_label": "色覚対応モード",
+    "build_forward_base": "前線基地を建設",
+    "build_forward_base_desc": "カーソルの位置に前線基地を建設します。",
+    "graphics_preset_desc": "マップの見た目のプリセットを選択します。ゲーム内のグラフィック設定で微調整したり、自分だけの設定を作成できます。",
+    "graphics_preset_label": "グラフィックプリセット",
+    "section_display": "表示",
+    "section_gameplay": "ゲームプレイ",
+    "section_interface": "インターフェース",
+    "section_privacy": "プライバシー"
   },
   "username": {
     "account_invalid_chars": "ユーザー名は英字、数字、アンダースコア、ハイフンのみ使用できます。",
@@ -1643,12 +1836,57 @@
     "territory_pattern": "広告を見て領土スキンを手に入れよう！",
     "you_won": "勝利！",
     "your_team": "あなたのチームの勝利！",
-    "youtube_tutorial": "ヘルプが必要ですか？"
+    "youtube_tutorial": "ヘルプが必要ですか？",
+    "match_cancelled": "マッチがキャンセルされました — 一部のプレイヤーがスポーンできませんでした"
   },
   "matchmaking_button": {
     "description": "(アルファ版)",
     "login_required": "ランクマッチをプレイするにはログインしてください！",
     "must_login": "ランクマッチをプレイするにはログインする必要があります。",
     "play_ranked": "1v1のランクマッチを作成"
+  },
+  "ban_notice": {
+    "appeal": "誤りだと思われる場合は、Discordまでお問い合わせください。",
+    "category": {
+      "cheating": "チート行為または不正なソフトウェアの使用",
+      "child_safety": "児童保護に関する違反",
+      "disruptive_play": "妨害行為、荒らし行為またはスパム",
+      "exploiting": "バグの悪用",
+      "harassment": "嫌がらせ、脅迫または迷惑行為",
+      "hate_speech": "ヘイトスピーチまたは差別",
+      "inappropriate_content": "不適切または過激な内容",
+      "multi_accounting": "複数アカウントの使用・Ban回避",
+      "offensive_identifier": "不適切なユーザーネーム、クランタグまたは旗",
+      "other": "利用規約違反",
+      "rank_manipulation": "ランクまたはレーティングの不正操作",
+      "teaming": "チーミングまたは結託"
+    },
+    "permanent": "このBanは永久的です。",
+    "reason": "理由:{reason}",
+    "title": "アカウントがBanされました",
+    "until": "{date}までBanされています。"
+  },
+  "checkin": {
+    "claim_button": "{amount}を受け取る",
+    "claimed_today": "まだ受け取れる報酬はありません",
+    "day_label": "{day}日目",
+    "streak_label": "{streak}日連続",
+    "title": "デイリーチェックイン"
+  },
+  "featured_stream": {
+    "expand": "展開",
+    "hide_today": "今日は表示しない",
+    "live": "LIVE",
+    "minimize": "最小化",
+    "open_on_twitch": "Twitchで{channel}を開く"
+  },
+  "game_timer": {
+    "one_minute_remaining": "残り1分！"
+  },
+  "streaming_now": {
+    "live_count": "{count}件配信中",
+    "title": "配信中",
+    "viewers": "{count}人視聴中",
+    "watch": "{name}を視聴"
   }
 }

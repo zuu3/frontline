@@ -89,7 +89,9 @@
     "username_temporary_prompt": "Votre nom a été pris par un autre joueur. Voulez-vous en choisir un nouveau maintenant — ce changement ne coûtera rien.",
     "username_temporary_prompt_confirm": "Choisir un nom",
     "username_title": "Nom",
-    "your_subscription": "Votre abonnement"
+    "your_subscription": "Votre abonnement",
+    "link_existing_account": "Lier un compte existant",
+    "reward_daily_checkin": "Présence quotidienne (Jour {day})"
   },
   "build_menu": {
     "desc": {
@@ -102,10 +104,12 @@
       "missile_silo": "Utilisé pour lancer des bombes nucléaires",
       "port": "Envoie des navires commerciaux pour produire de l'or",
       "sam_launcher": "Protège contre les bombes nucléaires",
-      "warship": "Capture les navires commerciaux, détruit les navires de guerre et les bateaux de transport"
+      "warship": "Capture les navires commerciaux, détruit les navires de guerre et les bateaux de transport",
+      "forward_base": "Sert d'origine de ravitaillement secondaire, réduisant la pénalité de lignes de ravitaillement sur les attaques lointaines"
     },
     "not_enough_money": "Pas assez d'argent",
-    "warship_shift_hint": "Maintenir la touche Maj et glisser le curseur pour sélectionner plusieurs navires de guerre à la fois"
+    "warship_shift_hint": "Maintenir la touche Maj et glisser le curseur pour sélectionner plusieurs navires de guerre à la fois",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -359,7 +363,17 @@
     "transfer_leadership": "Transférer le commandement",
     "transfer_warning": "Cela donnera le commandement du clan au membre sélectionné. Vous deviendrez un membre ordinaire. Cette action ne peut pas être annulée.",
     "unban": "Pardonner",
-    "history_game_id": "ID de la partie"
+    "history_game_id": "ID de la partie",
+    "create_clan": "Créer un Clan",
+    "create_description_placeholder": "Description (facultatif)",
+    "create_insufficient_funds": "Pas assez de Caps pour créer un clan.",
+    "create_invalid_tag": "Le tag doit comporter 2 à 5 lettres/chiffres.",
+    "create_name_placeholder": "Nom du clan",
+    "create_name_required": "Entrez un nom de clan.",
+    "create_open_label": "Tout le monde peut rejoindre (décochez pour exiger une approbation)",
+    "create_submit": "Créer",
+    "create_tag_placeholder": "TAG (2-5 lettres)",
+    "create_tag_taken": "Ce tag est déjà pris."
   },
   "common": {
     "available": "Disponible",
@@ -399,7 +413,8 @@
     "summary_keep": "Conserver",
     "summary_send": "Envoyer",
     "target_dead": "Cible éliminée",
-    "target_dead_note": "Vous ne pouvez pas envoyer de ressources à un joueur éliminé."
+    "target_dead_note": "Vous ne pouvez pas envoyer de ressources à un joueur éliminé.",
+    "loading": "Chargement..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Vous pouvez attaquer les joueurs déconnectés même lorsque vous êtes en alliance avec eux.",
@@ -430,7 +445,8 @@
     "unlimited_ranked_info": "Jouez autant de parties classées que vous le souhaitez.",
     "usd_value": "Valeur : {usd}",
     "verified_name": "Nom d’utilisateur vérifié",
-    "verified_name_info": "Votre nom d’utilisateur est réservé à votre compte et affiche un badge de vérification en jeu."
+    "verified_name_info": "Votre nom d’utilisateur est réservé à votre compte et affiche un badge de vérification en jeu.",
+    "signup_bonus": "Bonus d'inscription"
   },
   "difficulty": {
     "difficulty": "Difficulté des nations",
@@ -453,7 +469,8 @@
     "title": "Mort Subite",
     "unstable": "Instable",
     "you": "Vous {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "Détérioration -{rate} tuiles/s"
   },
   "doomsday_clock_speed": {
     "fast": "Rapide",
@@ -528,13 +545,17 @@
     "trade_ship_captured": "Votre bateau de commerce a été capturé par {name}",
     "unit_destroyed": "Votre {unit} a été détruit",
     "unit_voluntarily_deleted": "Unité volontairement supprimée",
-    "wants_to_renew_alliance": "{name} souhaite renouveler votre alliance"
+    "wants_to_renew_alliance": "{name} souhaite renouveler votre alliance",
+    "capital_captured": "Vous avez capturé la capitale de {name} et pillé {gold} or !",
+    "capital_fallen": "Votre capitale est tombée aux mains de {name} ! Elle a été déplacée.",
+    "supply_line_weak": "Lignes de ravitaillement étirées : cette attaque est {percent}% plus faible à cette distance de votre capitale"
   },
   "featured_stream": {
     "expand": "Agrandir",
     "live": "EN DIRECT",
     "minimize": "Réduire",
-    "open_on_twitch": "Ouvrir {channel} dans Twitch"
+    "open_on_twitch": "Ouvrir {channel} dans Twitch",
+    "hide_today": "Masquer pour aujourd'hui"
   },
   "flag_input": {
     "button_title": "Choisissez un drapeau !",
@@ -606,7 +627,8 @@
   },
   "game_mode": {
     "ffa": "Chacun pour soi",
-    "teams": "Équipes"
+    "teams": "Équipes",
+    "hvn": "Humains vs Nations"
   },
   "game_starting_modal": {
     "code_license": "Code sous licence AGPL-3.0 (sans garantie)",
@@ -821,7 +843,18 @@
     "ui_wilderness": "Région sauvage",
     "ui_your_team": "Votre équipe :",
     "video_tutorial": "Tutoriel vidéo",
-    "video_tutorial_title": "Tutoriel FrontLine"
+    "video_tutorial_title": "Tutoriel FrontLine",
+    "build_forward_base": "Base avancée",
+    "build_forward_base_desc": "Sert d'origine de ravitaillement secondaire pour les attaques lancées à proximité, réduisant la pénalité de distance des lignes de ravitaillement près du front. Ne peut pas être améliorée.",
+    "mechanic_capital_fall": "Chute de capitale",
+    "mechanic_capital_fall_desc": "Capturez la tuile exacte où se trouve la capitale de votre ennemi et vous pillerez une partie de son or. Il sera alors forcé de déplacer sa capitale quelque part dans le territoire qu'il lui reste. La capitale de chaque joueur est marquée sur la carte par une icône de couronne (la vôtre en or, celles des autres en blanc), afin que vous sachiez toujours où frapper.",
+    "mechanic_directed_attack": "Attaques dirigées",
+    "mechanic_directed_attack_desc": "Cliquez sur une tuile cible avant d'attaquer et vos troupes se dirigeront vers elle au lieu de se répartir uniformément le long de toute la frontière. Un interrupteur à côté du curseur de ratio d'attaque permet de basculer entre attaque dirigée et répartition uniforme.",
+    "mechanic_oil_rig": "Plateforme pétrolière",
+    "mechanic_oil_rig_desc": "Une tuile de ressource rare qui procure un revenu d'or passif à celui qui la possède.",
+    "mechanic_supply_lines": "Lignes de ravitaillement et Base avancée",
+    "mechanic_supply_lines_desc": "Les attaques s'affaiblissent à mesure qu'elles s'éloignent de votre capitale. Construisez une Base avancée près du front pour servir d'origine de ravitaillement secondaire et compenser la pénalité.",
+    "mechanics_title": "Mécaniques de FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Joueurs anonymes",
@@ -984,7 +1017,8 @@
     "title": "FrontLine (ALPHA)",
     "troubleshooting": "Dépannage",
     "user_avatar_alt": "Avatar de {username}",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "checkin": "Présence"
   },
   "map": {
     "achiran": "Achiran",
@@ -1108,7 +1142,8 @@
     "world": "Monde",
     "worldinverted": "Monde inversé",
     "yellowsea": "Mer Jaune",
-    "yenisei": "Ienisseï"
+    "yenisei": "Ienisseï",
+    "yangtzeriver": "Fleuve Yangtsé"
   },
   "map_categories": {
     "africa": "Afrique",
@@ -1175,7 +1210,8 @@
     "ranked_title": "Classés",
     "teams_count": "{teamCount} équipes",
     "teams_of": " {teamCount} équipes de {playersPerTeam}",
-    "teams_title": "Équipes"
+    "teams_title": "Équipes",
+    "ranked_pairing_note": "Dans les modes en équipe, les membres du clan et les amis présents dans la file d'attente sont placés dans la même équipe lorsque c'est possible. Les amis sont associés en premier, puis les membres du clan. Si vos classements sont trop éloignés, vous serez placés séparément afin de garder des parties équilibrées."
   },
   "new_lobby_prompt": {
     "confirm": "Commencer un nouveau salon ? Tous les joueurs seront invités à rejoindre.",
@@ -1296,7 +1332,17 @@
     },
     "war": "Guerre",
     "weapon": "Arme",
-    "workers": "Ouvriers"
+    "workers": "Ouvriers",
+    "attack_stats": "Statistiques d'attaque",
+    "betrayals": "Trahisons",
+    "diplomacy_stats": "Diplomatie",
+    "gold_stats": "Statistiques d'or",
+    "incoming": "Entrant",
+    "intercepted": "Intercepté",
+    "piracy": "Piraterie",
+    "trains": "Trains",
+    "trains_external": "Trains des autres",
+    "warship_stats": "Statistiques de navires de guerre"
   },
   "player_stats_tree": {
     "mode": "Mode",
@@ -1310,7 +1356,39 @@
     "stats_games_played": "Parties jouées",
     "stats_losses": "Défaites",
     "stats_wins": "Victoires",
-    "stats_wlr": "Ratio Victoires:Défaites"
+    "stats_wlr": "Ratio Victoires:Défaites",
+    "all": "Tout",
+    "stats_cities_per_game": "Villes construites",
+    "stats_defense_posts_per_game": "Postes de défense construits",
+    "stats_factories_per_game": "Usines construites",
+    "stats_group_buildings": "Bâtiments",
+    "stats_group_combat": "Combat",
+    "stats_group_gold": "Or gagné",
+    "stats_group_naval": "Naval",
+    "stats_last_100": "100 dernières",
+    "stats_nukes_launched_per_game": "Bombes nucléaires lancées",
+    "stats_others_train_gold_per_game": "Or des trains des autres",
+    "stats_outgoing_short": "Sortant",
+    "stats_per_game_suffix": "/ partie",
+    "stats_piracy_gold_per_game": "Or de piraterie",
+    "stats_played": "Jouées",
+    "stats_ports_per_game": "Ports construits",
+    "stats_summary": "Résumé des performances",
+    "stats_trade_arrived_per_game": "Bateaux de commerce arrivés",
+    "stats_trade_arrived_short": "Commerce arrivé",
+    "stats_trade_captured_per_game": "Bateaux de commerce capturés",
+    "stats_trade_captured_short": "Commerce capturé",
+    "stats_trade_gold_per_game": "Or du commerce",
+    "stats_train_gold_per_game": "Or des trains",
+    "stats_transports_landed_per_game": "Transports débarqués",
+    "stats_transports_landed_short": "Transport débarqué",
+    "stats_transports_sent_per_game": "Transports envoyés",
+    "stats_transports_sent_short": "Transport envoyé",
+    "stats_troops_incoming_per_game": "Attaque entrante",
+    "stats_troops_sent_per_game": "Attaque sortante",
+    "stats_victories": "Victoires",
+    "stats_warships_built_per_game": "Navires de guerre construits",
+    "stats_win_rate": "Taux de victoire"
   },
   "player_type": {
     "bot": "Tribu",
@@ -1379,7 +1457,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Cliquez pour supprimer l'unité la plus proche",
-    "delete_unit_title": "Supprimer une unité"
+    "delete_unit_title": "Supprimer une unité",
+    "upgrade_x": "Améliorer x{amount}"
   },
   "relation": {
     "default": "Défaut",
@@ -1502,7 +1581,19 @@
     "tribes_login_required": "Connectez-vous pour acheter et gérer des noms de tribu.",
     "tribes_purchase_description": "Votre nom est attribué à une tribu contrôlée par un bot dans de vraies parties multijoueur. Il apparaît immédiatement en jeu.",
     "tribes_purchase_heading": "Acheter un nom de tribu",
-    "your_tribes_heading": "Vos noms de tribu"
+    "your_tribes_heading": "Vos noms de tribu",
+    "cosmetics": "Cosmétiques",
+    "tribe_stats_boosted": "{multiplier}× mis en avant",
+    "tribe_stats_button": "Stats",
+    "tribe_stats_failed": "Impossible de charger les statistiques. Veuillez réessayer plus tard.",
+    "tribe_stats_games": "Parties",
+    "tribe_stats_lifetime": "À vie",
+    "tribe_stats_owner": "Propriétaire",
+    "tribe_stats_reach": "Portée joueurs",
+    "tribe_stats_reach_tooltip": "Apparu dans des parties avec {count} joueurs",
+    "tribe_stats_window": "{days} derniers jours ({start} – {end})",
+    "tribe_stats_window_short": "{days} derniers jours",
+    "tribes_coming_soon": "À venir"
   },
   "streaming_now": {
     "live_count": "{count} en direct",
@@ -1573,7 +1664,8 @@
     "missile_silo": "Silo à missiles",
     "port": "Port",
     "sam_launcher": "Lanceur de SAM",
-    "warship": "Navire de guerre"
+    "warship": "Navire de guerre",
+    "forward_base": "Base avancée"
   },
   "user_setting": {
     "alert_frame_desc": "Activer/Désactiver le cadre d'alerte. Lorsqu'il est activé, le cadre s'affichera lorsque vous serez trahi ou attaqué par la terre.",
@@ -1707,7 +1799,13 @@
     "zoom_in": "Zoom avant",
     "zoom_in_desc": "Zoom sur la carte",
     "zoom_out": "Zoom arrière",
-    "zoom_out_desc": "Dézoom de la carte"
+    "zoom_out_desc": "Dézoom de la carte",
+    "build_forward_base": "Construire une Base avancée",
+    "build_forward_base_desc": "Construire une Base avancée sous votre curseur.",
+    "section_display": "Affichage",
+    "section_gameplay": "Jouabilité",
+    "section_interface": "Interface",
+    "section_privacy": "Confidentialité"
   },
   "username": {
     "account_invalid_chars": "Les pseudonymes peuvent contenir des lettres, chiffres et tirets.",
@@ -1746,5 +1844,36 @@
     "you_won": "Vous avez gagné !",
     "your_team": "Votre équipe a gagné !",
     "youtube_tutorial": "Besoin d'aide ?"
+  },
+  "ban_notice": {
+    "appeal": "Si vous pensez qu'il s'agit d'une erreur, contactez-nous sur Discord.",
+    "category": {
+      "cheating": "Triche ou logiciel non autorisé",
+      "child_safety": "Violation de la sécurité des mineurs",
+      "disruptive_play": "Jeu perturbateur, griefing ou spam",
+      "exploiting": "Exploitation de bugs",
+      "harassment": "Harcèlement, menaces ou abus",
+      "hate_speech": "Discours de haine ou discrimination",
+      "inappropriate_content": "Contenu inapproprié ou explicite",
+      "multi_accounting": "Multi-comptes / contournement de bannissement",
+      "offensive_identifier": "Pseudo, tag de clan ou drapeau offensant",
+      "other": "Violation des Conditions d'utilisation",
+      "rank_manipulation": "Manipulation du classement ou du score",
+      "teaming": "Entente ou jeu en équipe interdit"
+    },
+    "permanent": "Ce bannissement est permanent.",
+    "reason": "Raison : {reason}",
+    "title": "Votre compte est banni",
+    "until": "Banni jusqu'au {date}."
+  },
+  "checkin": {
+    "claim_button": "Récupérer {amount}",
+    "claimed_today": "Aucune récompense à récupérer pour le moment",
+    "day_label": "Jour {day}",
+    "streak_label": "Série de {streak} jours",
+    "title": "Présence quotidienne"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Une minute restante !"
   }
 }

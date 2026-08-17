@@ -89,7 +89,9 @@
     "username_temporary_prompt": "Seu nome de usuário foi pego por outro jogador. Escolher um novo agora? A renomeação é grátis.",
     "username_temporary_prompt_confirm": "Escolha um nome.",
     "username_title": "Nome de usuário",
-    "your_subscription": "Sua Assinatura"
+    "your_subscription": "Sua Assinatura",
+    "link_existing_account": "Vincular uma conta existente",
+    "reward_daily_checkin": "Check-in diário (Dia {day})"
   },
   "build_menu": {
     "desc": {
@@ -102,10 +104,12 @@
       "missile_silo": "Usado para lançar bombas nucleares",
       "port": "Envie navios de troca para gerar ouro",
       "sam_launcher": "Defende Contra Chegada de Bombas Nucleares",
-      "warship": "Capture navios comerciais, destrua navios e barcos"
+      "warship": "Capture navios comerciais, destrua navios e barcos",
+      "forward_base": "Funciona como uma origem de suprimento secundária, reduzindo a penalidade de linha de suprimento em ataques distantes"
     },
     "not_enough_money": "Sem Dinheiro Suficiente",
-    "warship_shift_hint": "Mantenha pressionado Shift e arraste para selecionar múltiplos navios de guerra de uma vez"
+    "warship_shift_hint": "Mantenha pressionado Shift e arraste para selecionar múltiplos navios de guerra de uma vez",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -359,7 +363,17 @@
     "transfer_leadership": "Transferir liderança",
     "transfer_warning": "Isso vai fazer que o membro selecionado será promovido como o novo líder. Essa ação não pode ser desfeita.",
     "unban": "Desbanir",
-    "history_game_id": "ID do Jogo"
+    "history_game_id": "ID do Jogo",
+    "create_clan": "Criar Clã",
+    "create_description_placeholder": "Descrição (opcional)",
+    "create_insufficient_funds": "Caps insuficientes para criar um clã.",
+    "create_invalid_tag": "A etiqueta deve ter de 2 a 5 letras/números.",
+    "create_name_placeholder": "Nome do clã",
+    "create_name_required": "Digite um nome para o clã.",
+    "create_open_label": "Qualquer um pode entrar (desmarque para exigir aprovação)",
+    "create_submit": "Criar",
+    "create_tag_placeholder": "TAG (2-5 letras)",
+    "create_tag_taken": "Essa etiqueta já está sendo usada."
   },
   "common": {
     "available": "Disponível",
@@ -399,7 +413,8 @@
     "summary_keep": "Manter",
     "summary_send": "Enviar",
     "target_dead": "Alvo eliminado",
-    "target_dead_note": "Você não pode enviar recursos para um jogador eliminado."
+    "target_dead_note": "Você não pode enviar recursos para um jogador eliminado.",
+    "loading": "Carregando..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Você pode atacar jogadores desconectados mesmo se estiver aliado com eles.",
@@ -430,7 +445,8 @@
     "unlimited_ranked_info": "Nenhum limite para quantos jogos ranqueados você pode jogar.",
     "usd_value": "Valor: {usd}",
     "verified_name": "Nome verificado",
-    "verified_name_info": "Seu nome de usuário está reservado para sua conta e mostra um emblema verificado em jogo."
+    "verified_name_info": "Seu nome de usuário está reservado para sua conta e mostra um emblema verificado em jogo.",
+    "signup_bonus": "Bônus de inscrição"
   },
   "difficulty": {
     "difficulty": "Dificuldade da nação",
@@ -453,7 +469,8 @@
     "title": "Relógio da Morte",
     "unstable": "Instável",
     "you": "Você {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "Decaindo -{rate} blocos/s"
   },
   "doomsday_clock_speed": {
     "fast": "Rápido",
@@ -528,13 +545,17 @@
     "trade_ship_captured": "O teu navio de troca foi capturado por {name}",
     "unit_destroyed": "Seu/Sua {unit} Foi destruída",
     "unit_voluntarily_deleted": "Unidade deletada voluntariamente",
-    "wants_to_renew_alliance": "{name} quer renovar sua aliança"
+    "wants_to_renew_alliance": "{name} quer renovar sua aliança",
+    "capital_captured": "Você capturou a capital de {name} e saqueou {gold} de ouro!",
+    "capital_fallen": "Sua capital caiu para {name}! Ela foi realocada.",
+    "supply_line_weak": "Linhas de suprimento sobrecarregadas: este ataque está {percent}% mais fraco a esta distância da sua capital"
   },
   "featured_stream": {
     "expand": "Expandir",
     "live": "AO VIVO",
     "minimize": "Minimizar",
-    "open_on_twitch": "Abrir o canal {channel} no Twitch"
+    "open_on_twitch": "Abrir o canal {channel} no Twitch",
+    "hide_today": "Ocultar por hoje"
   },
   "flag_input": {
     "button_title": "Selecione uma Bandeira!",
@@ -606,7 +627,8 @@
   },
   "game_mode": {
     "ffa": "Free for All",
-    "teams": "Equipes"
+    "teams": "Equipes",
+    "hvn": "Humanos vs Nações"
   },
   "game_starting_modal": {
     "code_license": "Código licenciado sob AGPL-3.0 (sem garantia)",
@@ -821,7 +843,18 @@
     "ui_wilderness": "Terra inóspita",
     "ui_your_team": "Seu Time:",
     "video_tutorial": "Vídeo tutorial",
-    "video_tutorial_title": "FrontLine Tutorial"
+    "video_tutorial_title": "FrontLine Tutorial",
+    "build_forward_base": "Base Avançada",
+    "build_forward_base_desc": "Funciona como uma origem de suprimento secundária para ataques lançados perto dela, reduzindo a penalidade de distância das Linhas de Suprimento perto da frente. Não pode ser aprimorada.",
+    "mechanic_capital_fall": "Queda da Capital",
+    "mechanic_capital_fall_desc": "Capture exatamente o território onde a capital do seu inimigo está localizada e você saqueia uma parte do ouro dele. Ele é forçado a realocar a capital para algum lugar dentro do território que ainda lhe resta. A capital de cada jogador é marcada no mapa com um ícone de coroa (a sua em dourado, as dos outros em branco), então você sempre sabe onde atacar.",
+    "mechanic_directed_attack": "Ataques Direcionados",
+    "mechanic_directed_attack_desc": "Clique em um território alvo antes de atacar e suas tropas avançarão em direção a ele em vez de se espalharem uniformemente por toda a fronteira. Um alternador ao lado do controle deslizante de taxa de ataque alterna entre direcionado e espalhamento uniforme.",
+    "mechanic_oil_rig": "Plataforma de Petróleo",
+    "mechanic_oil_rig_desc": "Um território raro de recurso que concede renda passiva de ouro a quem o controla.",
+    "mechanic_supply_lines": "Linhas de Suprimento e Base Avançada",
+    "mechanic_supply_lines_desc": "Ataques enfraquecem quanto mais longe viajam da sua capital. Construa uma Base Avançada perto da frente para funcionar como uma origem de suprimento secundária e compensar a penalidade.",
+    "mechanics_title": "Mecânicas do FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Jogadores Anônimos",
@@ -984,7 +1017,8 @@
     "title": "FrontLine (ALFA)",
     "troubleshooting": "Solução de problemas",
     "user_avatar_alt": "Avatar de {username}",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "checkin": "Check-in"
   },
   "map": {
     "achiran": "Achiran",
@@ -1108,7 +1142,8 @@
     "world": "Mundo",
     "worldinverted": "O Mundo Invertido",
     "yellowsea": "O Mar Amarelo",
-    "yenisei": "Yenisei"
+    "yenisei": "Yenisei",
+    "yangtzeriver": "Rio Yangtzé"
   },
   "map_categories": {
     "africa": "África",
@@ -1175,7 +1210,8 @@
     "ranked_title": "Ranqueada",
     "teams_count": "{teamCount} Times",
     "teams_of": "{teamCount} Times de {playersPerTeam}",
-    "teams_title": "Times"
+    "teams_title": "Times",
+    "ranked_pairing_note": "Nos modos de equipe, membros do clã e amigos na fila são colocados no mesmo time sempre que possível. Amigos são pareados primeiro, depois membros do clã. Se suas pontuações forem muito diferentes, vocês serão pareados separadamente para manter as partidas justas."
   },
   "new_lobby_prompt": {
     "confirm": "Começar um novo lobby? Todos os jogadores serão convidados a se juntarem.",
@@ -1296,7 +1332,17 @@
     },
     "war": "Guerra",
     "weapon": "Arma",
-    "workers": "Trabalhadores"
+    "workers": "Trabalhadores",
+    "attack_stats": "Estatísticas de Ataque",
+    "betrayals": "Traições",
+    "diplomacy_stats": "Diplomacia",
+    "gold_stats": "Estatísticas de Ouro",
+    "incoming": "Recebido",
+    "intercepted": "Interceptado",
+    "piracy": "Pirataria",
+    "trains": "Trens",
+    "trains_external": "Trens de Outros",
+    "warship_stats": "Estatísticas de Navios de Guerra"
   },
   "player_stats_tree": {
     "mode": "Modo",
@@ -1310,7 +1356,39 @@
     "stats_games_played": "Partidas Jogadas",
     "stats_losses": "Derrotas",
     "stats_wins": "Vitórias",
-    "stats_wlr": "Taxa de Vitórias e Derrotas"
+    "stats_wlr": "Taxa de Vitórias e Derrotas",
+    "all": "Todos",
+    "stats_cities_per_game": "Cidades Construídas",
+    "stats_defense_posts_per_game": "Postos de Defesa Construídos",
+    "stats_factories_per_game": "Fábricas Construídas",
+    "stats_group_buildings": "Construções",
+    "stats_group_combat": "Combate",
+    "stats_group_gold": "Ouro Ganho",
+    "stats_group_naval": "Naval",
+    "stats_last_100": "Últimas 100",
+    "stats_nukes_launched_per_game": "Armas Nucleares Lançadas",
+    "stats_others_train_gold_per_game": "Ouro de Trens de Outros",
+    "stats_outgoing_short": "Enviado",
+    "stats_per_game_suffix": "/ partida",
+    "stats_piracy_gold_per_game": "Ouro de Pirataria",
+    "stats_played": "Jogadas",
+    "stats_ports_per_game": "Portos Construídos",
+    "stats_summary": "Resumo de desempenho",
+    "stats_trade_arrived_per_game": "Navios de Troca Chegados",
+    "stats_trade_arrived_short": "Troca Chegada",
+    "stats_trade_captured_per_game": "Navios de Troca Capturados",
+    "stats_trade_captured_short": "Troca Capturada",
+    "stats_trade_gold_per_game": "Ouro de Troca",
+    "stats_train_gold_per_game": "Ouro de Trem",
+    "stats_transports_landed_per_game": "Transportes Desembarcados",
+    "stats_transports_landed_short": "Transporte Desembarcado",
+    "stats_transports_sent_per_game": "Transportes Enviados",
+    "stats_transports_sent_short": "Transporte Enviado",
+    "stats_troops_incoming_per_game": "Ataque Recebido",
+    "stats_troops_sent_per_game": "Ataque Enviado",
+    "stats_victories": "Vitórias",
+    "stats_warships_built_per_game": "Navios de Guerra Construídos",
+    "stats_win_rate": "Taxa de Vitórias"
   },
   "player_type": {
     "bot": "Tribo",
@@ -1379,7 +1457,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Clique para excluir a unidade mais próxima",
-    "delete_unit_title": "Excluir unidade"
+    "delete_unit_title": "Excluir unidade",
+    "upgrade_x": "Upgrade x{amount}"
   },
   "relation": {
     "default": "Padrão",
@@ -1502,7 +1581,19 @@
     "tribes_login_required": "Faça login para comprar e gerenciar nomes de tribo.",
     "tribes_purchase_description": "Seu nome é atribuído a uma tribo de um bot em jogos reais multijogador. Vai ao vivo imediatamente.",
     "tribes_purchase_heading": "Compre um nome de tribo",
-    "your_tribes_heading": "Seus Nomes de Tribo"
+    "your_tribes_heading": "Seus Nomes de Tribo",
+    "cosmetics": "Cosméticos",
+    "tribe_stats_boosted": "{multiplier}× impulsionado",
+    "tribe_stats_button": "Estatísticas",
+    "tribe_stats_failed": "Não foi possível carregar as estatísticas. Tente novamente mais tarde.",
+    "tribe_stats_games": "Jogos",
+    "tribe_stats_lifetime": "Total",
+    "tribe_stats_owner": "Dono",
+    "tribe_stats_reach": "Alcance de Jogadores",
+    "tribe_stats_reach_tooltip": "Apareceu em partidas com {count} jogadores",
+    "tribe_stats_window": "Últimos {days} dias ({start} – {end})",
+    "tribe_stats_window_short": "Últimos {days} dias",
+    "tribes_coming_soon": "Em breve"
   },
   "streaming_now": {
     "live_count": "{count} estão ao vivo",
@@ -1573,7 +1664,8 @@
     "missile_silo": "Silo de Míssil",
     "port": "Porto",
     "sam_launcher": "Lançador de SAMs",
-    "warship": "Navio de Guerra"
+    "warship": "Navio de Guerra",
+    "forward_base": "Base Avançada"
   },
   "user_setting": {
     "alert_frame_desc": "Alternar o quadro de alertas. Quando ativado, o quadro será exibido quando você for traído ou atacado por terra.",
@@ -1707,7 +1799,13 @@
     "zoom_in": "Aumentar o Zoom",
     "zoom_in_desc": "Ampliar o mapa",
     "zoom_out": "Diminuir o Zoom",
-    "zoom_out_desc": "Reduzir o mapa"
+    "zoom_out_desc": "Reduzir o mapa",
+    "build_forward_base": "Construir Base Avançada",
+    "build_forward_base_desc": "Construir uma Base Avançada sob seu cursor.",
+    "section_display": "Exibição",
+    "section_gameplay": "Jogabilidade",
+    "section_interface": "Interface",
+    "section_privacy": "Privacidade"
   },
   "username": {
     "account_invalid_chars": "O Usuário só pode conter letras, números, espaços, sublinhados e colchetes quadrados.",
@@ -1746,5 +1844,36 @@
     "you_won": "Você Venceu!",
     "your_team": "Sua Equipe Venceu!",
     "youtube_tutorial": "Precisa de ajuda?"
+  },
+  "ban_notice": {
+    "appeal": "Se você acredita que isso é um engano, entre em contato conosco no Discord.",
+    "category": {
+      "cheating": "Trapaça ou uso de software não autorizado",
+      "child_safety": "Violação de segurança infantil",
+      "disruptive_play": "Jogo disruptivo, griefing ou spam",
+      "exploiting": "Exploração de bugs",
+      "harassment": "Assédio, ameaças ou abuso",
+      "hate_speech": "Discurso de ódio ou discriminação",
+      "inappropriate_content": "Conteúdo impróprio ou explícito",
+      "multi_accounting": "Multicontas / evasão de banimento",
+      "offensive_identifier": "Nome de usuário, etiqueta de clã ou bandeira ofensivos",
+      "other": "Violação dos Termos de Serviço",
+      "rank_manipulation": "Manipulação de ranque ou pontuação",
+      "teaming": "Formação de equipes indevida ou conluio"
+    },
+    "permanent": "Este banimento é permanente.",
+    "reason": "Motivo: {reason}",
+    "title": "Sua conta está banida",
+    "until": "Banido até {date}."
+  },
+  "checkin": {
+    "claim_button": "Resgatar {amount}",
+    "claimed_today": "Nenhuma recompensa para resgatar ainda",
+    "day_label": "Dia {day}",
+    "streak_label": "Sequência de {streak} dias",
+    "title": "Check-in Diário"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Falta um minuto!"
   }
 }
