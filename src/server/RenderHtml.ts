@@ -31,7 +31,11 @@ export async function renderHtmlContent(htmlPath: string): Promise<string> {
     apiOrigin: JSON.stringify(ServerEnv.apiOrigin()),
     instanceId: JSON.stringify(ServerEnv.instanceId()),
     manifestHref: buildAssetUrl("manifest.json", assetManifest, cdnBase),
-    faviconHref: buildAssetUrl("images/Favicon.svg", assetManifest, cdnBase),
+    // .png, matching vite.config.ts's dev-mode htmlAssetData -- the .svg of
+    // the same name only exists under proprietary/ (OpenFront's original
+    // unreplaced warship icon, excluded from this fork per LICENSE-ASSETS),
+    // so referencing it here served the wrong favicon in every real build.
+    faviconHref: buildAssetUrl("images/Favicon.png", assetManifest, cdnBase),
     gameplayScreenshotUrl: buildAssetUrl(
       "images/GameplayScreenshot.png",
       assetManifest,

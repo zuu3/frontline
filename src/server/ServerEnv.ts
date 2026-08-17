@@ -140,7 +140,14 @@ export class ServerEnv {
     return ServerEnv.workerPortByIndex(ServerEnv.workerIndex(gameID));
   }
   static workerPortByIndex(index: number): number {
-    return 3001 + index;
+    // Overridable so a second full instance (blue-green deploy slot) can
+    // run alongside the active one on a disjoint port range instead of
+    // fighting it for 3001/3002 -- see Master.ts's matching masterPort().
+    const base = parseInt(process.env.WORKER_BASE_PORT ?? "3001", 10);
+    return base + index;
+  }
+  static masterPort(): number {
+    return parseInt(process.env.MASTER_PORT ?? "3000", 10);
   }
   // Generate a game id that hashes to `workerId`, so requests for the game route
   // back to this worker. Rejection sampling: each id lands on a uniformly-random

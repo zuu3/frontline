@@ -346,6 +346,17 @@ export async function startWorker() {
     res.json({ listed });
   });
 
+  // Polled by the blue-green deploy script to decide when it's safe to stop
+  // this instance -- a nonzero count means a live game/connection would be
+  // dropped, so the deploy waits (up to its own timeout) for this to hit 0
+  // rather than restarting immediately on cutover.
+  app.get("/api/drain-status", (_req, res) => {
+    res.json({
+      activeClients: gm.activeClients(),
+      activeGames: gm.activeGames(),
+    });
+  });
+
   app.get("/api/game/:id/exists", async (req, res) => {
     const lobbyId = req.params.id;
     res.json({
