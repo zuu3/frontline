@@ -91,7 +91,10 @@
     "your_subscription": "Vaše předplatné",
     "not_found": "Nenalezeno",
     "public_player_id": "Veřejné ID:",
-    "stats_overview": "Přehled statistik"
+    "stats_overview": "Přehled statistik",
+    "link_existing_account": "Propojit existující účet",
+    "reward_daily_checkin": "Denní odměna (Den {day})",
+    "tab_clans": "Klany"
   },
   "build_menu": {
     "desc": {
@@ -104,10 +107,12 @@
       "missile_silo": "Používá se k odpálení atomovek",
       "port": "Vysílá obchodní lodě, které generují zlato",
       "sam_launcher": "Brání proti přilétajícím atomovkám",
-      "warship": "Zajímá obchodní lodě, ničí lodě a čluny"
+      "warship": "Zajímá obchodní lodě, ničí lodě a čluny",
+      "forward_base": "Slouží jako sekundární zdroj zásobování a snižuje penalizaci za vzdálené útoky"
     },
     "not_enough_money": "Nedostatek peněz",
-    "warship_shift_hint": "Podrž Shift a tažením vyber více bitevních lodí najednou"
+    "warship_shift_hint": "Podrž Shift a tažením vyber více bitevních lodí najednou",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -361,7 +366,17 @@
     "title": "Klany",
     "transfer_leadership": "Předat vedení",
     "transfer_warning": "Tímto se vybraný člen stane novým vůdcem. Vy se stanete běžným členem. Tuto akci nelze vrátit zpět.",
-    "unban": "Zrušit ban"
+    "unban": "Zrušit ban",
+    "create_clan": "Vytvořit klan",
+    "create_description_placeholder": "Popis (volitelné)",
+    "create_insufficient_funds": "Nemáš dostatek Capsů na vytvoření klanu.",
+    "create_invalid_tag": "Tag musí mít 2-5 písmen/číslic.",
+    "create_name_placeholder": "Název klanu",
+    "create_name_required": "Zadej název klanu.",
+    "create_open_label": "Kdokoliv se může připojit (zrušením zaškrtnutí vyžadovat schválení)",
+    "create_submit": "Vytvořit",
+    "create_tag_placeholder": "TAG (2-5 písmen)",
+    "create_tag_taken": "Tento tag je již obsazený."
   },
   "common": {
     "available": "K dispozici",
@@ -400,7 +415,8 @@
     "summary_keep": "Ponechat",
     "summary_send": "Odeslat",
     "target_dead": "Cíl eliminován",
-    "target_dead_note": "Nemůžete poslat zdroje eliminovanému hráči."
+    "target_dead_note": "Nemůžete poslat zdroje eliminovanému hráči.",
+    "loading": "Načítání..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Na odpojené hráče můžete útočit, i když s nimi máte spojenectví.",
@@ -427,7 +443,12 @@
     "title": "Kosmetické doplňky",
     "uncommon": "Neobvyklé",
     "unlimited_ranked": "Neomezené hodnocené hry",
-    "usd_value": "Hodnota: {usd}"
+    "usd_value": "Hodnota: {usd}",
+    "public_lobbies_info": "Hostuj vlastní lobby, které jsou veřejně viditelné pro všechny.",
+    "signup_bonus": "Bonus za registraci",
+    "unlimited_ranked_info": "Bez omezení počtu odehraných hodnocených her.",
+    "verified_name": "Ověřené uživatelské jméno",
+    "verified_name_info": "Tvé uživatelské jméno je vyhrazeno pro tvůj účet a zobrazuje ve hře ověřený odznak."
   },
   "difficulty": {
     "difficulty": "Obtížnost národů",
@@ -450,7 +471,8 @@
     "title": "Hodiny soudného dne",
     "unstable": "Nestabilní",
     "you": "Vy: {pct} %",
-    "your_team": "{team}: {pct} %"
+    "your_team": "{team}: {pct} %",
+    "decaying": "Ubývá -{rate} políček/s"
   },
   "doomsday_clock_speed": {
     "fast": "Rychlá",
@@ -468,7 +490,8 @@
       "nukeExplosion": "Jaderný výbuch",
       "nukeTrail": "Stopa jaderné střely",
       "structures": "Stavby",
-      "transportShipTrail": "Stopa přepravní lodě"
+      "transportShipTrail": "Stopa přepravní lodě",
+      "warship": "Válečná loď"
     }
   },
   "error_modal": {
@@ -525,7 +548,10 @@
     "unit_destroyed": "Vaše {unit} byla zničena",
     "unit_voluntarily_deleted": "Jednotka dobrovolně odstraněna",
     "wants_to_renew_alliance": "{name} s vámi chce obnovit spojenectví",
-    "mirv_warheads_intercepted": "{count, plural, one {{count} MIRV hlavice zneškodněna} few {{count} MIRV hlavice zneškodněny} other {{count} MIRV hlavic zneškodněno}}"
+    "mirv_warheads_intercepted": "{count, plural, one {{count} MIRV hlavice zneškodněna} few {{count} MIRV hlavice zneškodněny} other {{count} MIRV hlavic zneškodněno}}",
+    "capital_captured": "Dobyl jsi hlavní město hráče {name} a uloupil {gold} zlata!",
+    "capital_fallen": "Tvé hlavní město padlo do rukou hráče {name}! Bylo přemístěno.",
+    "supply_line_weak": "Zásobovací linie jsou napnuté: tento útok je o {percent} % slabší v takové vzdálenosti od hlavního města"
   },
   "flag_input": {
     "button_title": "Vybrat vlajku!",
@@ -597,7 +623,8 @@
   },
   "game_mode": {
     "ffa": "Všichni proti všem",
-    "teams": "Týmy"
+    "teams": "Týmy",
+    "hvn": "Lidé proti národům"
   },
   "game_starting_modal": {
     "code_license": "Kód je licencován pod AGPL-3.0 (bez záruky)",
@@ -671,7 +698,33 @@
     "territory_sat_desc": "Jak syté jsou barvy vybarvení území (nižší hodnota je ztlumí)",
     "territory_sat_label": "Sytost vybarvení území",
     "title": "Nastavení grafiky",
-    "section_accessibility": "Přístupnost"
+    "section_accessibility": "Přístupnost",
+    "advanced_desc": "Jemné doladění jednotlivých grafických nastavení",
+    "advanced_label": "Pokročilá nastavení",
+    "copy_json_copied": "Zkopírováno!",
+    "copy_json_desc": "Zkopírovat aktuální nastavení jako JSON pro sdílení s přáteli",
+    "copy_json_label": "Kopírovat nastavení JSON",
+    "import_json_apply": "Použít",
+    "import_json_desc": "Vlož JSON nastavení od přítele a použij ho",
+    "import_json_invalid": "To nevypadá jako platný JSON s nastavením",
+    "import_json_label": "Importovat nastavení JSON",
+    "layer_nukeable": "Zasažitelné jadernou zbraní",
+    "layer_placement_land": "Vrstva souše",
+    "layer_placement_water": "Vrstva vody",
+    "preset_colorblind": "Barvoslepost",
+    "preset_colorblind_desc": "Barvy území a hranic přívětivé pro barvoslepé",
+    "preset_custom": "Vlastní",
+    "preset_default": "Výchozí",
+    "preset_default_desc": "Standardní vzhled FrontLine",
+    "preset_delete_confirm": "Smazat předvolbu \"{name}\"?",
+    "preset_migrated_name": "Moje nastavení",
+    "preset_name_placeholder": "Název předvolby",
+    "preset_night": "Noční",
+    "preset_night_desc": "Ztmavená mapa se svítícími stavbami a jednotkami",
+    "save_preset_label": "Uložit",
+    "section_custom_presets": "Vlastní předvolby",
+    "section_map_layers": "Vrstvy mapy",
+    "section_presets": "Předvolby"
   },
   "heads_up_message": {
     "catching_up": "Synchronizuji...",
@@ -787,7 +840,18 @@
     "ui_wilderness": "Divočina",
     "ui_your_team": "Váš tým:",
     "video_tutorial": "Video návod",
-    "video_tutorial_title": "FrontLine Návod"
+    "video_tutorial_title": "FrontLine Návod",
+    "build_forward_base": "Předsunutá základna",
+    "build_forward_base_desc": "Slouží jako sekundární zdroj zásobování pro útoky vedené v její blízkosti a snižuje penalizaci za vzdálenost u fronty. Nelze vylepšovat.",
+    "mechanic_capital_fall": "Pád hlavního města",
+    "mechanic_capital_fall_desc": "Dobyj přesné políčko, na kterém stojí nepřítelovo hlavní město, a uloupíš část jeho zlata. Nepřítel je nucen přesunout hlavní město někam do zbylého území. Hlavní město každého hráče je na mapě označeno ikonou koruny (tvé zlaté, ostatní bílé), takže vždy víš, kam udeřit.",
+    "mechanic_directed_attack": "Směrované útoky",
+    "mechanic_directed_attack_desc": "Klikni na cílové políčko před útokem a tvé jednotky se místo rovnoměrného šíření po celé hranici zaměří na něj. Přepínač vedle posuvníku poměru útoku přepíná mezi směrovaným a rovnoměrným šířením.",
+    "mechanic_oil_rig": "Ropná plošina",
+    "mechanic_oil_rig_desc": "Vzácné surovinové políčko, které svému držiteli poskytuje pasivní příjem zlata.",
+    "mechanic_supply_lines": "Zásobovací linie a předsunutá základna",
+    "mechanic_supply_lines_desc": "Útoky slábnou čím dál cestují od tvého hlavního města. Postav Předsunutou základnu poblíž fronty, aby sloužila jako sekundární zdroj zásobování a vyrovnala penalizaci.",
+    "mechanics_title": "Mechaniky FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Anonymní hráči",
@@ -866,7 +930,8 @@
     "admin": "Vyhozen správcem",
     "duplicate_session": "Vyhozen ze hry (možná jste měli hru otevřenou v jiném okně)",
     "host_left": "Hostitel opustil lobby.",
-    "lobby_creator": "Vyhozen tvůrcem lobby"
+    "lobby_creator": "Vyhozen tvůrcem lobby",
+    "match_cancelled": "Zápas zrušen: hráč se nepodařilo připojit. Nepřišel jsi o žádné ELO."
   },
   "leaderboard": {
     "cities": "Města",
@@ -879,7 +944,15 @@
     "team": "Tým",
     "warships": "Bitevní lodě",
     "show_control": "Zobrazit ovládané území",
-    "show_units": "Zobrazit jednotky"
+    "show_units": "Zobrazit jednotky",
+    "allies": "Spojenci",
+    "betrayals": "Zrady",
+    "clan": "Klan",
+    "configure_columns": "Nastavit sloupce",
+    "factories": "Továrny",
+    "ports": "Přístavy",
+    "rank": "Pořadí",
+    "troops": "Vojska"
   },
   "leaderboard_modal": {
     "clan": "Klan",
@@ -902,7 +975,21 @@
     "win_loss_ratio": "Poměr výher/proher",
     "win_score": "Skóre výher",
     "win_score_tooltip": "Vážené výhry podle zapojení klanu a obtížnosti hry",
-    "your_ranking": "Vaše umístění"
+    "your_ranking": "Vaše umístění",
+    "ranked_2v2_tab": "Hodnocené 2v2",
+    "ranked_no_stats": "Na tomto žebříčku zatím nebyla odehrána žádná hodnocená hra",
+    "tribes_boost": "Boosty",
+    "tribes_boost_tooltip": "Boostnutá jména se objevují v hrách ostatních hráčů častěji",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "Objevuje se {multiplier}× častěji v hrách ostatních hráčů",
+    "tribes_games_tooltip": "Vyskytlo se v {count} hrách",
+    "tribes_name": "Jméno",
+    "tribes_no_stats": "Zatím se žádný kmen neobjevil ve hře",
+    "tribes_reach": "Dosah hráčů",
+    "tribes_reach_tooltip": "Celkový počet hráčů ve hrách, ve kterých se toto jméno objevilo.",
+    "tribes_reach_value_tooltip": "Objevilo se ve hrách s {count} hráči",
+    "tribes_tab": "Kmeny",
+    "tribes_window": "Klouzavé {days}denní okno ({start} – {end})"
   },
   "main": {
     "account": "Účet",
@@ -929,7 +1016,8 @@
     "title": "FrontLine (ALPHA)",
     "troubleshooting": "Řešení problémů",
     "user_avatar_alt": "Profilový obrázek uživatele {username}",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "checkin": "Denní odměna"
   },
   "map": {
     "achiran": "Achiran",
@@ -1044,7 +1132,17 @@
     "world": "Svět",
     "worldinverted": "Obrácený svět",
     "yellowsea": "Žluté moře",
-    "yenisei": "Jenisej"
+    "yenisei": "Jenisej",
+    "balkhash": "Balchaš",
+    "clearwaterlakes": "Jezera Clearwater",
+    "crimea": "Krym",
+    "fingerlakes": "Prstová jezera",
+    "france": "Francie",
+    "hecatestrait": "Průliv Hecate",
+    "lasvegasstrip": "Las Vegas Strip",
+    "sol": "Sol",
+    "vietnam": "Vietnam",
+    "yangtzeriver": "Řeka Jang-c'-ťiang"
   },
   "map_categories": {
     "africa": "Afrika",
@@ -1097,7 +1195,11 @@
     "searching": "Vyhledávání hry...",
     "title": "1v1 hodnocená hra (ALPHA)",
     "title_2v2": "Vyhledávání hodnocené hry 2v2 (ALPHA)",
-    "waiting_for_game": "Čekání na spuštění hry..."
+    "waiting_for_game": "Čekání na spuštění hry...",
+    "clan_verification_failed": "Členství v klanu se nepodařilo ověřit. Zkus matchmaking znovu.",
+    "invalid_clan": "Zvolený klan už není platný. Vyber aktuální klan a zařaď se do fronty znovu.",
+    "must_login": "Pro hraní hodnoceného matchmakingu se musíš přihlásit.",
+    "queue_size": "Hráčů ve frontě: {count}"
   },
   "mode_selector": {
     "coming_soon": "Připravujeme",
@@ -1106,7 +1208,8 @@
     "ranked_title": "Hodnocené",
     "teams_count": "Počet týmů: {teamCount}",
     "teams_of": "Týmy: {teamCount}, hráčů v týmu: {playersPerTeam}",
-    "teams_title": "Týmy"
+    "teams_title": "Týmy",
+    "ranked_pairing_note": "V týmových režimech jsou spoluhráči z klanu a přátelé ve frontě pokud možno umístěni do stejného týmu. Nejdřív se párují přátelé, pak členové klanu. Pokud jsou vaše ratingy příliš rozdílné, budete rozděleni, aby hry zůstaly férové."
   },
   "new_lobby_prompt": {
     "confirm": "Vytvořit novou lobby? Všichni hráči budou pozváni.",
@@ -1184,7 +1287,8 @@
     "not_found": "Profil hráče nebyl nalezen",
     "share": "Sdílet profil",
     "title": "Profil hráče",
-    "view": "Zobrazit profil"
+    "view": "Zobrazit profil",
+    "no_clans": "Tento hráč není v žádném klanu."
   },
   "player_stats_table": {
     "arrived": "Dorazilo",
@@ -1226,7 +1330,17 @@
     },
     "war": "Války",
     "weapon": "Zbraň",
-    "workers": "Pracovníci"
+    "workers": "Pracovníci",
+    "attack_stats": "Statistiky útoků",
+    "betrayals": "Zrady",
+    "diplomacy_stats": "Diplomacie",
+    "gold_stats": "Statistiky zlata",
+    "incoming": "Příchozí",
+    "intercepted": "Zachyceno",
+    "piracy": "Pirátství",
+    "trains": "Vlaky",
+    "trains_external": "Cizí vlaky",
+    "warship_stats": "Statistiky válečných lodí"
   },
   "player_stats_tree": {
     "mode": "Režim",
@@ -1240,7 +1354,39 @@
     "stats_games_played": "Odehráno her",
     "stats_losses": "Prohry",
     "stats_wins": "Výhry",
-    "stats_wlr": "Poměr výher a proher"
+    "stats_wlr": "Poměr výher a proher",
+    "all": "Vše",
+    "stats_cities_per_game": "Postavená města",
+    "stats_defense_posts_per_game": "Postavené obranné body",
+    "stats_factories_per_game": "Postavené továrny",
+    "stats_group_buildings": "Stavby",
+    "stats_group_combat": "Boj",
+    "stats_group_gold": "Získané zlato",
+    "stats_group_naval": "Námořnictvo",
+    "stats_last_100": "Posledních 100",
+    "stats_nukes_launched_per_game": "Odpálené jaderné zbraně",
+    "stats_others_train_gold_per_game": "Zlato z cizích vlaků",
+    "stats_outgoing_short": "Odchozí",
+    "stats_per_game_suffix": "/ hru",
+    "stats_piracy_gold_per_game": "Zlato z pirátství",
+    "stats_played": "Odehráno",
+    "stats_ports_per_game": "Postavené přístavy",
+    "stats_summary": "Souhrn výkonu",
+    "stats_trade_arrived_per_game": "Dorazily obchodní lodě",
+    "stats_trade_arrived_short": "Obchod dorazil",
+    "stats_trade_captured_per_game": "Zajaté obchodní lodě",
+    "stats_trade_captured_short": "Obchod zajat",
+    "stats_trade_gold_per_game": "Zlato z obchodu",
+    "stats_train_gold_per_game": "Zlato z vlaků",
+    "stats_transports_landed_per_game": "Vylodění transporty",
+    "stats_transports_landed_short": "Transport vyloděn",
+    "stats_transports_sent_per_game": "Vyslané transporty",
+    "stats_transports_sent_short": "Transport vyslán",
+    "stats_troops_incoming_per_game": "Příchozí útok",
+    "stats_troops_sent_per_game": "Odchozí útok",
+    "stats_victories": "Vítězství",
+    "stats_warships_built_per_game": "Postavené válečné lodě",
+    "stats_win_rate": "Poměr výher"
   },
   "player_type": {
     "bot": "Kmen",
@@ -1309,7 +1455,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Kliknutím odstraníte nejbližší jednotku",
-    "delete_unit_title": "Smazat jednotku"
+    "delete_unit_title": "Smazat jednotku",
+    "upgrade_x": "Vylepšit x{amount}"
   },
   "relation": {
     "default": "Výchozí",
@@ -1407,7 +1554,44 @@
     "subscription_purchase_success": "Předplatné aktivováno!",
     "subscriptions": "Předplatná",
     "switch_button": "Změnit",
-    "title": "Obchod"
+    "title": "Obchod",
+    "cosmetics": "Kosmetika",
+    "no_tribes": "Zatím sis nekoupil žádná jména kmenů.",
+    "purchase_tribe_button": "Koupit",
+    "tribe_boost_button": "Boost",
+    "tribe_boost_confirm": "Boostnout \"{name}\" za {price} Plutonia? Bude se příštích {days} dní objevovat v hrách ostatních hráčů častěji.",
+    "tribe_boost_count": "1 boost",
+    "tribe_boost_count_plural": "{count} boostů",
+    "tribe_boost_failed": "Boost se nezdařil. Zkus to prosím znovu.",
+    "tribe_boost_gone": "Toto jméno už není aktivní, takže ho nelze boostnout.",
+    "tribe_boost_heading": "Boostnout jméno kmene",
+    "tribe_boost_next_expiry": "další boost vyprší {date}",
+    "tribe_boost_success": "\"{name}\" bylo boostnuto.",
+    "tribe_duplicate": "Jméno je již obsazené.",
+    "tribe_name_placeholder": "Zadej jméno kmene",
+    "tribe_name_required": "Nejdřív zadej jméno.",
+    "tribe_purchase_failed": "Nákup se nezdařil. Zkus to prosím znovu.",
+    "tribe_purchase_live": "\"{name}\" je nyní aktivní ve hrách.",
+    "tribe_rate_limited": "Kupuješ jména příliš rychle. Zkus to znovu za {seconds} s.",
+    "tribe_stats_boosted": "{multiplier}× boostnuto",
+    "tribe_stats_button": "Statistiky",
+    "tribe_stats_failed": "Statistiky se nepodařilo načíst. Zkus to prosím později.",
+    "tribe_stats_games": "Hry",
+    "tribe_stats_lifetime": "Celkem",
+    "tribe_stats_owner": "Vlastník",
+    "tribe_stats_reach": "Dosah hráčů",
+    "tribe_stats_reach_tooltip": "Objevilo se ve hrách s {count} hráči",
+    "tribe_stats_window": "Posledních {days} dní ({start} – {end})",
+    "tribe_stats_window_short": "Posledních {days} dní",
+    "tribe_status_active": "Aktivní",
+    "tribe_status_rejected": "Zamítnuto",
+    "tribes": "Kmeny",
+    "tribes_coming_soon": "Již brzy",
+    "tribes_load_failed": "Tvá jména kmenů se nepodařilo načíst. Otevři obchod znovu pro nový pokus.",
+    "tribes_login_required": "Přihlas se pro nákup a správu jmen kmenů.",
+    "tribes_purchase_description": "Tvé jméno bude přiřazeno botímu kmeni ve skutečných hrách pro více hráčů. Aktivuje se ihned.",
+    "tribes_purchase_heading": "Koupit jméno kmene",
+    "your_tribes_heading": "Tvá jména kmenů"
   },
   "team_colors": {
     "blue": "Modrá",
@@ -1472,7 +1656,8 @@
     "missile_silo": "Raketové silo",
     "port": "Přístav",
     "sam_launcher": "Protiraketový systém",
-    "warship": "Bitevní loď"
+    "warship": "Bitevní loď",
+    "forward_base": "Předsunutá základna"
   },
   "user_setting": {
     "alert_frame_desc": "Zapne/vypne rámeček s upozorněním. Pokud je povolený, zobrazí se při zradě nebo útoku přes pevninu.",
@@ -1606,7 +1791,15 @@
     "zoom_out": "Oddálit",
     "zoom_out_desc": "Oddálit mapu",
     "colorblind_desc": "Použít barvy území a hranic vhodné pro barvoslepé",
-    "colorblind_label": "Režim pro barvoslepé"
+    "colorblind_label": "Režim pro barvoslepé",
+    "build_forward_base": "Postavit předsunutou základnu",
+    "build_forward_base_desc": "Postaví Předsunutou základnu pod kurzorem.",
+    "graphics_preset_desc": "Vyber si předvolbu vzhledu mapy. Doladit nebo vytvořit vlastní lze v herních grafických nastaveních.",
+    "graphics_preset_label": "Grafická předvolba",
+    "section_display": "Zobrazení",
+    "section_gameplay": "Hratelnost",
+    "section_interface": "Rozhraní",
+    "section_privacy": "Soukromí"
   },
   "username": {
     "account_invalid_chars": "Uživatelské jméno smí obsahovat pouze písmena, číslice, podtržítka a spojovníky.",
@@ -1643,12 +1836,57 @@
     "territory_pattern": "Kupte si vzor území a hrajte bez reklam!",
     "you_won": "Vítězství!",
     "your_team": "Váš tým vyhrál!",
-    "youtube_tutorial": "Potřebujete pomoc?"
+    "youtube_tutorial": "Potřebujete pomoc?",
+    "match_cancelled": "Zápas zrušen — nenastoupili všichni hráči"
   },
   "matchmaking_button": {
     "description": "(ALPHA)",
     "login_required": "Pro hodnocené hry se přihlaste!",
     "must_login": "Pro hraní hodnocených her se musíte přihlásit.",
     "play_ranked": "1v1 hodnocená hra"
+  },
+  "ban_notice": {
+    "appeal": "Pokud si myslíš, že jde o omyl, kontaktuj nás na Discordu.",
+    "category": {
+      "cheating": "Podvádění nebo neoprávněný software",
+      "child_safety": "Porušení bezpečnosti dětí",
+      "disruptive_play": "Rušivé chování, grifing nebo spam",
+      "exploiting": "Zneužívání chyb",
+      "harassment": "Obtěžování, výhrůžky nebo urážky",
+      "hate_speech": "Nenávistné projevy nebo diskriminace",
+      "inappropriate_content": "Nevhodný nebo explicitní obsah",
+      "multi_accounting": "Více účtů / obcházení banu",
+      "offensive_identifier": "Urážlivé jméno, tag klanu nebo vlajka",
+      "other": "Porušení podmínek služby",
+      "rank_manipulation": "Manipulace s hodnocením nebo ratingem",
+      "teaming": "Domlouvání se nebo nedovolené týmování"
+    },
+    "permanent": "Tento ban je trvalý.",
+    "reason": "Důvod: {reason}",
+    "title": "Tvůj účet je zablokován",
+    "until": "Zablokováno do {date}."
+  },
+  "checkin": {
+    "claim_button": "Vyzvednout {amount}",
+    "claimed_today": "Zatím není žádná odměna k vyzvednutí",
+    "day_label": "Den {day}",
+    "streak_label": "Série {streak} dní",
+    "title": "Denní odměna"
+  },
+  "featured_stream": {
+    "expand": "Rozbalit",
+    "hide_today": "Skrýt na dnešek",
+    "live": "ŽIVĚ",
+    "minimize": "Minimalizovat",
+    "open_on_twitch": "Otevřít {channel} na Twitchi"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Zbývá jedna minuta!"
+  },
+  "streaming_now": {
+    "live_count": "{count} živě",
+    "title": "Právě vysíláno",
+    "viewers": "{count} sleduje",
+    "watch": "Sledovat {name}"
   }
 }

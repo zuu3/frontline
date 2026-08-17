@@ -91,7 +91,10 @@
     "your_subscription": "Твоят абонамент",
     "not_found": "Не е намерен",
     "public_player_id": "Публично ID:",
-    "stats_overview": "Преглед на статистики"
+    "stats_overview": "Преглед на статистики",
+    "link_existing_account": "Свържи съществуващ акаунт",
+    "reward_daily_checkin": "Ежедневно влизане (Ден {day})",
+    "tab_clans": "Кланове"
   },
   "build_menu": {
     "desc": {
@@ -104,10 +107,12 @@
       "missile_silo": "Използван за изстрелване на ракети",
       "port": "Изпраща търговски кораби, за да се получава злато",
       "sam_launcher": "Отбранява срещу входящи ракети",
-      "warship": "Превзема търговски кораби, унищожава кораби и лодки"
+      "warship": "Превзема търговски кораби, унищожава кораби и лодки",
+      "forward_base": "Служи като вторичен източник на снабдяване, намалявайки санкцията за далечни атаки"
     },
     "not_enough_money": "Няма достатъчно пари",
-    "warship_shift_hint": "Задръж Shift и плъзгай, за да избереш няколко военни кораба наведнъж"
+    "warship_shift_hint": "Задръж Shift и плъзгай, за да избереш няколко военни кораба наведнъж",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -361,7 +366,17 @@
     "title": "Кланове",
     "transfer_leadership": "Прехвърли собственост",
     "transfer_warning": "Това ще направи избрания член новия собственик. Ти ще станеш обикновен член. Това действие не е обратимо.",
-    "unban": "Отбанване"
+    "unban": "Отбанване",
+    "create_clan": "Създай клан",
+    "create_description_placeholder": "Описание (по избор)",
+    "create_insufficient_funds": "Няма достатъчно Капачки за създаване на клан.",
+    "create_invalid_tag": "Тагът трябва да е 2-5 букви/цифри.",
+    "create_name_placeholder": "Име на клана",
+    "create_name_required": "Въведи име на клана.",
+    "create_open_label": "Всеки може да се присъедини (свали отметката за одобрение)",
+    "create_submit": "Създай",
+    "create_tag_placeholder": "ТАГ (2-5 букви)",
+    "create_tag_taken": "Този таг вече е зает."
   },
   "common": {
     "available": "Наличен",
@@ -400,7 +415,8 @@
     "summary_keep": "Запази",
     "summary_send": "Изпрати",
     "target_dead": "Целта бе елиминирана",
-    "target_dead_note": "Не можеш да изпращаш ресурси на елиминиран играч."
+    "target_dead_note": "Не можеш да изпращаш ресурси на елиминиран играч.",
+    "loading": "Зарежда се..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Можеш да атакуваш несвързани играчи, дори ако си в съюз с тях.",
@@ -427,7 +443,12 @@
     "title": "Козметики",
     "uncommon": "Необикновен",
     "unlimited_ranked": "Безкрайни ранкови игри",
-    "usd_value": "Стойност: {usd}"
+    "usd_value": "Стойност: {usd}",
+    "public_lobbies_info": "Хоствай публични лобита, видими за всички.",
+    "signup_bonus": "Бонус при регистрация",
+    "unlimited_ranked_info": "Без лимит на ранглист игрите, които можеш да играеш.",
+    "verified_name": "Потвърдено потребителско име",
+    "verified_name_info": "Потребителското ти име е запазено за акаунта ти и показва значка за потвърждение в играта."
   },
   "difficulty": {
     "difficulty": "Трудност на нациите",
@@ -450,7 +471,8 @@
     "title": "Часовник на страшния съд",
     "unstable": "Нестабилен",
     "you": "Ти {pct}%",
-    "your_team": "{team}: {pct}%"
+    "your_team": "{team}: {pct}%",
+    "decaying": "Намалява -{rate} клетки/сек"
   },
   "doomsday_clock_speed": {
     "fast": "Бърз",
@@ -468,7 +490,8 @@
       "nukeExplosion": "Експлозия на бомба",
       "nukeTrail": "Диря зад бомба",
       "structures": "Постройки",
-      "transportShipTrail": "Диря зад лодка"
+      "transportShipTrail": "Диря зад лодка",
+      "warship": "Военен кораб"
     }
   },
   "error_modal": {
@@ -525,7 +548,10 @@
     "unit_destroyed": "Твоят {unit} бе унищожен",
     "unit_voluntarily_deleted": "Елементът бе изтрит доброволно",
     "wants_to_renew_alliance": "{name} иска да поднови съюза си с теб",
-    "mirv_warheads_intercepted": "{count, plural, one {{count} МИРВ бе прихванат} other {{count} МИРВ-а бяха прихванати}}"
+    "mirv_warheads_intercepted": "{count, plural, one {{count} МИРВ бе прихванат} other {{count} МИРВ-а бяха прихванати}}",
+    "capital_captured": "Превзе столицата на {name} и ограби {gold} злато!",
+    "capital_fallen": "Столицата ти падна пред {name}! Беше преместена.",
+    "supply_line_weak": "Линиите за снабдяване са опънати: тази атака е с {percent}% по-слаба на това разстояние от столицата ти"
   },
   "flag_input": {
     "button_title": "Избери знаме!",
@@ -597,7 +623,8 @@
   },
   "game_mode": {
     "ffa": "Всеки срещу всеки (FFA)",
-    "teams": "Отбори"
+    "teams": "Отбори",
+    "hvn": "Хора срещу нации"
   },
   "game_starting_modal": {
     "code_license": "Кодът е лицензиран съгласно AGPL-3.0 (без гаранция)",
@@ -671,7 +698,33 @@
     "territory_sat_desc": "Колко ярки да са запълващите територията цветове (по-ниските стойности осначават по-бледи цветове)",
     "territory_sat_label": "Насищане на територията",
     "title": "Графични настройки",
-    "section_accessibility": "Достъпност"
+    "section_accessibility": "Достъпност",
+    "advanced_desc": "Прецизна настройка на отделни графични опции",
+    "advanced_label": "Разширени настройки",
+    "copy_json_copied": "Копирано!",
+    "copy_json_desc": "Копирай текущите настройки като JSON, за да ги споделиш с приятели",
+    "copy_json_label": "Копирай настройки (JSON)",
+    "import_json_apply": "Приложи",
+    "import_json_desc": "Постави настройки JSON от приятел и ги приложи",
+    "import_json_invalid": "Това не изглежда като валиден JSON с настройки",
+    "import_json_label": "Импортирай настройки (JSON)",
+    "layer_nukeable": "Уязвим за ядрен удар",
+    "layer_placement_land": "Слой суша",
+    "layer_placement_water": "Слой вода",
+    "preset_colorblind": "Далтонизъм",
+    "preset_colorblind_desc": "Приятелски за далтонисти цветове на територии и граници",
+    "preset_custom": "Персонализиран",
+    "preset_default": "По подразбиране",
+    "preset_default_desc": "Стандартният изглед на FrontLine",
+    "preset_delete_confirm": "Изтриване на пресет \"{name}\"?",
+    "preset_migrated_name": "Моите настройки",
+    "preset_name_placeholder": "Име на пресета",
+    "preset_night": "Нощен",
+    "preset_night_desc": "Затъмнена карта със светещи сгради и единици",
+    "save_preset_label": "Запази",
+    "section_custom_presets": "Персонализирани пресети",
+    "section_map_layers": "Слоеве на картата",
+    "section_presets": "Пресети"
   },
   "heads_up_message": {
     "catching_up": "Наваксва се...",
@@ -787,7 +840,18 @@
     "ui_wilderness": "Пустош",
     "ui_your_team": "Твоят отбор:",
     "video_tutorial": "Видео урок за игра",
-    "video_tutorial_title": "Урок за игра на FrontLine"
+    "video_tutorial_title": "Урок за игра на FrontLine",
+    "build_forward_base": "Предна база",
+    "build_forward_base_desc": "Служи като вторичен източник на снабдяване за атаки, стартирани близо до нея, намалявайки санкцията за разстояние на фронта. Не се надгражда.",
+    "mechanic_capital_fall": "Падане на столицата",
+    "mechanic_capital_fall_desc": "Превземи точната клетка, на която се намира столицата на врага, и ограбваш част от златото му. Той е принуден да премести столицата си някъде в останалата си територия. Столицата на всеки играч е отбелязана на картата с иконка на корона (твоята златна, останалите бели), за да знаеш винаги къде да удариш.",
+    "mechanic_directed_attack": "Насочени атаки",
+    "mechanic_directed_attack_desc": "Кликни целева клетка преди атака и войските ти ще се насочат към нея, вместо да се разпределят равномерно по цялата граница. Превключвател до плъзгача за съотношението на атака превключва между насочено и равномерно разпределение.",
+    "mechanic_oil_rig": "Petролна платформа",
+    "mechanic_oil_rig_desc": "Рядка ресурсна клетка, която дава пасивен доход от злато на притежателя си.",
+    "mechanic_supply_lines": "Линии за снабдяване и предна база",
+    "mechanic_supply_lines_desc": "Атаките отслабват колкото по-далеч пътуват от столицата ти. Построй Предна база близо до фронта, за да служи като вторичен източник на снабдяване и да компенсира санкцията.",
+    "mechanics_title": "Механики на FrontLine"
   },
   "host_modal": {
     "anonymous_players": "Анонимни играчи",
@@ -866,7 +930,8 @@
     "admin": "Изхвърлен си от администратор",
     "duplicate_session": "Бе изхвърлен от играта (възможно е и да си играл от друг таб)",
     "host_left": "Хостът е напуснал лобито.",
-    "lobby_creator": "Изгонен от създателя на лобито"
+    "lobby_creator": "Изгонен от създателя на лобито",
+    "match_cancelled": "Мачът е отменен: играч не успя да се свърже. Не си загубил ELO."
   },
   "leaderboard": {
     "cities": "Градове",
@@ -879,7 +944,15 @@
     "team": "Отбор",
     "warships": "Военни кораби",
     "show_control": "Показване на контрол",
-    "show_units": "Показване на единици"
+    "show_units": "Показване на единици",
+    "allies": "Съюзници",
+    "betrayals": "Предателства",
+    "clan": "Клан",
+    "configure_columns": "Настрой колоните",
+    "factories": "Фабрики",
+    "ports": "Пристанища",
+    "rank": "Ранг",
+    "troops": "Войски"
   },
   "leaderboard_modal": {
     "clan": "Клан",
@@ -902,7 +975,21 @@
     "win_loss_ratio": "П/З",
     "win_score": "Резултат на победи",
     "win_score_tooltip": "Претеглени победи въз основа на участието на клана и трудността на мача",
-    "your_ranking": "Твоето класиране"
+    "your_ranking": "Твоето класиране",
+    "ranked_2v2_tab": "Ранглист 2v2",
+    "ranked_no_stats": "Все още не са играни ранглист игри на тази стълбица",
+    "tribes_boost": "Усилвания",
+    "tribes_boost_tooltip": "Усилените имена се появяват по-често в игрите на другите играчи",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "Появява се {multiplier}× по-често в игрите на другите играчи",
+    "tribes_games_tooltip": "Показано в {count} игри",
+    "tribes_name": "Име",
+    "tribes_no_stats": "Все още нито едно племе не се е появило в игра",
+    "tribes_reach": "Обхват на играчи",
+    "tribes_reach_tooltip": "Общият брой играчи в игрите, в които се е появило това име.",
+    "tribes_reach_value_tooltip": "Появи се в игри с {count} играчи",
+    "tribes_tab": "Племена",
+    "tribes_window": "Плъзгащ се {days}-дневен прозорец ({start} – {end})"
   },
   "main": {
     "account": "Акаунт",
@@ -929,7 +1016,8 @@
     "title": "FrontLine (АЛФА)",
     "troubleshooting": "Отстраняване на проблеми",
     "user_avatar_alt": "Профилната снимка на {username}",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "checkin": "Влизане"
   },
   "map": {
     "achiran": "Ахиран",
@@ -1044,7 +1132,17 @@
     "world": "Свят",
     "worldinverted": "Обърнат свят",
     "yellowsea": "Жълто море",
-    "yenisei": "Енисей"
+    "yenisei": "Енисей",
+    "balkhash": "Балхаш",
+    "clearwaterlakes": "Езерата Клиъруотър",
+    "crimea": "Крим",
+    "fingerlakes": "Езерата Фингър",
+    "france": "Франция",
+    "hecatestrait": "Проток Хеката",
+    "lasvegasstrip": "Лас Вегас Стрип",
+    "sol": "Сол",
+    "vietnam": "Виетнам",
+    "yangtzeriver": "Река Яндзъ"
   },
   "map_categories": {
     "africa": "Африка",
@@ -1097,7 +1195,11 @@
     "searching": "Търси се игра...",
     "title": "1v1 Ранков мачмейкинг (АЛФА)",
     "title_2v2": "2v2 Ранков мачмейкинг (АЛФА)",
-    "waiting_for_game": "Изчаква се да започне играта..."
+    "waiting_for_game": "Изчаква се да започне играта...",
+    "clan_verification_failed": "Членството в клана не можа да бъде потвърдено. Опитай отново матчмейкинга.",
+    "invalid_clan": "Избраният от теб клан вече не е валиден. Избери актуален клан и се нареди отново.",
+    "must_login": "Трябва да си влязъл в акаунта си, за да играеш ранглист матчмейкинг.",
+    "queue_size": "Играчи на опашката: {count}"
   },
   "mode_selector": {
     "coming_soon": "Очаквайте скоро",
@@ -1106,7 +1208,8 @@
     "ranked_title": "Ранково",
     "teams_count": "{teamCount} отбора",
     "teams_of": "{teamCount} отбора по {playersPerTeam}",
-    "teams_title": "Отбори"
+    "teams_title": "Отбори",
+    "ranked_pairing_note": "В отборните режими членове на клан и приятели на опашката се поставят в един и същи отбор, когато е възможно. Приятелите се сдвояват първи, после членовете на клана. Ако рейтингите ви са твърде различни, ще бъдете разделени, за да останат игрите честни."
   },
   "new_lobby_prompt": {
     "confirm": "Искаш ли да създадеш ново лоби? Всички играчи ще бъдат поканени да играят пак.",
@@ -1184,7 +1287,8 @@
     "not_found": "Профилът на играча не бе намерен",
     "share": "Сподели профила",
     "title": "Профил на играча",
-    "view": "Виж профила"
+    "view": "Виж профила",
+    "no_clans": "Този играч не членува в клан."
   },
   "player_stats_table": {
     "arrived": "Пристигнали",
@@ -1226,7 +1330,17 @@
     },
     "war": "Война",
     "weapon": "Оръжие",
-    "workers": "Работници"
+    "workers": "Работници",
+    "attack_stats": "Статистика на атаките",
+    "betrayals": "Предателства",
+    "diplomacy_stats": "Дипломация",
+    "gold_stats": "Статистика на златото",
+    "incoming": "Входящи",
+    "intercepted": "Прехванати",
+    "piracy": "Пиратство",
+    "trains": "Влакове",
+    "trains_external": "Чужди влакове",
+    "warship_stats": "Статистика на военните кораби"
   },
   "player_stats_tree": {
     "mode": "Вид",
@@ -1240,7 +1354,39 @@
     "stats_games_played": "Изиграни игри",
     "stats_losses": "Загуби",
     "stats_wins": "Победи",
-    "stats_wlr": "Съотношение победи:загуби"
+    "stats_wlr": "Съотношение победи:загуби",
+    "all": "Всички",
+    "stats_cities_per_game": "Построени градове",
+    "stats_defense_posts_per_game": "Построени отбранителни постове",
+    "stats_factories_per_game": "Построени фабрики",
+    "stats_group_buildings": "Сгради",
+    "stats_group_combat": "Бой",
+    "stats_group_gold": "Спечелено злато",
+    "stats_group_naval": "Флот",
+    "stats_last_100": "Последните 100",
+    "stats_nukes_launched_per_game": "Изстреляни ядрени оръжия",
+    "stats_others_train_gold_per_game": "Злато от чужди влакове",
+    "stats_outgoing_short": "Изходящи",
+    "stats_per_game_suffix": "/ игра",
+    "stats_piracy_gold_per_game": "Злато от пиратство",
+    "stats_played": "Изиграни",
+    "stats_ports_per_game": "Построени пристанища",
+    "stats_summary": "Обобщение на представянето",
+    "stats_trade_arrived_per_game": "Пристигнали търговски кораби",
+    "stats_trade_arrived_short": "Пристигнала търговия",
+    "stats_trade_captured_per_game": "Заловени търговски кораби",
+    "stats_trade_captured_short": "Заловена търговия",
+    "stats_trade_gold_per_game": "Злато от търговия",
+    "stats_train_gold_per_game": "Злато от влакове",
+    "stats_transports_landed_per_game": "Приземени транспорти",
+    "stats_transports_landed_short": "Приземен транспорт",
+    "stats_transports_sent_per_game": "Изпратени транспорти",
+    "stats_transports_sent_short": "Изпратен транспорт",
+    "stats_troops_incoming_per_game": "Входяща атака",
+    "stats_troops_sent_per_game": "Изходяща атака",
+    "stats_victories": "Победи",
+    "stats_warships_built_per_game": "Построени военни кораби",
+    "stats_win_rate": "Процент победи"
   },
   "player_type": {
     "bot": "Племе",
@@ -1309,7 +1455,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Кликни, за да изтриеш най-близкия елемент",
-    "delete_unit_title": "Изтриване на елемент"
+    "delete_unit_title": "Изтриване на елемент",
+    "upgrade_x": "Надгради x{amount}"
   },
   "relation": {
     "default": "Стандартно",
@@ -1407,7 +1554,44 @@
     "subscription_purchase_success": "Абонаментът е активиран!",
     "subscriptions": "Абонаменти",
     "switch_button": "Превключи",
-    "title": "Магазин"
+    "title": "Магазин",
+    "cosmetics": "Козметика",
+    "no_tribes": "Все още не си купил имена на племена.",
+    "purchase_tribe_button": "Купи",
+    "tribe_boost_button": "Усили",
+    "tribe_boost_confirm": "Да усилиш \"{name}\" за {price} Плутоний? Ще се появява по-често в игрите на другите играчи през следващите {days} дни.",
+    "tribe_boost_count": "1 усилване",
+    "tribe_boost_count_plural": "{count} усилвания",
+    "tribe_boost_failed": "Усилването се провали. Моля, опитай отново.",
+    "tribe_boost_gone": "Това име вече не е активно, затова не може да бъде усилено.",
+    "tribe_boost_heading": "Усили име на племе",
+    "tribe_boost_next_expiry": "следващото усилване изтича на {date}",
+    "tribe_boost_success": "\"{name}\" беше усилено.",
+    "tribe_duplicate": "Името вече е заето.",
+    "tribe_name_placeholder": "Въведи име на племе",
+    "tribe_name_required": "Първо въведи име.",
+    "tribe_purchase_failed": "Покупката се провали. Моля, опитай отново.",
+    "tribe_purchase_live": "\"{name}\" вече е активно в игрите.",
+    "tribe_rate_limited": "Купуваш имена твърде бързо. Опитай отново след {seconds}с.",
+    "tribe_stats_boosted": "{multiplier}× усилено",
+    "tribe_stats_button": "Статистика",
+    "tribe_stats_failed": "Статистиката не можа да се зареди. Опитай отново по-късно.",
+    "tribe_stats_games": "Игри",
+    "tribe_stats_lifetime": "Общо",
+    "tribe_stats_owner": "Собственик",
+    "tribe_stats_reach": "Обхват на играчи",
+    "tribe_stats_reach_tooltip": "Появи се в игри с {count} играчи",
+    "tribe_stats_window": "Последни {days} дни ({start} – {end})",
+    "tribe_stats_window_short": "Последни {days} дни",
+    "tribe_status_active": "Активно",
+    "tribe_status_rejected": "Отхвърлено",
+    "tribes": "Племена",
+    "tribes_coming_soon": "Очаквайте скоро",
+    "tribes_load_failed": "Имената на племената ти не можаха да се заредят. Отвори отново магазина, за да опиташ пак.",
+    "tribes_login_required": "Влез в акаунта си, за да купуваш и управляваш имена на племена.",
+    "tribes_purchase_description": "Името ти се присвоява на бот племе в реални мултиплейър игри. Активно е веднага.",
+    "tribes_purchase_heading": "Купи име на племе",
+    "your_tribes_heading": "Твоите имена на племена"
   },
   "team_colors": {
     "blue": "Син",
@@ -1472,7 +1656,8 @@
     "missile_silo": "Ракетен силоз",
     "port": "Пристанище",
     "sam_launcher": "Противоракетна установка земя-въздух SAM",
-    "warship": "Военен кораб"
+    "warship": "Военен кораб",
+    "forward_base": "Предна база"
   },
   "user_setting": {
     "alert_frame_desc": "Превключване на предупредителното поле. Когато е активирано, полето ще се показва, когато бъдете предадени или атакувани по суша.",
@@ -1606,7 +1791,15 @@
     "zoom_out": "Отдалечаване на камерата",
     "zoom_out_desc": "Отдалечаване на камерата от картата",
     "colorblind_desc": "Използвай цветове за територии и граници, подходящи за хора с далтонизъм",
-    "colorblind_label": "Режим за далтонисти"
+    "colorblind_label": "Режим за далтонисти",
+    "build_forward_base": "Построй предна база",
+    "build_forward_base_desc": "Построй Предна база под курсора си.",
+    "graphics_preset_desc": "Избери пресет за изгледа на картата. Прецизирай или направи свой в настройките на графиката в играта.",
+    "graphics_preset_label": "Графичен пресет",
+    "section_display": "Дисплей",
+    "section_gameplay": "Геймплей",
+    "section_interface": "Интерфейс",
+    "section_privacy": "Поверителност"
   },
   "username": {
     "account_invalid_chars": "Името може да съдържа само букви, цифри, долни черти и тирета.",
@@ -1643,12 +1836,57 @@
     "territory_pattern": "Купи териториален шаблон, за да се освободиш от рекламите!",
     "you_won": "Ти спечели!",
     "your_team": "Твоят отбор спечели!",
-    "youtube_tutorial": "Нужда от помощ?"
+    "youtube_tutorial": "Нужда от помощ?",
+    "match_cancelled": "Мачът е отменен — не всички играчи се появиха"
   },
   "matchmaking_button": {
     "description": "(АЛФА)",
     "login_required": "Впиши се, за да играеш ранково!",
     "must_login": "Трябва да си вписан в профила си, за да играеш ранков мачмейкинг.",
     "play_ranked": "1v1 Ранков мачмейкинг"
+  },
+  "ban_notice": {
+    "appeal": "Ако смяташ, че това е грешка, свържи се с нас в Discord.",
+    "category": {
+      "cheating": "Читерство или неоторизиран софтуер",
+      "child_safety": "Нарушение на детската безопасност",
+      "disruptive_play": "Пречещо поведение, тролене или спам",
+      "exploiting": "Използване на бъгове",
+      "harassment": "Тормоз, заплахи или обиди",
+      "hate_speech": "Реч на омразата или дискриминация",
+      "inappropriate_content": "Неподходящо или explicit съдържание",
+      "multi_accounting": "Множество акаунти / избягване на бан",
+      "offensive_identifier": "Обидно потребителско име, таг на клан или флаг",
+      "other": "Нарушение на условията за ползване",
+      "rank_manipulation": "Манипулация на ранга или рейтинга",
+      "teaming": "Сговор или незаконен тийминг"
+    },
+    "permanent": "Този бан е постоянен.",
+    "reason": "Причина: {reason}",
+    "title": "Акаунтът ти е блокиран",
+    "until": "Блокиран до {date}."
+  },
+  "checkin": {
+    "claim_button": "Вземи {amount}",
+    "claimed_today": "Все още няма награда за вземане",
+    "day_label": "Ден {day}",
+    "streak_label": "{streak} последователни дни",
+    "title": "Ежедневно влизане"
+  },
+  "featured_stream": {
+    "expand": "Разшири",
+    "hide_today": "Скрий за днес",
+    "live": "НА ЖИВО",
+    "minimize": "Минимизирай",
+    "open_on_twitch": "Отвори {channel} в Twitch"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Остава една минута!"
+  },
+  "streaming_now": {
+    "live_count": "{count} на живо",
+    "title": "Излъчва се сега",
+    "viewers": "{count} гледат",
+    "watch": "Гледай {name}"
   }
 }

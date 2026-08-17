@@ -57,7 +57,44 @@
     "tab_games": "Játékok",
     "tab_stats": "Statisztikák",
     "title": "Felhasználói fiók",
-    "your_subscription": "Előfizetésed"
+    "your_subscription": "Előfizetésed",
+    "claim": "Beváltás",
+    "claim_all": "Mind beváltása",
+    "claim_failed": "Nem sikerült beváltani a jutalmat. Próbáld újra.",
+    "games_clan_tag": "Klántag",
+    "games_result_incomplete": "Befejezetlen",
+    "games_type_private": "Privát",
+    "games_type_public": "Nyilvános",
+    "games_type_singleplayer": "Egyjátékos",
+    "games_username": "Felhasználónév",
+    "link_existing_account": "Meglévő fiók összekapcsolása",
+    "marketing_desc": "Alkalmi hírek, események és játékfrissítések. Bármikor leiratkozhatsz.",
+    "marketing_no_email": "Kapcsolj egy e-mail-címet a fiókodhoz, hogy feliratkozhass a frissítésekre.",
+    "marketing_title": "E-mail értesítések",
+    "reward_daily": "Napi előfizetői jutalom",
+    "reward_daily_checkin": "Napi bejelentkezés ({day}. nap)",
+    "reward_signup_bonus": "Előfizetői regisztrációs bónusz",
+    "tab_clans": "Klánok",
+    "tab_settings": "Beállítások",
+    "unclaimed_rewards": "Be nem váltott jutalmak",
+    "username_confirm_abandon": "Véglegesen lemondasz a fenntartott \"{name}\" névről.",
+    "username_confirm_body": "Az új neved 30 napra zárolva lesz.",
+    "username_confirm_button": "Név módosítása",
+    "username_confirm_case_only": "Az új név csak nagybetű-kisbetű használatban tér el a jelenlegitől — a 30 napos zárolás így is újraindul.",
+    "username_confirm_heading": "Felhasználónév módosítása?",
+    "username_cooldown_until": "Legközelebb {date} után módosíthatod a felhasználóneved.",
+    "username_error_cooldown": "{days} nap múlva módosíthatod újra a felhasználóneved.",
+    "username_error_failed": "Nem sikerült módosítani a felhasználóneved. Próbáld újra később.",
+    "username_error_profane": "Ez a felhasználónév nem engedélyezett.",
+    "username_error_taken": "Ez a felhasználónév már foglalt — próbálj egy másikat.",
+    "username_grace_warning": "A(z) \"{name}\" névhez fűződő kizárólagos jogodat {date} napon elveszíted. Újítsd meg az előfizetésed a megtartásához.",
+    "username_not_set": "Foglald le a felhasználóneved — ez azonosít téged minden játékodban.",
+    "username_placeholder": "Adj meg egy felhasználónevet",
+    "username_save": "Mentés",
+    "username_temporary_notice": "A neved egy másik játékos foglalta le. Válassz egy újat — ez az átnevezés ingyenes.",
+    "username_temporary_prompt": "A felhasználóneved egy másik játékos foglalta le. Válassz most egy újat? Az átnevezés ingyenes.",
+    "username_temporary_prompt_confirm": "Név kiválasztása",
+    "username_title": "Felhasználónév"
   },
   "build_menu": {
     "desc": {
@@ -70,10 +107,12 @@
       "missile_silo": "Nukleáris fegyverek indítására használható",
       "port": "Kereskedőhajókat küld, hogy arany termeljen",
       "sam_launcher": "Véd a közelgő nukleáris rakéták ellen",
-      "warship": "Elfogja a kereskedőhajókat, elpusztítja a hajókat és csónakokat"
+      "warship": "Elfogja a kereskedőhajókat, elpusztítja a hajókat és csónakokat",
+      "forward_base": "Másodlagos utánpótlási pontként szolgál, csökkentve a távoli támadások ellátási vonal büntetését"
     },
     "not_enough_money": "Nincs elég pénz",
-    "warship_shift_hint": "Tartsd lenyomva a Shift billentyűt, és húzással jelölj ki egyszerre több hadihajót"
+    "warship_shift_hint": "Tartsd lenyomva a Shift billentyűt, és húzással jelölj ki egyszerre több hadihajót",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -326,7 +365,19 @@
     "transfer_leadership": "Vezetés átadása",
     "transfer_warning": "Ezzel a kiválasztott tag lesz az új vezető. Te pedig taggá válsz. Ez a művelet nem vonható vissza.",
     "unban": "Feloldás",
-    "discord_url_placeholder": "https://discord.gg/..."
+    "discord_url_placeholder": "https://discord.gg/...",
+    "create_clan": "Klán létrehozása",
+    "create_description_placeholder": "Leírás (opcionális)",
+    "create_insufficient_funds": "Nincs elég Caps klán létrehozásához.",
+    "create_invalid_tag": "A tagnek 2-5 betűből/számból kell állnia.",
+    "create_name_placeholder": "Klán neve",
+    "create_name_required": "Adj meg egy klánnevet.",
+    "create_open_label": "Bárki csatlakozhat (kapcsold ki, ha jóváhagyás szükséges)",
+    "create_submit": "Létrehozás",
+    "create_tag_placeholder": "TAG (2-5 betű)",
+    "create_tag_taken": "Ez a tag már foglalt.",
+    "history_date_at": "{date} {time}",
+    "history_date_full": "{year}. {month} {day}."
   },
   "common": {
     "available": "Elérhető",
@@ -365,7 +416,8 @@
     "summary_keep": "Megtart",
     "summary_send": "Küldés",
     "target_dead": "Célpont megsemmisítve",
-    "target_dead_note": "Nem tudsz erőforrásokat küldeni megsemmisített játékosoknak."
+    "target_dead_note": "Nem tudsz erőforrásokat küldeni megsemmisített játékosoknak.",
+    "loading": "Betöltés..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "A kapcsolat nélküli játékosokat akkor is megtámadhatod, ha szövetséges vagy velük.",
@@ -386,7 +438,18 @@
     "per_day": "/nap",
     "rare": "Ritka",
     "soft": "Caps",
-    "uncommon": "Nem gyakori"
+    "uncommon": "Nem gyakori",
+    "button_title": "Válaszd ki a kozmetikáidat!",
+    "public_lobbies": "Nyilvános lobbik",
+    "public_lobbies_info": "Hozz létre egyéni lobbikat, amelyek nyilvánosan listázva vannak, így bárki csatlakozhat.",
+    "search": "Keresés...",
+    "signup_bonus": "Regisztrációs bónusz",
+    "title": "Kozmetikák",
+    "unlimited_ranked": "Korlátlan rangsorolt",
+    "unlimited_ranked_info": "Nincs korlátozva, hány rangsorolt meccset játszhatsz.",
+    "usd_value": "Érték: {usd}",
+    "verified_name": "Igazolt felhasználónév",
+    "verified_name_info": "A felhasználóneved a fiókodhoz van fenntartva, és igazolt jelvényt mutat a játékban."
   },
   "difficulty": {
     "difficulty": "Nemzetek nehézsége",
@@ -409,7 +472,8 @@
     "spawn_failed": {
       "description": "Az automatikus spawn sikertelen. Nem játszhatsz ezzel a játékkal.",
       "title": "Sikertelen spawnolás"
-    }
+    },
+    "connection_refused": "A kapcsolat visszautasítva: {reason}"
   },
   "events_display": {
     "about_to_expire": "A szövetséged hamarosan lejár a következő játékossal: {name}!",
@@ -451,7 +515,10 @@
     "trade_ship_captured": "{name} elfogta a kereskedelmi hajódat",
     "unit_destroyed": "Az {unit} megsemmisült",
     "unit_voluntarily_deleted": "Az egység önként törölve",
-    "wants_to_renew_alliance": "{name} meg akarja újítani a szövetséget"
+    "wants_to_renew_alliance": "{name} meg akarja újítani a szövetséget",
+    "capital_captured": "Elfoglaltad {name} fővárosát, és {gold} aranyat zsákmányoltál!",
+    "capital_fallen": "A fővárosod elesett {name} ellen! Áthelyezésre került.",
+    "supply_line_weak": "Az ellátási vonalak túlnyúltak: ez a támadás {percent}%-kal gyengébb ilyen messze a fővárosodtól"
   },
   "flag_input": {
     "button_title": "Válassz egy zászlót!",
@@ -516,7 +583,11 @@
     "bombs": "Bombák",
     "conquests": "Hódítások",
     "title": "Játék infó",
-    "trade": "Kereskedelem"
+    "trade": "Kereskedelem",
+    "load_failed": "Nem sikerült betölteni a játékstatisztikát.",
+    "num_of_conquests_nations": "Nemzet-ölések",
+    "retry": "Újra",
+    "unknown_game_type": "Ismeretlen játéktípus"
   },
   "game_list": {
     "details": "Részletek",
@@ -527,11 +598,13 @@
     "ranking": "Rangsor",
     "recent_games": "Legutóbbi Játékok",
     "replay": "Újrajátszás",
-    "type": "Típus"
+    "type": "Típus",
+    "stats": "Statisztika"
   },
   "game_mode": {
     "ffa": "Mindenki mindenki ellen",
-    "teams": "Csapatok"
+    "teams": "Csapatok",
+    "hvn": "Emberek vs Nemzetek"
   },
   "game_starting_modal": {
     "code_license": "AGPL-3.0 licenc alatt álló kód (garancia nélkül)",
@@ -603,7 +676,35 @@
     "territory_alpha_label": "Terület átlátszatlansága",
     "territory_sat_desc": "Mennyire élénkek a terület kitöltési színei (alacsonyabb érték esetén elszürkülnek)",
     "territory_sat_label": "Terület telítettsége",
-    "title": "Grafikus beállítások"
+    "title": "Grafikus beállítások",
+    "advanced_desc": "Egyedi grafikai beállítások finomhangolása",
+    "advanced_label": "Speciális beállítások",
+    "copy_json_copied": "Másolva!",
+    "copy_json_desc": "Másold ki a jelenlegi beállításokat JSON formátumban, hogy megoszthasd barátaiddal",
+    "copy_json_label": "Beállítások JSON másolása",
+    "import_json_apply": "Alkalmaz",
+    "import_json_desc": "Illeszd be egy barátod beállítás-JSON-ját, és alkalmazd",
+    "import_json_invalid": "Ez nem tűnik érvényes beállítás-JSON-nak",
+    "import_json_label": "Beállítások JSON importálása",
+    "layer_nukeable": "Nukleárisan támadható",
+    "layer_placement_land": "Szárazföld réteg",
+    "layer_placement_water": "Víz réteg",
+    "naval_hover_highlight_desc": "Kiemeli a haditengerészeti egység tulajdonosát, ha rájuk viszed az egeret.",
+    "naval_hover_highlight_label": "Haditengerészeti kiemelés",
+    "preset_colorblind": "Színvak",
+    "preset_colorblind_desc": "Színvakbarát terület- és határszínek",
+    "preset_custom": "Egyéni",
+    "preset_default": "Alapértelmezett",
+    "preset_default_desc": "A klasszikus FrontLine kinézet",
+    "preset_delete_confirm": "Törlöd a(z) \"{name}\" előbeállítást?",
+    "preset_migrated_name": "Az én beállításaim",
+    "preset_name_placeholder": "Előbeállítás neve",
+    "preset_night": "Éjszaka",
+    "preset_night_desc": "Elsötétített térkép izzó épületekkel és egységekkel",
+    "save_preset_label": "Mentés",
+    "section_custom_presets": "Egyéni előbeállítások",
+    "section_map_layers": "Térkép rétegek",
+    "section_presets": "Előbeállítások"
   },
   "heads_up_message": {
     "catching_up": "Frissítés...",
@@ -719,7 +820,18 @@
     "ui_wilderness": "Vadvidék",
     "ui_your_team": "Saját csapat:",
     "video_tutorial": "Videó bemutató",
-    "video_tutorial_title": "FrontLine bemutató"
+    "video_tutorial_title": "FrontLine bemutató",
+    "build_forward_base": "Előretolt bázis",
+    "build_forward_base_desc": "Másodlagos utánpótlási pontként szolgál a közelben indított támadásokhoz, csökkentve az ellátási vonal büntetését a front közelében. Nem fejleszthető.",
+    "mechanic_capital_fall": "Főváros elestje",
+    "mechanic_capital_fall_desc": "Foglald el az ellenfeled fővárosának pontos mezőjét, és zsákmányolod az aranyuk egy részét. Kénytelenek lesznek áthelyezni a fővárosukat a megmaradt területükön belül. Minden játékos fővárosa koronaikonnal van jelölve a térképen (a tiéd arany, a többieké fehér), így mindig tudod, hova kell csapnod.",
+    "mechanic_directed_attack": "Irányított támadások",
+    "mechanic_directed_attack_desc": "Kattints egy célmezőre támadás előtt, és a csapataid afelé nyomulnak, ahelyett hogy egyenletesen szóródnának szét a határ mentén. Egy kapcsoló a támadási arány csúszka mellett vált irányított és egyenletes szóródás között.",
+    "mechanic_oil_rig": "Olajfúró torony",
+    "mechanic_oil_rig_desc": "Egy ritka erőforrás-mező, amely passzív aranybevételt biztosít annak, aki birtokolja.",
+    "mechanic_supply_lines": "Ellátási vonalak és előretolt bázis",
+    "mechanic_supply_lines_desc": "A támadások gyengülnek, minél messzebbre utaznak a fővárosodtól. Építs egy előretolt bázist a front közelében, hogy másodlagos utánpótlási pontként szolgáljon, és ellensúlyozza a büntetést.",
+    "mechanics_title": "FrontLine mechanikák"
   },
   "host_modal": {
     "anonymous_players": "Névtelen játékosok",
@@ -772,7 +884,15 @@
     "toggle_name_reveal": "Valódi nevek láthatóságának be- és kikapcsolása",
     "waiting": "Várakozás a játékosokra...",
     "water_nukes": "Vízi atomfegyverek",
-    "disable_alliances": "Szövetségek letiltása"
+    "disable_alliances": "Szövetségek letiltása",
+    "auto_start_timer": "Idő az automatikus indításig",
+    "custom_alliances": "Szövetség időtartama",
+    "doomsday_clock": "Végítélet óra",
+    "subscription_required_body": "Előfizetés szükséges ahhoz, hogy a lobbid nyilvánossá tedd.",
+    "subscription_required_title": "Előfizetés szükséges",
+    "view_subscriptions": "Előfizetések megtekintése",
+    "visibility_private": "Privát",
+    "visibility_public": "Nyilvános"
   },
   "ios_banner": {
     "got_it": "Értem",
@@ -791,7 +911,8 @@
     "admin": "A lobbi adminisztrátora kirúgta",
     "duplicate_session": "Ki lettél rúgva a játékból (lehet, hogy egy másik lapon játszottál)",
     "host_left": "A lobbi házigazdája kirúgta.",
-    "lobby_creator": "A lobbi létrehozója kirúgta"
+    "lobby_creator": "A lobbi létrehozója kirúgta",
+    "match_cancelled": "A meccs törölve: egy játékos nem tudott csatlakozni. Nem vesztettél ELO-t."
   },
   "leaderboard": {
     "cities": "Városok",
@@ -804,7 +925,15 @@
     "show_control": "Vezérlés megjelenítése",
     "show_units": "Egységek megjelenítése",
     "team": "Csapat",
-    "warships": "Hadihajók"
+    "warships": "Hadihajók",
+    "allies": "Szövetségesek",
+    "betrayals": "Árulások",
+    "clan": "Klán",
+    "configure_columns": "Oszlopok testreszabása",
+    "factories": "Gyárak",
+    "ports": "Kikötők",
+    "rank": "Rang",
+    "troops": "Csapatok"
   },
   "leaderboard_modal": {
     "clan": "Klán",
@@ -827,7 +956,21 @@
     "win_loss_ratio": "Győzelem/Vereség",
     "win_score": "Nyerő pontszám",
     "win_score_tooltip": "Súlyozott győzelmek a klán részvétele és a mérkőzés nehézsége alapján",
-    "your_ranking": "A helyezésed"
+    "your_ranking": "A helyezésed",
+    "ranked_2v2_tab": "2v2 rangsorolt",
+    "ranked_no_stats": "Ezen a ranglistán még nem játszottak rangsorolt meccset",
+    "tribes_boost": "Boostok",
+    "tribes_boost_tooltip": "A boostolt nevek gyakrabban jelennek meg más játékosok játékaiban",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "{multiplier}×-szer gyakrabban jelenik meg más játékosok játékaiban",
+    "tribes_games_tooltip": "{count} játékban szerepelt",
+    "tribes_name": "Név",
+    "tribes_no_stats": "Egyetlen törzs sem szerepelt még játékban",
+    "tribes_reach": "Játékos-elérés",
+    "tribes_reach_tooltip": "Az összes játékos száma azokban a játékokban, amelyekben ez a név szerepelt.",
+    "tribes_reach_value_tooltip": "{count} játékossal rendelkező játékokban szerepelt",
+    "tribes_tab": "Törzsek",
+    "tribes_window": "Gördülő {days} napos időszak ({start} – {end})"
   },
   "main": {
     "account": "Fiók",
@@ -855,7 +998,8 @@
     "troubleshooting": "Hibaelhárítás",
     "user_avatar_alt": "{username} profilképe",
     "wiki": "Wiki",
-    "game_info": "Játék infó"
+    "game_info": "Játék infó",
+    "checkin": "Bejelentkezés"
   },
   "map": {
     "achiran": "Achiran",
@@ -958,7 +1102,29 @@
     "world": "Világ",
     "worldinverted": "Fordított világ",
     "yellowsea": "Sárga-tenger",
-    "yenisei": "Jenisej"
+    "yenisei": "Jenisej",
+    "balkhash": "Balkas",
+    "baltics": "Balti térség",
+    "branchingpaths": "Elágazó ösvények",
+    "caspiansea": "Kaszpi-tenger",
+    "china": "Kína",
+    "clearwaterlakes": "Tiszta-vizű tavak",
+    "crimea": "Krím",
+    "fingerlakes": "Finger-tavak",
+    "france": "Franciaország",
+    "germany": "Németország",
+    "gulfofguinea": "Guineai-öböl",
+    "hecatestrait": "Hecate-szoros",
+    "irishsea": "Ír-tenger",
+    "lasvegasstrip": "Las Vegas Strip",
+    "levant": "Levante",
+    "morethanluck": "Több mint szerencse",
+    "russia": "Oroszország",
+    "scandinavia": "Skandinávia",
+    "sol": "Sol",
+    "tierradelfuego": "Tűzföld",
+    "vietnam": "Vietnám",
+    "yangtzeriver": "Jangce folyó"
   },
   "map_categories": {
     "africa": "Afrika",
@@ -988,7 +1154,9 @@
     "no_results": "Nem található térkép",
     "search_maps": "Térképek keresése...",
     "search_results": "Keresési Eredmények",
-    "unfavorite": "Eltávolítás a kedvencekből"
+    "unfavorite": "Eltávolítás a kedvencekből",
+    "collapse_all": "Mind összecsukása",
+    "expand_all": "Mind kibontása"
   },
   "matchmaking_button": {
     "description": "(ALPHA)",
@@ -1002,7 +1170,16 @@
     "no_elo": "Még nincs ELO-d",
     "searching": "Játék keresése...",
     "title": "1v1 Rangsorolt meccskeresés (ALPHA)",
-    "waiting_for_game": "Várakozás a játék indítására..."
+    "waiting_for_game": "Várakozás a játék indítására...",
+    "clan_verification_failed": "A klántagságot nem sikerült ellenőrizni. Próbáld újra a párosítást.",
+    "invalid_clan": "A kiválasztott klánod már nem érvényes. Válassz egy aktuális klánt, és állj sorba újra.",
+    "limit_reached": "Elfogytak az ingyenes rangsorolt meccseid.",
+    "limit_reached_info": "Az ingyenes meccsek naponta feltöltődnek. Fizess elő a korlátlan rangsorolt játékért.",
+    "limit_upsell": "Szerezz korlátlan rangsorolt hozzáférést",
+    "must_login": "Be kell jelentkezned a rangsorolt párosítás játszásához.",
+    "queue_size": "Játékosok a sorban: {count}",
+    "replaced": "Egy másik lapról vagy ablakból csatlakoztál a párosításhoz.",
+    "title_2v2": "2v2 rangsorolt párosítás (ALFA)"
   },
   "mode_selector": {
     "coming_soon": "Hamarosan",
@@ -1011,7 +1188,8 @@
     "ranked_title": "Rangsorolt",
     "teams_count": "{teamCount} csapat",
     "teams_of": "{teamCount} csapat {playersPerTeam} fővel",
-    "teams_title": "Csapatok"
+    "teams_title": "Csapatok",
+    "ranked_pairing_note": "Csapatmódokban a sorban álló klántársak és barátok lehetőség szerint ugyanabba a csapatba kerülnek. Először a barátok párosulnak, majd a klántársak. Ha a pontszámaitok túl távol esnek egymástól, külön kerültök párosításra a fair játék érdekében."
   },
   "news": {
     "title": "Kiadási megjegyzések"
@@ -1117,7 +1295,17 @@
     },
     "war": "Háború",
     "weapon": "Fegyver",
-    "workers": "Munkások"
+    "workers": "Munkások",
+    "attack_stats": "Támadási statisztika",
+    "betrayals": "Árulások",
+    "diplomacy_stats": "Diplomácia",
+    "gold_stats": "Arany statisztika",
+    "incoming": "Bejövő",
+    "intercepted": "Elfogott",
+    "piracy": "Kalózkodás",
+    "trains": "Vonatok",
+    "trains_external": "Mások vonatai",
+    "warship_stats": "Hadihajó statisztika"
   },
   "player_stats_tree": {
     "mode": "Mód",
@@ -1130,7 +1318,40 @@
     "stats_games_played": "Játékok száma",
     "stats_losses": "Vereségek",
     "stats_wins": "Győzelmek",
-    "stats_wlr": "Győzelem/Vereség arány"
+    "stats_wlr": "Győzelem/Vereség arány",
+    "all": "Mind",
+    "ranked_2v2": "2v2",
+    "stats_cities_per_game": "Épített városok",
+    "stats_defense_posts_per_game": "Épített védelmi állások",
+    "stats_factories_per_game": "Épített gyárak",
+    "stats_group_buildings": "Épületek",
+    "stats_group_combat": "Harc",
+    "stats_group_gold": "Szerzett arany",
+    "stats_group_naval": "Haditengerészet",
+    "stats_last_100": "Utolsó 100",
+    "stats_nukes_launched_per_game": "Kilőtt nukleáris fegyverek",
+    "stats_others_train_gold_per_game": "Mások vonat-aranya",
+    "stats_outgoing_short": "Kimenő",
+    "stats_per_game_suffix": "/ meccs",
+    "stats_piracy_gold_per_game": "Kalóz-arany",
+    "stats_played": "Játszva",
+    "stats_ports_per_game": "Épített kikötők",
+    "stats_summary": "Teljesítmény összefoglaló",
+    "stats_trade_arrived_per_game": "Megérkezett kereskedelmi hajók",
+    "stats_trade_arrived_short": "Kereskedelem megérkezett",
+    "stats_trade_captured_per_game": "Elfogott kereskedelmi hajók",
+    "stats_trade_captured_short": "Kereskedelem elfogva",
+    "stats_trade_gold_per_game": "Kereskedelmi arany",
+    "stats_train_gold_per_game": "Vonat-arany",
+    "stats_transports_landed_per_game": "Partra szállt szállítók",
+    "stats_transports_landed_short": "Szállító partra szállt",
+    "stats_transports_sent_per_game": "Küldött szállítók",
+    "stats_transports_sent_short": "Szállító elküldve",
+    "stats_troops_incoming_per_game": "Bejövő támadás",
+    "stats_troops_sent_per_game": "Kimenő támadás",
+    "stats_victories": "Győzelmek",
+    "stats_warships_built_per_game": "Épített hadihajók",
+    "stats_win_rate": "Győzelmi arány"
   },
   "player_type": {
     "bot": "Törzs",
@@ -1149,7 +1370,15 @@
     "pvp_immunity": "PVP immunitás ideje",
     "starting_gold": "Kezdő arany",
     "title": "Csatlakozás privát lobbyhoz",
-    "version_mismatch": "Ez a játék egy másik verzióval lett létrehozva. Nem lehet csatlakozni."
+    "version_mismatch": "Ez a játék egy másik verzióval lett létrehozva. Nem lehet csatlakozni.",
+    "listing_failed": "Nem sikerült frissíteni a lobbi listázását. Próbáld újra.",
+    "listing_full": "A nyilvános lobbilista tele van. Próbáld újra később.",
+    "listing_host_cheats_enabled": "Kapcsold ki a házigazda-csalásokat a nyilvános listázáshoz.",
+    "listing_limit_reached": "Már van egy nyilvánosan listázott lobbid.",
+    "listing_requires_subscription": "Aktív előfizetés szükséges a lobbi nyilvános listázásához.",
+    "listing_whitelist_enabled": "Kapcsold ki a csatlakozási whitelistet a nyilvános listázáshoz.",
+    "no_open_lobbies": "Jelenleg nincs nyitott lobbi",
+    "open_lobbies": "Nyitott lobbik"
   },
   "public_game_modifier": {
     "compact_map": "Kompakt térkép",
@@ -1170,7 +1399,10 @@
     "starting_gold": "{amount}M kezdő arany",
     "starting_gold_label": "Kezdő arany",
     "water_nukes": "Vízi atomfegyverek",
-    "water_nukes_label": "Vízi atomfegyverek"
+    "water_nukes_label": "Vízi atomfegyverek",
+    "doomsday_clock": "Végítélet óra",
+    "doomsday_clock_label": "Végítélet óra",
+    "doomsday_clock_with_speed": "Végítélet óra: {speed}"
   },
   "public_lobby": {
     "connecting": "Csatlakozás a váróteremhez...",
@@ -1188,7 +1420,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Kattints a legközelebbi egység törléséhez",
-    "delete_unit_title": "Egység törlése"
+    "delete_unit_title": "Egység törlése",
+    "upgrade_x": "Fejlesztés x{amount}"
   },
   "relation": {
     "default": "Alapértelmezett",
@@ -1242,7 +1475,12 @@
     "starting_gold_placeholder": "5",
     "toggle_achievements": "Teljesítmények ki-/bekapcsolása",
     "water_nukes": "Vízi atomfegyverek",
-    "disable_alliances": "Szövetségek letiltása"
+    "disable_alliances": "Szövetségek letiltása",
+    "custom_alliances": "Szövetség időtartama",
+    "doomsday_clock": "Végítélet óra",
+    "medals_earned": "Érmek",
+    "medals_of_maps": "{total} térképből",
+    "mins_placeholder": "Perc"
   },
   "store": {
     "already_subscribed": "Már előfizettél.",
@@ -1269,7 +1507,58 @@
     "current_plan": "Jelenlegi csomag",
     "no_packs": "Nincs elérhető csomag. Nézz vissza később az új tárgyakért.",
     "not_enough_currency": "Nincs elég pénzned ennek a megvásárlásához.",
-    "subscribe_button": "Előfizetés"
+    "subscribe_button": "Előfizetés",
+    "change_tier_rate_limited": "Épp most váltottál szintet. Várj egy percet, mielőtt újra váltasz.",
+    "confirm_purchase_body": "Megveszed a(z) {item} tételt {amount, number} {currency} áron?",
+    "confirm_purchase_title": "Vásárlás megerősítése",
+    "cosmetics": "Kozmetikák",
+    "crowns": "Koronák",
+    "custom_amount": "Egyedi összeg",
+    "custom_currency_purchase_success": "Plutónium vásárlás sikeres!",
+    "effects": "Effektek",
+    "insufficient_currency_body": "{amount, number} további {currency} kell a(z) {item} megvásárlásához.",
+    "insufficient_currency_title": "Nincs elég {currency}",
+    "no_crowns": "Nincsenek elérhető koronák. Nézz vissza később új tételekért.",
+    "no_effects": "Nincsenek elérhető effektek. Nézz vissza később új tételekért.",
+    "no_tribes": "Még nem vásároltál törzsnevet.",
+    "plutonium_amount": "Plutónium mennyiség",
+    "purchase_currency": "{currency} vásárlása",
+    "purchase_tribe_button": "Vásárlás",
+    "subscribed": "Előfizetve",
+    "tribe_boost_button": "Boost",
+    "tribe_boost_confirm": "Boostolod a(z) \"{name}\" nevet {price} Plutóniumért? Gyakrabban fog megjelenni más játékosok játékaiban a következő {days} napban.",
+    "tribe_boost_count": "1 boost",
+    "tribe_boost_count_plural": "{count} boost",
+    "tribe_boost_failed": "A boost sikertelen. Próbáld újra.",
+    "tribe_boost_gone": "Ez a név már nem aktív, így nem boostolható.",
+    "tribe_boost_heading": "Törzsnév boostolása",
+    "tribe_boost_next_expiry": "a következő boost lejár: {date}",
+    "tribe_boost_success": "\"{name}\" boostolva.",
+    "tribe_duplicate": "Ez a név már foglalt.",
+    "tribe_name_placeholder": "Adj meg egy törzsnevet",
+    "tribe_name_required": "Először adj meg egy nevet.",
+    "tribe_purchase_failed": "A vásárlás sikertelen. Próbáld újra.",
+    "tribe_purchase_live": "\"{name}\" mostantól élesben elérhető a játékokban.",
+    "tribe_rate_limited": "Túl gyorsan vásárolsz neveket. Próbáld újra {seconds} másodperc múlva.",
+    "tribe_stats_boosted": "{multiplier}× boostolva",
+    "tribe_stats_button": "Statisztika",
+    "tribe_stats_failed": "Nem sikerült betölteni a statisztikát. Próbáld újra később.",
+    "tribe_stats_games": "Meccsek",
+    "tribe_stats_lifetime": "Élettartam",
+    "tribe_stats_owner": "Tulajdonos",
+    "tribe_stats_reach": "Játékos-elérés",
+    "tribe_stats_reach_tooltip": "{count} játékossal rendelkező játékokban szerepelt",
+    "tribe_stats_window": "Utolsó {days} nap ({start} – {end})",
+    "tribe_stats_window_short": "Utolsó {days} nap",
+    "tribe_status_active": "Aktív",
+    "tribe_status_rejected": "Elutasítva",
+    "tribes": "Törzsek",
+    "tribes_coming_soon": "Hamarosan",
+    "tribes_load_failed": "Nem sikerült betölteni a törzsneveidet. Nyisd meg újra a boltot a próbálkozáshoz.",
+    "tribes_login_required": "Jelentkezz be a törzsnevek vásárlásához és kezeléséhez.",
+    "tribes_purchase_description": "A neved egy bot-törzshöz lesz rendelve valódi többjátékos meccsekben. Azonnal élesbe kerül.",
+    "tribes_purchase_heading": "Törzsnév vásárlása",
+    "your_tribes_heading": "A törzsneveid"
   },
   "team_colors": {
     "blue": "Kék",
@@ -1337,7 +1626,8 @@
     "missile_silo": "Rakétasiló",
     "port": "Kikötő",
     "sam_launcher": "Rakétaelhárító rendszer",
-    "warship": "Hadihajó"
+    "warship": "Hadihajó",
+    "forward_base": "Előretolt bázis"
   },
   "user_setting": {
     "alert_frame_desc": "Kapcsolja be a riasztási keretet. Ha engedélyezve van, a keret akkor jelenik meg, ha elárulnak vagy megtámadnak a szárazföldön.",
@@ -1467,7 +1757,19 @@
     "zoom_in": "Nagyítás",
     "zoom_in_desc": "Térkép nagyítása",
     "zoom_out": "Kicsinyítés",
-    "zoom_out_desc": "Térkép kicsinyítése"
+    "zoom_out_desc": "Térkép kicsinyítése",
+    "build_forward_base": "Előretolt bázis építése",
+    "build_forward_base_desc": "Építs egy előretolt bázist a kurzorod alá.",
+    "graphics_preset_desc": "Válaszd ki a térkép előre beállított kinézetét. Finomhangold vagy hozz létre sajátot a játékon belüli grafikai beállításokban.",
+    "graphics_preset_label": "Grafikai előbeállítás",
+    "graphics_refresh_modifier": "Grafika-frissítés módosító",
+    "graphics_refresh_modifier_desc": "Tartsd lenyomva ezt a billentyűt és az R-t a grafika frissítéséhez",
+    "highlight_glow_strength_label": "Kiemelés erőssége",
+    "highlight_small_players_desc": "Fényt ad a kis játékosoknak, hogy könnyen megtalálhatók legyenek.",
+    "section_display": "Megjelenítés",
+    "section_gameplay": "Játékmenet",
+    "section_interface": "Felület",
+    "section_privacy": "Adatvédelem"
   },
   "username": {
     "enter_username": "Add meg a felhasználóneved",
@@ -1479,7 +1781,13 @@
     "tag_too_long": "A kláncímke nem lehet hosszabb 5 karakternél.",
     "tag_too_short": "A kláncímkének 2-5 alfanumerikus karakterből kell állnia.",
     "too_long": "A felhasználónév nem lehet hosszabb {max} karakternél.",
-    "too_short": "A felhasználónévnek legalább {min} karakter hosszúnak kell lennie."
+    "too_short": "A felhasználónévnek legalább {min} karakter hosszúnak kell lennie.",
+    "account_invalid_chars": "A felhasználónév csak betűket, számokat, aláhúzásokat, kötőjeleket és egyszeres szóközöket tartalmazhat a szavak között.",
+    "verified_heading": "Igazolt név",
+    "verified_player": "Igazolt játékos",
+    "verified_sub_required": "Aktív előfizetés szükséges ahhoz, hogy igazolt neved alatt játssz.",
+    "verified_sub_required_confirm": "Bolt megtekintése",
+    "verified_toggle": "Igazolt"
   },
   "win_modal": {
     "died": "Meghaltál",
@@ -1497,6 +1805,112 @@
     "territory_pattern": "Vásárolj egy territoriális mintát, hogy reklámmentes legyél!",
     "you_won": "Nyertél!",
     "your_team": "A csapatod nyert!",
-    "youtube_tutorial": "Segítségre van szükséged?"
+    "youtube_tutorial": "Segítségre van szükséged?",
+    "match_cancelled": "A meccs törölve — nem minden játékos spawnolt",
+    "new_lobby": "Új lobbi"
+  },
+  "ban_notice": {
+    "appeal": "Ha úgy gondolod, ez tévedés, keress minket Discordon.",
+    "category": {
+      "cheating": "Csalás vagy nem engedélyezett szoftver",
+      "child_safety": "Gyermekbiztonsági szabálysértés",
+      "disruptive_play": "Zavaró viselkedés, griefing vagy spam",
+      "exploiting": "Hibák kihasználása",
+      "harassment": "Zaklatás, fenyegetés vagy visszaélés",
+      "hate_speech": "Gyűlöletbeszéd vagy diszkrimináció",
+      "inappropriate_content": "Nem megfelelő vagy explicit tartalom",
+      "multi_accounting": "Több fiók használata / kitiltás megkerülése",
+      "offensive_identifier": "Sértő felhasználónév, klántag vagy zászló",
+      "other": "Szolgáltatási feltételek megsértése",
+      "rank_manipulation": "Rang vagy pontszám manipulálása",
+      "teaming": "Csapatosodás vagy összejátszás"
+    },
+    "permanent": "Ez a kitiltás végleges.",
+    "reason": "Indok: {reason}",
+    "title": "A fiókod ki van tiltva",
+    "until": "Kitiltva eddig: {date}."
+  },
+  "checkin": {
+    "claim_button": "{amount} beváltása",
+    "claimed_today": "Még nincs beváltható jutalom",
+    "day_label": "{day}. nap",
+    "streak_label": "{streak} napos sorozat",
+    "title": "Napi bejelentkezés"
+  },
+  "doomsday_clock": {
+    "collapsing": "Összeomlik -{rate}/s",
+    "decay_in": "Bomlás {secs}s múlva",
+    "decaying": "Bomlik -{rate} mező/s",
+    "final": "Végső zóna, tarts {pct}%-ot",
+    "growing": "Eléri a(z) {pct}%-ot {time} múlva",
+    "hold": "Tarts ≥ {pct}%-ot",
+    "next_wave": "{time} múlva elkezd emelkedni {pct}%-ra",
+    "stable": "Stabil",
+    "title": "Végítélet óra",
+    "unstable": "Instabil",
+    "you": "Te {pct}%",
+    "your_team": "{team}: {pct}%"
+  },
+  "doomsday_clock_speed": {
+    "fast": "Gyors",
+    "normal": "Normál",
+    "slow": "Lassú",
+    "veryfast": "Nagyon gyors"
+  },
+  "effects": {
+    "nukeType": {
+      "atom": "Atom",
+      "hydro": "Hidrogén",
+      "mirvWarhead": "MIRV"
+    },
+    "type": {
+      "nukeExplosion": "Nukleáris robbanás",
+      "nukeTrail": "Nukleáris nyom",
+      "structures": "Épületek",
+      "transportShipTrail": "Hajónyom",
+      "warship": "Hadihajó"
+    }
+  },
+  "featured_stream": {
+    "expand": "Kibontás",
+    "hide_today": "Elrejtés mára",
+    "live": "ÉLŐ",
+    "minimize": "Kicsinyítés",
+    "open_on_twitch": "{channel} megnyitása a Twitchen"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Egy perc van hátra!"
+  },
+  "marketing_consent": {
+    "body": "Hírek és frissítések e-mailben. Bármikor módosíthatod a fiókodban.",
+    "dismiss": "Elutasítás",
+    "error": "Nem sikerült menteni. Próbáld újra.",
+    "no": "Nem, köszönöm",
+    "title": "Kövesd nyomon a FrontLine-t?",
+    "yes": "Igen, kérem"
+  },
+  "new_lobby_prompt": {
+    "confirm": "Új lobbi indítása? Minden játékos meghívást kap a csatlakozásra.",
+    "dismiss": "Elutasítás",
+    "failed": "Nem sikerült új lobbit létrehozni. Próbáld újra.",
+    "join": "Csatlakozás",
+    "message": "A házigazda új lobbit indított"
+  },
+  "player_profile": {
+    "loading": "Profil betöltése...",
+    "no_clans": "Ez a játékos nincs egyetlen klánban sem.",
+    "not_found": "A játékosprofil nem található",
+    "share": "Profil megosztása",
+    "title": "Játékosprofil",
+    "view": "Profil megtekintése"
+  },
+  "rewards_modal": {
+    "title": "Jutalmak"
+  },
+  "streaming_now": {
+    "live_count": "{count} élő közvetítés",
+    "title": "Most élő",
+    "viewers": "{count} néző",
+    "watch": "{name} megtekintése"
   }
 }

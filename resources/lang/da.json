@@ -57,7 +57,44 @@
     "tab_games": "Spil",
     "tab_stats": "Statistik",
     "title": "Konto",
-    "your_subscription": "Dit abonnement"
+    "your_subscription": "Dit abonnement",
+    "claim": "Indløs",
+    "claim_all": "Indløs Alt",
+    "claim_failed": "Kunne ikke indløse belønningen. Prøv igen.",
+    "games_clan_tag": "Klantag",
+    "games_result_incomplete": "Ufuldstændig",
+    "games_type_private": "Privat",
+    "games_type_public": "Offentlig",
+    "games_type_singleplayer": "Enkeltspiller",
+    "games_username": "Brugernavn",
+    "link_existing_account": "Tilknyt en eksisterende konto",
+    "marketing_desc": "Lejlighedsvise nyheder, begivenheder og spiludvidelser. Afmeld når som helst.",
+    "marketing_no_email": "Tilknyt en e-mail til din konto for at abonnere på opdateringer.",
+    "marketing_title": "E-mail-opdateringer",
+    "reward_daily": "Daglig abonnementsbelønning",
+    "reward_daily_checkin": "Daglig indtjekning (Dag {day})",
+    "reward_signup_bonus": "Tilmeldingsbonus for abonnement",
+    "tab_clans": "Klaner",
+    "tab_settings": "Indstillinger",
+    "unclaimed_rewards": "Ikke-indløste Belønninger",
+    "username_confirm_abandon": "Du vil permanent give afkald på dit reserverede navn \"{name}\".",
+    "username_confirm_body": "Dit nye navn vil være låst i 30 dage.",
+    "username_confirm_button": "Skift navn",
+    "username_confirm_case_only": "Det nye navn adskiller sig kun fra dit nuværende ved store/små bogstaver — det vil stadig genstarte 30-dages-låsen.",
+    "username_confirm_heading": "Skift brugernavn?",
+    "username_cooldown_until": "Du kan skifte dit brugernavn igen den {date}.",
+    "username_error_cooldown": "Du kan skifte dit brugernavn igen om {days} dag(e).",
+    "username_error_failed": "Kunne ikke ændre dit brugernavn. Prøv igen senere.",
+    "username_error_profane": "Det brugernavn er ikke tilladt.",
+    "username_error_taken": "Det brugernavn er allerede taget — prøv et andet.",
+    "username_grace_warning": "Du mister eneretten til \"{name}\" den {date}. Forny dit abonnement for at beholde det.",
+    "username_not_set": "Reservér dit brugernavn — det identificerer dig på tværs af alle dine spil.",
+    "username_placeholder": "Indtast et brugernavn",
+    "username_save": "Gem",
+    "username_temporary_notice": "Dit navn blev taget af en anden spiller. Vælg et nyt — denne omdøbning er gratis.",
+    "username_temporary_prompt": "Dit brugernavn blev taget af en anden spiller. Vælg et nyt nu? Omdøbningen er gratis.",
+    "username_temporary_prompt_confirm": "Vælg et navn",
+    "username_title": "Brugernavn"
   },
   "build_menu": {
     "desc": {
@@ -70,10 +107,12 @@
       "missile_silo": "Bruges til affyring af atommissiler",
       "port": "Sender handelsskibe for at generere guld",
       "sam_launcher": "Forsvarer mod indkommende atommissiler",
-      "warship": "Indfanger handelsskibe, ødelægger skibe og både"
+      "warship": "Indfanger handelsskibe, ødelægger skibe og både",
+      "forward_base": "Fungerer som en sekundær forsyningsoprindelse og svækker forsyningslinje-straffen på fjerne angreb"
     },
     "not_enough_money": "Ikke nok penge",
-    "warship_shift_hint": "Hold Shift og træk for at vælge flere krigsskibe på én gang"
+    "warship_shift_hint": "Hold Shift og træk for at vælge flere krigsskibe på én gang",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -326,7 +365,19 @@
     "transfer_leadership": "Overfør Lederskab",
     "transfer_warning": "Dette gør det valgte medlem til den nye leder. Du bliver et almindeligt medlem. Denne handling kan ikke fortrydes.",
     "unban": "Ophæv udelukkelse",
-    "discord_url_placeholder": "https://discord.gg/..."
+    "discord_url_placeholder": "https://discord.gg/...",
+    "create_clan": "Opret Klan",
+    "create_description_placeholder": "Beskrivelse (valgfri)",
+    "create_insufficient_funds": "Ikke nok Caps til at oprette en klan.",
+    "create_invalid_tag": "Tag skal være 2-5 bogstaver/tal.",
+    "create_name_placeholder": "Klannavn",
+    "create_name_required": "Indtast et klannavn.",
+    "create_open_label": "Alle kan deltage (fjern markering for at kræve godkendelse)",
+    "create_submit": "Opret",
+    "create_tag_placeholder": "TAG (2-5 bogstaver)",
+    "create_tag_taken": "Det tag er allerede taget.",
+    "history_date_at": "{date} {time}",
+    "history_date_full": "{day}. {month} {year}"
   },
   "common": {
     "available": "Tilgængelig",
@@ -365,7 +416,8 @@
     "summary_keep": "Behold",
     "summary_send": "Send",
     "target_dead": "Målet er elimineret",
-    "target_dead_note": "Du kan ikke sende ressourcer til en elimineret spiller."
+    "target_dead_note": "Du kan ikke sende ressourcer til en elimineret spiller.",
+    "loading": "Indlæser..."
   },
   "control_panel": {
     "allied_afk_neighbor_info": "Du kan angribe frakoblede spillere, selvom du er allieret med dem.",
@@ -386,7 +438,18 @@
     "per_day": "/dag",
     "rare": "Sjælden",
     "soft": "Caps",
-    "uncommon": "Ualmindelig"
+    "uncommon": "Ualmindelig",
+    "button_title": "Vælg dine kosmetikker!",
+    "public_lobbies": "Offentlige lobbyer",
+    "public_lobbies_info": "Vær vært for tilpassede lobbyer, der er offentligt listet, så alle kan deltage.",
+    "search": "Søg...",
+    "signup_bonus": "Tilmeldingsbonus",
+    "title": "Kosmetik",
+    "unlimited_ranked": "Ubegrænset rangeret",
+    "unlimited_ranked_info": "Ingen grænse for, hvor mange rangerede spil du kan spille.",
+    "usd_value": "Værdi: {usd}",
+    "verified_name": "Verificeret brugernavn",
+    "verified_name_info": "Dit brugernavn er reserveret til din konto og viser et verificeret badge i spillet."
   },
   "difficulty": {
     "difficulty": "Sværhedsgrad for nationer",
@@ -409,7 +472,8 @@
     "spawn_failed": {
       "description": "Automatisk spawn-valg mislykkedes. Du kan ikke spille dette spil.",
       "title": "Spawn mislykkedes"
-    }
+    },
+    "connection_refused": "Forbindelse nægtet: {reason}"
   },
   "events_display": {
     "about_to_expire": "Din alliance med {name} er ved at udløbe!",
@@ -451,7 +515,10 @@
     "trade_ship_captured": "Din handelsskib blev kapret af {name}",
     "unit_destroyed": "Din {unit} blev ødelagt",
     "unit_voluntarily_deleted": "Enhed slettet frivilligt",
-    "wants_to_renew_alliance": "{name} ønsker at forny din alliance."
+    "wants_to_renew_alliance": "{name} ønsker at forny din alliance.",
+    "capital_captured": "Du erobrede {name}'s hovedstad og plyndrede {gold} guld!",
+    "capital_fallen": "Din hovedstad er faldet til {name}! Den er blevet flyttet.",
+    "supply_line_weak": "Forsyningslinjer strakt tyndt: dette angreb er {percent}% svagere så langt fra din hovedstad"
   },
   "flag_input": {
     "button_title": "Vælg et flag!",
@@ -516,7 +583,11 @@
     "bombs": "Bomber",
     "conquests": "Erobringer",
     "title": "Spilinfo",
-    "trade": "Handel"
+    "trade": "Handel",
+    "load_failed": "Kunne ikke indlæse spilstatistik.",
+    "num_of_conquests_nations": "Nationsdrab",
+    "retry": "Prøv igen",
+    "unknown_game_type": "Ukendt spiltype"
   },
   "game_list": {
     "details": "Detaljer",
@@ -527,11 +598,13 @@
     "ranking": "Placering",
     "recent_games": "Seneste spil",
     "replay": "Afspil igen",
-    "type": "Type"
+    "type": "Type",
+    "stats": "Statistik"
   },
   "game_mode": {
     "ffa": "Alle mod Alle",
-    "teams": "Hold"
+    "teams": "Hold",
+    "hvn": "Mennesker mod Nationer"
   },
   "game_starting_modal": {
     "code_license": "Kode licenseret under AGPL-3.0 (ingen garanti)",
@@ -603,7 +676,35 @@
     "territory_alpha_label": "Territorium-gennemsigtighed",
     "territory_sat_desc": "Hvor livlige territoriets udfyldningsfarver er (lavere dæmper dem)",
     "territory_sat_label": "Territorium-mætning",
-    "title": "Grafikindstillinger"
+    "title": "Grafikindstillinger",
+    "advanced_desc": "Finjustér individuelle grafikindstillinger",
+    "advanced_label": "Avancerede indstillinger",
+    "copy_json_copied": "Kopieret!",
+    "copy_json_desc": "Kopiér de nuværende indstillinger som JSON for at dele med venner",
+    "copy_json_label": "Kopiér indstillinger som JSON",
+    "import_json_apply": "Anvend",
+    "import_json_desc": "Indsæt indstillinger-JSON fra en ven og anvend den",
+    "import_json_invalid": "Det ligner ikke gyldig indstillinger-JSON",
+    "import_json_label": "Importér indstillinger-JSON",
+    "layer_nukeable": "Kan nukes",
+    "layer_placement_land": "Landlag",
+    "layer_placement_water": "Vandlag",
+    "naval_hover_highlight_desc": "Fremhæv ejeren af flådeenheder, når du holder musen over dem.",
+    "naval_hover_highlight_label": "Flåde-hover-fremhævning",
+    "preset_colorblind": "Farveblind",
+    "preset_colorblind_desc": "Farveblindvenlige territorie- og grænsefarver",
+    "preset_custom": "Tilpasset",
+    "preset_default": "Standard",
+    "preset_default_desc": "Det standard FrontLine-udseende",
+    "preset_delete_confirm": "Slet forudindstilling \"{name}\"?",
+    "preset_migrated_name": "Mine indstillinger",
+    "preset_name_placeholder": "Forudindstillingsnavn",
+    "preset_night": "Nat",
+    "preset_night_desc": "Mørkelagt kort med glødende strukturer og enheder",
+    "save_preset_label": "Gem",
+    "section_custom_presets": "Tilpassede forudindstillinger",
+    "section_map_layers": "Kortlag",
+    "section_presets": "Forudindstillinger"
   },
   "heads_up_message": {
     "catching_up": "Indhenter...",
@@ -719,7 +820,18 @@
     "ui_wilderness": "Ødemark",
     "ui_your_team": "Dit hold:",
     "video_tutorial": "Videoguide",
-    "video_tutorial_title": "FrontLine Vejledning"
+    "video_tutorial_title": "FrontLine Vejledning",
+    "build_forward_base": "Fremskudt Base",
+    "build_forward_base_desc": "Fungerer som en sekundær forsyningsoprindelse for angreb udført i nærheden, og reducerer forsyningslinje-straffen nær fronten. Kan ikke opgraderes.",
+    "mechanic_capital_fall": "Hovedstadens Fald",
+    "mechanic_capital_fall_desc": "Erobr det præcise felt, din fjendes hovedstad ligger på, og du plyndrer en andel af deres guld. De tvinges til at flytte deres hovedstad et sted inden for det territorium, de har tilbage. Hver spillers hovedstad er markeret på kortet med et kroneikon (din guld, andres hvidt), så du altid ved, hvor du skal slå til.",
+    "mechanic_directed_attack": "Rettede Angreb",
+    "mechanic_directed_attack_desc": "Klik på et målfelt, før du angriber, og dine tropper skubber mod det i stedet for at sprede sig jævnt langs hele grænsen. En kontakt ved siden af angrebsforhold-skyderen skifter mellem rettet og jævn spredning.",
+    "mechanic_oil_rig": "Olieplatform",
+    "mechanic_oil_rig_desc": "Et sjældent ressourcefelt, der giver passiv guldindkomst til den, der besidder det.",
+    "mechanic_supply_lines": "Forsyningslinjer & Fremskudt Base",
+    "mechanic_supply_lines_desc": "Angreb svækkes jo længere de rejser fra din hovedstad. Byg en Fremskudt Base nær fronten for at fungere som en sekundær forsyningsoprindelse og opveje straffen.",
+    "mechanics_title": "FrontLine-mekanikker"
   },
   "host_modal": {
     "anonymous_players": "Anonyme spillere",
@@ -772,7 +884,15 @@
     "toggle_name_reveal": "Skift om denne spiller kan se rigtige navne",
     "waiting": "Venter på spillerne...",
     "water_nukes": "Vandatombomber",
-    "disable_alliances": "Deaktivér alliancer"
+    "disable_alliances": "Deaktivér alliancer",
+    "auto_start_timer": "Tid til spillet starter automatisk",
+    "custom_alliances": "Alliancevarighed",
+    "doomsday_clock": "Dommedagsur",
+    "subscription_required_body": "Du skal have et abonnement for at gøre din lobby offentlig.",
+    "subscription_required_title": "Abonnement Påkrævet",
+    "view_subscriptions": "Se Abonnementer",
+    "visibility_private": "Privat",
+    "visibility_public": "Offentlig"
   },
   "ios_banner": {
     "got_it": "Forstået",
@@ -791,7 +911,8 @@
     "admin": "Smidt ud af en administrator",
     "duplicate_session": "Smidt ud af spil (du spiller måske på en anden fane)",
     "host_left": "Vært har forladt lobbyen.",
-    "lobby_creator": "Smidt ud af lobbyvært"
+    "lobby_creator": "Smidt ud af lobbyvært",
+    "match_cancelled": "Kamp annulleret: en spiller kunne ikke oprette forbindelse. Du har ikke mistet ELO."
   },
   "leaderboard": {
     "cities": "Byer",
@@ -804,7 +925,15 @@
     "show_control": "Vis styring",
     "show_units": "Vis Enheder",
     "team": "Hold",
-    "warships": "Krigsskibe"
+    "warships": "Krigsskibe",
+    "allies": "Allierede",
+    "betrayals": "Forræderier",
+    "clan": "Klan",
+    "configure_columns": "Konfigurér kolonner",
+    "factories": "Fabrikker",
+    "ports": "Havne",
+    "rank": "Rang",
+    "troops": "Tropper"
   },
   "leaderboard_modal": {
     "clan": "Klan",
@@ -827,7 +956,21 @@
     "win_loss_ratio": "Sejre/Nederlag",
     "win_score": "Sejrscore",
     "win_score_tooltip": "Vægtede sejre baseret på klandeltagelse og kampens sværhedsgrad",
-    "your_ranking": "Din placering"
+    "your_ranking": "Din placering",
+    "ranked_2v2_tab": "2v2 Rangeret",
+    "ranked_no_stats": "Ingen rangerede spil er blevet spillet på denne rangstige endnu",
+    "tribes_boost": "Boosts",
+    "tribes_boost_tooltip": "Boostede navne vises oftere i andre spilleres spil",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "Vises {multiplier}× så ofte i andre spilleres spil",
+    "tribes_games_tooltip": "Vist i {count} spil",
+    "tribes_name": "Navn",
+    "tribes_no_stats": "Ingen stammer er endnu optrådt i et spil",
+    "tribes_reach": "Spillerrækkevidde",
+    "tribes_reach_tooltip": "Det samlede antal spillere i de spil, dette navn optrådte i.",
+    "tribes_reach_value_tooltip": "Optrådte i spil med {count} spillere",
+    "tribes_tab": "Stammer",
+    "tribes_window": "Rullende {days}-dages vindue ({start} – {end})"
   },
   "main": {
     "account": "Konto",
@@ -855,7 +998,8 @@
     "troubleshooting": "Fejlfinding",
     "user_avatar_alt": "{username}s avatar",
     "wiki": "Wiki",
-    "game_info": "Spil info"
+    "game_info": "Spil info",
+    "checkin": "Indtjekning"
   },
   "map": {
     "achiran": "Achiran",
@@ -958,7 +1102,29 @@
     "world": "Verden",
     "worldinverted": "Verden spejlvendt",
     "yellowsea": "Det Gule Hav",
-    "yenisei": "Yenisei"
+    "yenisei": "Yenisei",
+    "balkhash": "Balkhash",
+    "baltics": "Baltikum",
+    "branchingpaths": "Forgrenende Stier",
+    "caspiansea": "Det Kaspiske Hav",
+    "china": "Kina",
+    "clearwaterlakes": "Klarvandssøer",
+    "crimea": "Krim",
+    "fingerlakes": "Fingersøerne",
+    "france": "Frankrig",
+    "germany": "Tyskland",
+    "gulfofguinea": "Guineabugten",
+    "hecatestrait": "Hecate-strædet",
+    "irishsea": "Det Irske Hav",
+    "lasvegasstrip": "Las Vegas Strip",
+    "levant": "Levanten",
+    "morethanluck": "Mere End Held",
+    "russia": "Rusland",
+    "scandinavia": "Skandinavien",
+    "sol": "Sol",
+    "tierradelfuego": "Tierra Del Fuego",
+    "vietnam": "Vietnam",
+    "yangtzeriver": "Yangtze-floden"
   },
   "map_categories": {
     "africa": "Afrika",
@@ -988,7 +1154,9 @@
     "no_results": "Ingen kort fundet",
     "search_maps": "Søg kort...",
     "search_results": "Søgeresultater",
-    "unfavorite": "Fjern fra favoritter"
+    "unfavorite": "Fjern fra favoritter",
+    "collapse_all": "Sammenfold alle",
+    "expand_all": "Udvid alle"
   },
   "matchmaking_button": {
     "description": "(ALPHA)",
@@ -1002,7 +1170,16 @@
     "no_elo": "Intet ELO endnu",
     "searching": "Søger efter spil...",
     "title": "1v1 Rangeret Matchmaking (ALPHA)",
-    "waiting_for_game": "Venter på, at spillet starter..."
+    "waiting_for_game": "Venter på, at spillet starter...",
+    "clan_verification_failed": "Klanmedlemskab kunne ikke verificeres. Prøv matchmaking igen.",
+    "invalid_clan": "Din valgte klan er ikke længere gyldig. Vælg en aktuel klan og stil dig i kø igen.",
+    "limit_reached": "Du er løbet tør for gratis rangerede kampe.",
+    "limit_reached_info": "Gratis kampe fyldes op dagligt. Abonnér for ubegrænset rangeret spil.",
+    "limit_upsell": "Få ubegrænset rangeret",
+    "must_login": "Du skal være logget ind for at spille rangeret matchmaking.",
+    "queue_size": "Spillere i kø: {count}",
+    "replaced": "Du tilsluttede dig matchmaking fra en anden fane eller vindue.",
+    "title_2v2": "2v2 Rangeret Matchmaking (ALFA)"
   },
   "mode_selector": {
     "coming_soon": "Kommer snart",
@@ -1011,7 +1188,8 @@
     "ranked_title": "Rangeret",
     "teams_count": "{teamCount} hold",
     "teams_of": "{teamCount} hold af {playersPerTeam}",
-    "teams_title": "Hold"
+    "teams_title": "Hold",
+    "ranked_pairing_note": "I holdtilstande placeres klankammerater og venner i køen på samme hold, hvor det er muligt. Venner parres først, derefter klankammerater. Hvis jeres ratings er for langt fra hinanden, matches I separat for at holde spillene fair."
   },
   "news": {
     "title": "Udgivelsesnoter"
@@ -1117,7 +1295,17 @@
     },
     "war": "Krig",
     "weapon": "Våben",
-    "workers": "Arbejdere"
+    "workers": "Arbejdere",
+    "attack_stats": "Angrebsstatistik",
+    "betrayals": "Forræderier",
+    "diplomacy_stats": "Diplomati",
+    "gold_stats": "Guldstatistik",
+    "incoming": "Indgående",
+    "intercepted": "Opsnappet",
+    "piracy": "Pirateri",
+    "trains": "Godstog",
+    "trains_external": "Andres Godstog",
+    "warship_stats": "Krigsskibsstatistik"
   },
   "player_stats_tree": {
     "mode": "Tilstand",
@@ -1130,7 +1318,40 @@
     "stats_games_played": "Spil spillet",
     "stats_losses": "Tab",
     "stats_wins": "Sejre",
-    "stats_wlr": "Vind:Tab Ratio"
+    "stats_wlr": "Vind:Tab Ratio",
+    "all": "Alle",
+    "ranked_2v2": "2v2",
+    "stats_cities_per_game": "Byer Bygget",
+    "stats_defense_posts_per_game": "Forsvarsposter Bygget",
+    "stats_factories_per_game": "Fabrikker Bygget",
+    "stats_group_buildings": "Bygninger",
+    "stats_group_combat": "Kamp",
+    "stats_group_gold": "Guld Optjent",
+    "stats_group_naval": "Flåde",
+    "stats_last_100": "Sidste 100",
+    "stats_nukes_launched_per_game": "Atomvåben Affyret",
+    "stats_others_train_gold_per_game": "Andres Togguld",
+    "stats_outgoing_short": "Udgående",
+    "stats_per_game_suffix": "/ spil",
+    "stats_piracy_gold_per_game": "Pirateriguld",
+    "stats_played": "Spillet",
+    "stats_ports_per_game": "Havne Bygget",
+    "stats_summary": "Præstationsoversigt",
+    "stats_trade_arrived_per_game": "Handelsskibe Ankommet",
+    "stats_trade_arrived_short": "Handel Ankommet",
+    "stats_trade_captured_per_game": "Handelsskibe Kapret",
+    "stats_trade_captured_short": "Handel Kapret",
+    "stats_trade_gold_per_game": "Handelsguld",
+    "stats_train_gold_per_game": "Togguld",
+    "stats_transports_landed_per_game": "Transporter Landet",
+    "stats_transports_landed_short": "Transport Landet",
+    "stats_transports_sent_per_game": "Transporter Sendt",
+    "stats_transports_sent_short": "Transport Sendt",
+    "stats_troops_incoming_per_game": "Indgående Angreb",
+    "stats_troops_sent_per_game": "Udgående Angreb",
+    "stats_victories": "Sejre",
+    "stats_warships_built_per_game": "Krigsskibe Bygget",
+    "stats_win_rate": "Sejrsrate"
   },
   "player_type": {
     "bot": "Stamme",
@@ -1149,7 +1370,15 @@
     "pvp_immunity": "PVP-immunitetens varighed",
     "starting_gold": "Startguld",
     "title": "Deltag I Privat Lobby",
-    "version_mismatch": "Dette spil blev oprettet med en anden version. Kan ikke deltage."
+    "version_mismatch": "Dette spil blev oprettet med en anden version. Kan ikke deltage.",
+    "listing_failed": "Kunne ikke opdatere lobbylisten. Prøv igen.",
+    "listing_full": "Den offentlige lobbyliste er fuld. Prøv igen senere.",
+    "listing_host_cheats_enabled": "Deaktivér værtssnyd for at liste din lobby offentligt.",
+    "listing_limit_reached": "Du har allerede en offentligt listet lobby.",
+    "listing_requires_subscription": "Et aktivt abonnement er påkrævet for at liste en lobby offentligt.",
+    "listing_whitelist_enabled": "Deaktivér tilslutnings-hvidlisten for at liste din lobby offentligt.",
+    "no_open_lobbies": "Ingen åbne lobbyer lige nu",
+    "open_lobbies": "Åbne Lobbyer"
   },
   "public_game_modifier": {
     "compact_map": "Kompakt Kort",
@@ -1170,7 +1399,10 @@
     "starting_gold": "{amount}M Startguld",
     "starting_gold_label": "Startguld",
     "water_nukes": "Vandatombomber",
-    "water_nukes_label": "Vandatombomber"
+    "water_nukes_label": "Vandatombomber",
+    "doomsday_clock": "Dommedagsur",
+    "doomsday_clock_label": "Dommedagsur",
+    "doomsday_clock_with_speed": "Dommedagsur: {speed}"
   },
   "public_lobby": {
     "connecting": "Forbinder til lobby...",
@@ -1188,7 +1420,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Tryk for at slette den nærmeste enhed",
-    "delete_unit_title": "Slet Enhed"
+    "delete_unit_title": "Slet Enhed",
+    "upgrade_x": "Opgradér x{amount}"
   },
   "relation": {
     "default": "Standard",
@@ -1242,7 +1475,12 @@
     "starting_gold_placeholder": "5",
     "toggle_achievements": "Slå præstationer til/fra",
     "water_nukes": "Vandatombomber",
-    "disable_alliances": "Deaktivér alliancer"
+    "disable_alliances": "Deaktivér alliancer",
+    "custom_alliances": "Alliancevarighed",
+    "doomsday_clock": "Dommedagsur",
+    "medals_earned": "Medaljer",
+    "medals_of_maps": "ud af {total} kort",
+    "mins_placeholder": "Min."
   },
   "store": {
     "already_subscribed": "Allerede abonneret.",
@@ -1269,7 +1507,58 @@
     "current_plan": "Nuværende plan",
     "no_packs": "Ingen pakker tilgængelige. Kom tilbage senere for nye varer.",
     "not_enough_currency": "Ikke nok valuta til dette køb.",
-    "subscribe_button": "Abonnér"
+    "subscribe_button": "Abonnér",
+    "change_tier_rate_limited": "Du har lige skiftet niveau. Vent et minut, inden du skifter igen.",
+    "confirm_purchase_body": "Køb {item} for {amount, number} {currency}?",
+    "confirm_purchase_title": "Bekræft Køb",
+    "cosmetics": "Kosmetik",
+    "crowns": "Kroner",
+    "custom_amount": "Vælg Beløb",
+    "custom_currency_purchase_success": "Plutonium-køb gennemført!",
+    "effects": "Effekter",
+    "insufficient_currency_body": "Du skal bruge {amount, number} mere {currency} for at købe {item}.",
+    "insufficient_currency_title": "Utilstrækkelig {currency}",
+    "no_crowns": "Ingen kroner tilgængelige. Kom tilbage senere for nye varer.",
+    "no_effects": "Ingen effekter tilgængelige. Kom tilbage senere for nye varer.",
+    "no_tribes": "Du har ikke købt nogen stammenavne endnu.",
+    "plutonium_amount": "Plutoniummængde",
+    "purchase_currency": "Køb {currency}",
+    "purchase_tribe_button": "Køb",
+    "subscribed": "Abonneret",
+    "tribe_boost_button": "Boost",
+    "tribe_boost_confirm": "Boost \"{name}\" for {price} Plutonium? Det vil vises oftere i andre spilleres spil de næste {days} dage.",
+    "tribe_boost_count": "1 boost",
+    "tribe_boost_count_plural": "{count} boosts",
+    "tribe_boost_failed": "Boost mislykkedes. Prøv igen.",
+    "tribe_boost_gone": "Dette navn er ikke længere aktivt, så det kan ikke boostes.",
+    "tribe_boost_heading": "Boost Stammenavn",
+    "tribe_boost_next_expiry": "næste boost udløber {date}",
+    "tribe_boost_success": "Boostede \"{name}\".",
+    "tribe_duplicate": "Navnet er allerede taget.",
+    "tribe_name_placeholder": "Indtast et stammenavn",
+    "tribe_name_required": "Indtast et navn først.",
+    "tribe_purchase_failed": "Køb mislykkedes. Prøv igen.",
+    "tribe_purchase_live": "\"{name}\" er nu live i spil.",
+    "tribe_rate_limited": "Du køber navne for hurtigt. Prøv igen om {seconds}s.",
+    "tribe_stats_boosted": "{multiplier}× boostet",
+    "tribe_stats_button": "Statistik",
+    "tribe_stats_failed": "Kunne ikke indlæse statistik. Prøv igen senere.",
+    "tribe_stats_games": "Spil",
+    "tribe_stats_lifetime": "Levetid",
+    "tribe_stats_owner": "Ejer",
+    "tribe_stats_reach": "Spillerrækkevidde",
+    "tribe_stats_reach_tooltip": "Optrådte i spil med {count} spillere",
+    "tribe_stats_window": "Sidste {days} dage ({start} – {end})",
+    "tribe_stats_window_short": "Sidste {days} dage",
+    "tribe_status_active": "Aktiv",
+    "tribe_status_rejected": "Afvist",
+    "tribes": "Stammer",
+    "tribes_coming_soon": "Kommer Snart",
+    "tribes_load_failed": "Kunne ikke indlæse dine stammenavne. Genåbn butikken for at prøve igen.",
+    "tribes_login_required": "Log ind for at købe og administrere stammenavne.",
+    "tribes_purchase_description": "Dit navn tildeles en bot-stamme i rigtige multiplayer-spil. Det går live med det samme.",
+    "tribes_purchase_heading": "Køb et Stammenavn",
+    "your_tribes_heading": "Dine Stammenavne"
   },
   "team_colors": {
     "blue": "Blå",
@@ -1337,7 +1626,8 @@
     "missile_silo": "Missilsilo",
     "port": "Havn",
     "sam_launcher": "SAM-affyringsrampe",
-    "warship": "Krigsskib"
+    "warship": "Krigsskib",
+    "forward_base": "Fremskudt Base"
   },
   "user_setting": {
     "alert_frame_desc": "Skift advarsel ramme. Når denne er aktiveret vil rammen blive vist når du bliver forrådt eller angrebet via land.",
@@ -1467,7 +1757,19 @@
     "zoom_in": "Zoom Ind",
     "zoom_in_desc": "Zoom ind på kortet",
     "zoom_out": "Zoom Ud",
-    "zoom_out_desc": "Zoom ud af kortet"
+    "zoom_out_desc": "Zoom ud af kortet",
+    "build_forward_base": "Byg Fremskudt Base",
+    "build_forward_base_desc": "Byg en Fremskudt Base under din markør.",
+    "graphics_preset_desc": "Vælg standardudseendet for kortet. Finjustér eller lav din egen i spillets grafikindstillinger.",
+    "graphics_preset_label": "Grafikforudindstilling",
+    "graphics_refresh_modifier": "Grafikopdateringstast",
+    "graphics_refresh_modifier_desc": "Hold denne tast og R nede for at opdatere grafik",
+    "highlight_glow_strength_label": "Fremhævningsstyrke",
+    "highlight_small_players_desc": "Tilføj en glød til små spillere, så de er nemme at finde.",
+    "section_display": "Skærm",
+    "section_gameplay": "Spilstil",
+    "section_interface": "Grænseflade",
+    "section_privacy": "Privatliv"
   },
   "username": {
     "enter_username": "Indtast dit brugernavn",
@@ -1479,7 +1781,13 @@
     "tag_too_long": "Klantag må ikke overstige 5 tegn.",
     "tag_too_short": "Klantag skal have 2-5 alfanumeriske tegn.",
     "too_long": "Brugernavn må ikke overskride {max} tegn.",
-    "too_short": "Brugernavn skal bestå af mindst {min} tegn."
+    "too_short": "Brugernavn skal bestå af mindst {min} tegn.",
+    "account_invalid_chars": "Brugernavn kan kun indeholde bogstaver, tal, understregninger, bindestreger og enkelte mellemrum mellem ord.",
+    "verified_heading": "Verificeret navn",
+    "verified_player": "Verificeret spiller",
+    "verified_sub_required": "Du skal have et aktivt abonnement for at spille under dit verificerede navn.",
+    "verified_sub_required_confirm": "Se butik",
+    "verified_toggle": "Verificeret"
   },
   "win_modal": {
     "died": "Du døde",
@@ -1497,6 +1805,112 @@
     "territory_pattern": "Køb et territoriums-skin for at spille uden annoncer!",
     "you_won": "Du Vandt!",
     "your_team": "Dit hold vandt!",
-    "youtube_tutorial": "Brug for hjælp?"
+    "youtube_tutorial": "Brug for hjælp?",
+    "match_cancelled": "Kamp annulleret — ikke alle spillere spawnede",
+    "new_lobby": "Ny Lobby"
+  },
+  "ban_notice": {
+    "appeal": "Hvis du mener, dette er en fejl, så kontakt os på Discord.",
+    "category": {
+      "cheating": "Snyd eller uautoriseret software",
+      "child_safety": "Overtrædelse af børnesikkerhed",
+      "disruptive_play": "Forstyrrende spil, griefing eller spam",
+      "exploiting": "Udnyttelse af fejl",
+      "harassment": "Chikane, trusler eller misbrug",
+      "hate_speech": "Hadtale eller diskrimination",
+      "inappropriate_content": "Upassende eller eksplicit indhold",
+      "multi_accounting": "Multi-konti / omgåelse af udelukkelse",
+      "offensive_identifier": "Stødende brugernavn, klantag eller flag",
+      "other": "Overtrædelse af servicevilkår",
+      "rank_manipulation": "Manipulation af rang eller rating",
+      "teaming": "Teaming eller hemmeligt samarbejde"
+    },
+    "permanent": "Denne udelukkelse er permanent.",
+    "reason": "Årsag: {reason}",
+    "title": "Din konto er udelukket",
+    "until": "Udelukket indtil {date}."
+  },
+  "checkin": {
+    "claim_button": "Indløs {amount}",
+    "claimed_today": "Ingen belønning at indløse endnu",
+    "day_label": "Dag {day}",
+    "streak_label": "{streak} dages stime",
+    "title": "Daglig Indtjekning"
+  },
+  "doomsday_clock": {
+    "collapsing": "Kollapser -{rate}/s",
+    "decay_in": "Forfald om {secs}s",
+    "decaying": "Forfalder -{rate} felter/s",
+    "final": "Sidste zone, hold {pct}%",
+    "growing": "Vil nå {pct}% om {time}",
+    "hold": "Hold ≥ {pct}%",
+    "next_wave": "Begynder at stige mod {pct}% om {time}",
+    "stable": "Stabil",
+    "title": "Dommedagsur",
+    "unstable": "Ustabil",
+    "you": "Dig {pct}%",
+    "your_team": "{team}: {pct}%"
+  },
+  "doomsday_clock_speed": {
+    "fast": "Hurtig",
+    "normal": "Normal",
+    "slow": "Langsom",
+    "veryfast": "Meget hurtig"
+  },
+  "effects": {
+    "nukeType": {
+      "atom": "Atom",
+      "hydro": "Brint",
+      "mirvWarhead": "MIRV"
+    },
+    "type": {
+      "nukeExplosion": "Atomeksplosion",
+      "nukeTrail": "Atomspor",
+      "structures": "Strukturer",
+      "transportShipTrail": "Bådspor",
+      "warship": "Krigsskib"
+    }
+  },
+  "featured_stream": {
+    "expand": "Udvid",
+    "hide_today": "Skjul for i dag",
+    "live": "LIVE",
+    "minimize": "Minimér",
+    "open_on_twitch": "Åbn {channel} på Twitch"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Ét minut tilbage!"
+  },
+  "marketing_consent": {
+    "body": "Nyheder og opdateringer via e-mail. Skift det når som helst i din konto.",
+    "dismiss": "Afvis",
+    "error": "Kunne ikke gemme det. Prøv igen.",
+    "no": "Nej tak",
+    "title": "Følg med i FrontLine?",
+    "yes": "Ja tak"
+  },
+  "new_lobby_prompt": {
+    "confirm": "Start en ny lobby? Alle spillere vil blive inviteret til at deltage.",
+    "dismiss": "Afvis",
+    "failed": "Kunne ikke oprette en ny lobby. Prøv igen.",
+    "join": "Deltag",
+    "message": "Værten startede en ny lobby"
+  },
+  "player_profile": {
+    "loading": "Indlæser profil...",
+    "no_clans": "Denne spiller er ikke i nogen klaner.",
+    "not_found": "Spillerprofil ikke fundet",
+    "share": "Del Profil",
+    "title": "Spillerprofil",
+    "view": "Se Profil"
+  },
+  "rewards_modal": {
+    "title": "Belønninger"
+  },
+  "streaming_now": {
+    "live_count": "{count} Streamer Live",
+    "title": "Live Nu",
+    "viewers": "{count} ser med",
+    "watch": "Se {name}"
   }
 }

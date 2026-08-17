@@ -49,7 +49,52 @@
     "tab_games": "Ludoj",
     "tab_stats": "Statistikoj",
     "title": "Konto",
-    "your_subscription": "Via Abono"
+    "your_subscription": "Via Abono",
+    "claim": "Postuli",
+    "claim_all": "Postuli Ĉion",
+    "claim_failed": "Malsukcesis postuli premion. Bonvolu provi denove.",
+    "games_clan_tag": "Klana Etikedo",
+    "games_result_incomplete": "Nekompleta",
+    "games_type_private": "Privata",
+    "games_type_public": "Publika",
+    "games_type_singleplayer": "Unuluda",
+    "games_username": "Uzantnomo",
+    "google_alt": "Guglo",
+    "link_existing_account": "Ligi ekzistantan konton",
+    "link_google": "Ligi Guglan Konton",
+    "link_google_already_linked": "Tiu Gugla konto jam estas ligita al alia ludanto.",
+    "link_google_error": "Ne eblis ligi vian Guglan konton. Bonvolu certiĝi ke vi estas ensalutinta kaj provu denove.",
+    "link_google_failed": "Ne eblis komenci Guglan ligadon. Bonvolu provi denove.",
+    "link_google_success": "Gugla konto ligita.",
+    "linked_to_google": "Ligita al Guglo",
+    "linked_to_google_email": "Ligita al Guglo ({email})",
+    "marketing_desc": "Malofta novaĵoj, eventoj kaj ludĝisdatigoj. Malabonu iam ajn.",
+    "marketing_no_email": "Ligu retpoŝtadreson al via konto por aboni ĝisdatigojn.",
+    "marketing_title": "Retpoŝtaj ĝisdatigoj",
+    "reward_daily": "Ĉiutaga abonpremio",
+    "reward_daily_checkin": "Ĉiutaga alveno (Tago {day})",
+    "reward_signup_bonus": "Registriĝa aboniga premio",
+    "tab_clans": "Klanoj",
+    "tab_settings": "Agordoj",
+    "unclaimed_rewards": "Nepostulitaj Premioj",
+    "username_confirm_abandon": "Vi por ĉiam perdos vian rezervitan nomon \"{name}\".",
+    "username_confirm_body": "Via nova nomo estos ŝlosita dum 30 tagoj.",
+    "username_confirm_button": "Ŝanĝi nomon",
+    "username_confirm_case_only": "La nova nomo diferencas de la nuna nur pri majuskloj — ĝi tamen restartigos la 30-tagan ŝlosadon.",
+    "username_confirm_heading": "Ŝanĝi uzantnomon?",
+    "username_cooldown_until": "Vi povas denove ŝanĝi vian uzantnomon je {date}.",
+    "username_error_cooldown": "Vi povas denove ŝanĝi vian uzantnomon post {days} tago(j).",
+    "username_error_failed": "Ne eblis ŝanĝi vian uzantnomon. Bonvolu provi denove poste.",
+    "username_error_profane": "Tiu uzantnomo ne estas permesita.",
+    "username_error_taken": "Tiu uzantnomo jam estas uzata — provu alian.",
+    "username_grace_warning": "Vi perdos la ekskluzivan rajton al \"{name}\" je {date}. Reabonu por konservi ĝin.",
+    "username_not_set": "Postulu vian uzantnomon — ĝi identigas vin en ĉiuj viaj ludoj.",
+    "username_placeholder": "Enigu uzantnomon",
+    "username_save": "Konservi",
+    "username_temporary_notice": "Via nomo estis prenita de alia ludanto. Elektu novan — ĉi tiu renomo estas senpaga.",
+    "username_temporary_prompt": "Via uzantnomo estis prenita de alia ludanto. Ĉu elekti novan nun? La renomo estas senpaga.",
+    "username_temporary_prompt_confirm": "Elekti nomon",
+    "username_title": "Uzantnomo"
   },
   "build_menu": {
     "desc": {
@@ -62,10 +107,12 @@
       "missile_silo": "Uzita por lanĉi atombombojn",
       "port": "Sendas komercŝipojn por produkti oron",
       "sam_launcher": "Defendas kontraŭ alvenantaj atombomboj",
-      "warship": "Kaptas komercŝipojn, detruas ŝipojn kaj boatojn"
+      "warship": "Kaptas komercŝipojn, detruas ŝipojn kaj boatojn",
+      "forward_base": "Funkcias kiel dua fonto de provizado, malfortigante la punon de provizlinioj ĉe malproksimaj atakoj"
     },
     "not_enough_money": "Ne sufiĉe da mono",
-    "warship_shift_hint": "Premu la Majuskligan klavon, alklak-tenu kaj ŝovu por elekti plurajn militŝipojn samtempe"
+    "warship_shift_hint": "Premu la Majuskligan klavon, alklak-tenu kaj ŝovu por elekti plurajn militŝipojn samtempe",
+    "upgrade_amount": "x{amount}"
   },
   "chat": {
     "attack": {
@@ -307,7 +354,29 @@
     "title": "Klanoj",
     "transfer_leadership": "Transdoni Estrajn Rajtojn",
     "transfer_warning": "Tio faros ke la elektita membro iĝos la nova klan-estro. Vi iĝos normala membro. Tiun agon vi ne povos malfari.",
-    "unban": "Malforbari"
+    "unban": "Malforbari",
+    "create_clan": "Krei Klanon",
+    "create_description_placeholder": "Priskribo (nedeviga)",
+    "create_insufficient_funds": "Ne sufiĉe da Ĉapoj por krei klanon.",
+    "create_invalid_tag": "Etikedo devas havi 2-5 literojn/ciferojn.",
+    "create_name_placeholder": "Klana nomo",
+    "create_name_required": "Enigu klanan nomon.",
+    "create_open_label": "Iu ajn povas aliĝi (malmarku por postuli aprobon)",
+    "create_submit": "Krei",
+    "create_tag_placeholder": "ETIKEDO (2-5 literoj)",
+    "create_tag_taken": "Tiu etikedo jam estas uzata.",
+    "discord_default_name": "Diskordo",
+    "discord_expires": "Tiu invito senvalidiĝas, uzu unu agorditan por neniam senvalidiĝi.",
+    "discord_invalid": "Tio ne estas valida Diskorda invitligilo.",
+    "discord_invite_unavailable": "Ĉi tiu Diskorda invito ne plu validas.",
+    "discord_online_members": "{online, number} enrete · {members, number} membroj",
+    "discord_rate_limited": "Bonvolu atendi minuton antaŭ ol kontroli alian Diskordan ligilon.",
+    "discord_section_title": "Diskordo",
+    "discord_url_hint": "Uzu inviton agorditan por neniam senvalidiĝi.",
+    "discord_url_label": "Diskorda Invit-URL",
+    "history_date_at": "{date} {time}",
+    "history_date_full": "{day}-a de {month}, {year}",
+    "open_discord": "Malfermi Diskordon"
   },
   "common": {
     "available": "Havebla",
@@ -346,7 +415,8 @@
     "summary_keep": "Konservi",
     "summary_send": "Sendi",
     "target_dead": "Celo eliminita",
-    "target_dead_note": "Ne eblas sendi rimedojn al eliminita ludanto."
+    "target_dead_note": "Ne eblas sendi rimedojn al eliminita ludanto.",
+    "loading": "Ŝarĝante..."
   },
   "cosmetics": {
     "adfree": "sen-reklama eterne!",
@@ -359,7 +429,19 @@
     "per_day": "/tago",
     "rare": "Malofta",
     "soft": "Ŝtopiloj",
-    "uncommon": "Nekutima"
+    "uncommon": "Nekutima",
+    "button_title": "Elektu viajn ornamaĵojn!",
+    "free": "+{numFree} BONUSO!",
+    "public_lobbies": "Publikaj atendejoj",
+    "public_lobbies_info": "Gastigu propajn atendejojn kiuj estas publike listigitaj por ke iu ajn aliĝu.",
+    "search": "Serĉi...",
+    "signup_bonus": "Registriĝa bonuso",
+    "title": "Ornamaĵoj",
+    "unlimited_ranked": "Senlima rangigita",
+    "unlimited_ranked_info": "Neniu limo pri kiom da rangigitaj ludoj vi povas ludi.",
+    "usd_value": "Valoro: {usd}",
+    "verified_name": "Kontrolita uzantnomo",
+    "verified_name_info": "Via uzantnomo estas rezervita por via konto kaj montras kontrolitan insignon en la ludo."
   },
   "difficulty": {
     "difficulty": "Facileco de nacioj",
@@ -382,7 +464,8 @@
     "spawn_failed": {
       "description": "Aŭtomata elekto de komencloko malsukcesis. Vi ne povas ludi tiun ludon.",
       "title": "Malsukcesis aperi"
-    }
+    },
+    "connection_refused": "Konekto rifuzita: {reason}"
   },
   "events_display": {
     "about_to_expire": "Via alianco kun {name} baldaŭ eksvalidiĝos!",
@@ -425,7 +508,11 @@
     "unit_voluntarily_deleted": "Trupuno libervole forigita",
     "wants_to_renew_alliance": "{name} volas renovigi aliancon kun vi",
     "unit_captured_by_enemy": "Via {unit} estis kaptita de {name}",
-    "captured_enemy_unit": "Kaptis {unit} de {name}"
+    "captured_enemy_unit": "Kaptis {unit} de {name}",
+    "capital_captured": "Vi kaptis la ĉefurbon de {name} kaj rabis {gold} oron!",
+    "capital_fallen": "Via ĉefurbo falis al {name}! Ĝi estis translokigita.",
+    "supply_line_weak": "Provizlinioj streĉitaj: ĉi tiu atako estas {percent}% pli malforta ĉi tiel malproksime de via ĉefurbo",
+    "trade_ship_captured": "Via komerca ŝipo estis kaptita de {name}"
   },
   "flag_input": {
     "button_title": "Elektu flagon!",
@@ -490,7 +577,11 @@
     "total_gold": "Sumo",
     "trade": "Komerco",
     "train_trade": "Trajna",
-    "war": "Milito"
+    "war": "Milito",
+    "load_failed": "Ne eblis ŝarĝi ludstatistikojn.",
+    "num_of_conquests_nations": "Naciaj mortigoj",
+    "retry": "Reprovi",
+    "unknown_game_type": "Nekonata ludtipo"
   },
   "game_list": {
     "details": "Detaloj",
@@ -501,11 +592,13 @@
     "ranking": "Ranglisto",
     "recent_games": "Lastaj ludoj",
     "replay": "Re-spekti",
-    "type": "Tipo"
+    "type": "Tipo",
+    "stats": "Statistikoj"
   },
   "game_mode": {
     "ffa": "Ĉiu por si",
-    "teams": "Teamoj"
+    "teams": "Teamoj",
+    "hvn": "Homoj kontraŭ Nacioj"
   },
   "game_starting_modal": {
     "code_license": "Kodo licencita sub AGPL-3.0 (neniu garantio)",
@@ -526,7 +619,85 @@
     "reset_label": "Restarigi la defaŭltojn",
     "section_name_labels": "Nomaj Etikedoj",
     "section_structure_icons": "Bildsimboloj por Strukturoj",
-    "title": "Grafikaj Agordoj"
+    "title": "Grafikaj Agordoj",
+    "advanced_desc": "Fajne agordi unuopajn grafikajn opciojn",
+    "advanced_label": "Progresintaj agordoj",
+    "classic_numbers_desc": "Rastruma tiparo por konstruaĵaj nivelnumeroj (malŝaltite uzas la glatan tiparon)",
+    "classic_numbers_label": "Klasikaj nivelnumeroj",
+    "coordinate_grid_opacity_desc": "Kiom opaka estas la koordinata krado (pli malalta lasas pli travidebli)",
+    "coordinate_grid_opacity_label": "Opakeco de koordinata krado",
+    "copy_json_copied": "Kopiita!",
+    "copy_json_desc": "Kopii la nunajn agordojn kiel JSON por kunhavigi kun amikoj",
+    "copy_json_label": "Kopii agordojn JSON",
+    "fallout_desc": "Montri la verdan nuklean falbrilon sur radiadita teritorio. Malŝaltu por plibonigi rendimenton",
+    "fallout_label": "Falefektoj",
+    "highland_color_desc": "Baza koloro por altebenaĵa tereno.",
+    "highland_color_label": "Altebenaĵa koloro",
+    "highlight_brighten_desc": "Kiom forte la limo heliĝas ĉe ŝvebo (0 por malŝalti)",
+    "highlight_brighten_label": "Kvanto de limemfazo",
+    "highlight_fill_desc": "Kiom forte teritorio heliĝas ĉe ŝvebo (0 por malŝalti)",
+    "highlight_fill_label": "Teritoria emfazo",
+    "highlight_thicken_desc": "Kiom la limo dikiĝas ĉe ŝvebo",
+    "highlight_thicken_label": "Dikeco de limemfazo",
+    "hover_fade_desc": "Kiom videblaj nomoj estas dum via kursoro estas super ili (1 por malŝalti malheliĝon)",
+    "hover_fade_label": "Opakeco de nomo sub kursoro",
+    "hover_glow_alpha_desc": "Kiom hela estas la blanka brilo malantaŭ la nomo de la ŝvebata ludanto (0 por malŝalti)",
+    "hover_glow_alpha_label": "Forto de ŝveba brilo",
+    "hover_glow_width_desc": "Kiom fore la blanka brilo etendiĝas malantaŭ la nomo de la ŝvebata ludanto",
+    "hover_glow_width_label": "Grando de ŝveba brilo",
+    "icon_size_desc": "Kiom grandaj konstruaĵaj piktogramoj estas desegnitaj sur la mapo",
+    "icon_size_label": "Grando de konstruaĵa piktogramo",
+    "import_json_apply": "Apliki",
+    "import_json_desc": "Alglui agordojn JSON de amiko kaj apliki ĝin",
+    "import_json_invalid": "Tio ne aspektas kiel valida agorda JSON",
+    "import_json_label": "Importi agordojn JSON",
+    "layer_nukeable": "Nukeeblaj",
+    "layer_placement_land": "Tera tavolo",
+    "layer_placement_water": "Akva tavolo",
+    "lighting_ambient_desc": "Malheligas la mapon kaj aldonas brilon ĉirkaŭ konstruaĵoj (0 = malŝaltita)",
+    "lighting_ambient_label": "Ĉirkaŭa lumo",
+    "lighting_unit_glow_desc": "Kiom fore la brilo disvastiĝas ĉirkaŭ unuoj kaj konstruaĵoj",
+    "lighting_unit_glow_label": "Unua brilo",
+    "mountain_color_desc": "Baza koloro por monta tereno.",
+    "mountain_color_label": "Monta koloro",
+    "naval_hover_highlight_desc": "Emfazi la posedanton de mararmeaj unuoj kiam vi ŝvebas super ili.",
+    "naval_hover_highlight_label": "Mararmea Ŝveba Emfazo",
+    "nuke_color_desc": "Koloro de la falŝtofa tinkturo lasita sur teritorio post nuklea eksplodo.",
+    "nuke_color_label": "Koloro de nuklea falo",
+    "ocean_color_desc": "Baza koloro de oceano.",
+    "ocean_color_label": "Ocean-koloro",
+    "plains_color_desc": "Baza koloro por malaltebenaĵa tereno.",
+    "plains_color_label": "Ebenaĵa koloro",
+    "preset_colorblind": "Kolorblinda",
+    "preset_colorblind_desc": "Kolorblind-amikaj teritoriaj kaj limaj koloroj",
+    "preset_custom": "Propra",
+    "preset_default": "Defaŭlta",
+    "preset_default_desc": "La norma aspekto de FrontLine",
+    "preset_delete_confirm": "Forigi antaŭagordon \"{name}\"?",
+    "preset_migrated_name": "Miaj agordoj",
+    "preset_name_placeholder": "Antaŭagorda nomo",
+    "preset_night": "Nokto",
+    "preset_night_desc": "Malheligita mapo kun brilantaj konstruaĵoj kaj unuoj",
+    "rail_distance_desc": "Kiom fore fortiritaj trakoj restas videblaj",
+    "rail_distance_label": "Desegna distanco de trakoj",
+    "rail_thickness_desc": "Kiom larĝaj trakoj estas desegnitaj",
+    "rail_thickness_label": "Trakdikeco",
+    "sand_color_desc": "Baza koloro por bordoj.",
+    "sand_color_label": "Borda koloro",
+    "save_preset_label": "Konservi",
+    "section_custom_presets": "Propraj antaŭagordoj",
+    "section_effects": "Efektoj",
+    "section_lighting": "Lumigado",
+    "section_map": "Mapo",
+    "section_map_layers": "Mapaj Tavoloj",
+    "section_presets": "Antaŭagordoj",
+    "section_terrain": "Tereno",
+    "structure_dots_desc": "Kolapsigi konstruaĵajn piktogramojn en malgrandajn punktojn ĉe elzomo",
+    "structure_dots_label": "Konstruaĵaj punktoj",
+    "territory_alpha_desc": "Kiom opaka estas la teritoria pleno (pli malalta lasas teron travidebli)",
+    "territory_alpha_label": "Opakeco de teritorio",
+    "territory_sat_desc": "Kiom vivaj estas la teritoriaj plenaj koloroj (pli malalta mallaŭtigas ilin)",
+    "territory_sat_label": "Satureco de teritorio"
   },
   "heads_up_message": {
     "catching_up": "Ĝisdatigante...",
@@ -534,7 +705,9 @@
     "multiplayer_game_paused": "Luda paŭzigita de Ludeja Kreanto",
     "pvp_immunity_active": "Imuneco inter ludantoj aktiva dum {seconds} sekundoj",
     "random_spawn": "Komenclokoj estas hazardaj. Elekto de komencloko por vi...",
-    "singleplayer_game_paused": "Ludo paŭzigita"
+    "singleplayer_game_paused": "Ludo paŭzigita",
+    "dont_show_again": "Ne montri denove",
+    "ffa_collusion": "Rememorigo: kunligiĝo antaŭ la ludo ne estas permesita en ĈKĈ"
   },
   "help_modal": {
     "action_alt_view": "Alternativa vido (tereno/lando)",
@@ -640,7 +813,18 @@
     "ui_wilderness": "Sovaĝejo",
     "ui_your_team": "Via teamo:",
     "video_tutorial": "Lernila Filmeto",
-    "video_tutorial_title": "FrontLine Lernilo"
+    "video_tutorial_title": "FrontLine Lernilo",
+    "build_forward_base": "Antaŭbazo",
+    "build_forward_base_desc": "Funkcias kiel dua fonto de provizado por atakoj lanĉitaj proksime, malpliigante la Provizlinian distancpunon proksime de la fronto. Ne pliigeblas.",
+    "mechanic_capital_fall": "Falo de Ĉefurbo",
+    "mechanic_capital_fall_desc": "Kaptu la ekzaktan kahelon sur kiu sidas la ĉefurbo de via malamiko kaj vi rabas parton de ilia oro. Ili estas devigitaj translokigi sian ĉefurbon ie ajn ene de sia restanta teritorio. La ĉefurbo de ĉiu ludanto estas markita sur la mapo per kronsimbolo (via ora, aliaj blanka) por ke vi ĉiam sciu kien ataki.",
+    "mechanic_directed_attack": "Direktitaj Atakoj",
+    "mechanic_directed_attack_desc": "Alklaku celan kahelon antaŭ atako kaj viaj trupoj puŝas al ĝi anstataŭ egale disvastiĝi laŭ la tuta limo. Baskulo apud la ata-proporcia glitilo ŝanĝas inter direktita kaj egala disvastiĝo.",
+    "mechanic_oil_rig": "Naftoplatformo",
+    "mechanic_oil_rig_desc": "Malofta rimeda kahelo kiu donas pasivan orenspezon al kiu ajn ĝin posedas.",
+    "mechanic_supply_lines": "Provizlinioj kaj Antaŭbazo",
+    "mechanic_supply_lines_desc": "Atakoj malfortiĝas ju pli fore ili vojaĝas de via ĉefurbo. Konstruu Antaŭbazon proksime de la fronto por funkcii kiel dua fonto de provizado kaj kompensi la punon.",
+    "mechanics_title": "Mekanikoj de FrontLine"
   },
   "host_modal": {
     "assigned_teams": "Asignitaj Teamoj",
@@ -686,7 +870,22 @@
     "teams_Trios": "Triopoj (teamoj po 3)",
     "title": "Krei Privatan Ludejon",
     "waiting": "Atendante ludantojn...",
-    "water_nukes": "Akvigaj bomboj"
+    "water_nukes": "Akvigaj bomboj",
+    "anonymous_players": "Anonimaj ludantoj",
+    "auto_start_timer": "Tempo ĝis la ludo aŭtomate komenciĝas",
+    "custom_alliances": "Aliancdaŭro",
+    "doomsday_clock": "Fatalhoro",
+    "player_whitelist": "Ludanta Blanka Listo (publikaj identigiloj)",
+    "player_whitelist_placeholder": "apartigite per komoj",
+    "start_delay": "Komenca prokrasto (Sekundoj)",
+    "start_delay_placeholder": "3",
+    "starting_in": "Komenciĝos post {time}. Alklaku por nuligi",
+    "subscription_required_body": "Vi devas esti abonita por publikigi vian atendejon.",
+    "subscription_required_title": "Abono Postulata",
+    "toggle_name_reveal": "Baskuli ĉu ĉi tiu ludanto povas vidi verajn nomojn",
+    "view_subscriptions": "Vidi Abonojn",
+    "visibility_private": "Privata",
+    "visibility_public": "Publika"
   },
   "ios_banner": {
     "got_it": "Mi komprenis",
@@ -705,7 +904,8 @@
     "admin": "Forpelita de administranto",
     "duplicate_session": "Forpelita de la ludo (vi eble ludis per alia langeto)",
     "host_left": "La gastiganto eliris de la ludejo.",
-    "lobby_creator": "Forpelita de la ludeja kreanto"
+    "lobby_creator": "Forpelita de la ludeja kreanto",
+    "match_cancelled": "Ludo nuligita: ludanto malsukcesis konekti. Vi ne perdis ELO-poentojn."
   },
   "leaderboard": {
     "cities": "Urboj",
@@ -718,7 +918,15 @@
     "show_control": "Montri regulilon",
     "show_units": "Montri trupojn",
     "team": "Teamo",
-    "warships": "Militŝipoj"
+    "warships": "Militŝipoj",
+    "allies": "Aliancanoj",
+    "betrayals": "Perfidoj",
+    "clan": "Klano",
+    "configure_columns": "Agordi kolumnojn",
+    "factories": "Fabrikoj",
+    "ports": "Havenoj",
+    "rank": "Rango",
+    "troops": "Trupoj"
   },
   "leaderboard_modal": {
     "clan": "Klano",
@@ -741,7 +949,21 @@
     "win_loss_ratio": "Venko/Malvenko",
     "win_score": "Venko Poentoj",
     "win_score_tooltip": "Ponditaj venkoj laŭ klana partopreno kaj luda malfacileco",
-    "your_ranking": "Via Rango"
+    "your_ranking": "Via Rango",
+    "ranked_2v2_tab": "2p2 Rangigita",
+    "ranked_no_stats": "Neniu rangigita ludo ankoraŭ estis ludita sur ĉi tiu ŝtupetaro",
+    "tribes_boost": "Plifortigoj",
+    "tribes_boost_tooltip": "Plifortigitaj nomoj aperas pli ofte en ludoj de aliaj ludantoj",
+    "tribes_boost_value": "{multiplier}×",
+    "tribes_boost_value_tooltip": "Aperas {multiplier}× tiom ofte en ludoj de aliaj ludantoj",
+    "tribes_games_tooltip": "Prezentita en {count} ludoj",
+    "tribes_name": "Nomo",
+    "tribes_no_stats": "Neniu tribo ankoraŭ aperis en ludo",
+    "tribes_reach": "Ludanta Atingo",
+    "tribes_reach_tooltip": "La totala nombro da ludantoj en la ludoj en kiuj ĉi tiu nomo aperis.",
+    "tribes_reach_value_tooltip": "Aperis en ludoj kun {count} ludantoj",
+    "tribes_tab": "Triboj",
+    "tribes_window": "Rulanta {days}-taga fenestro ({start} – {end})"
   },
   "main": {
     "account": "Konto",
@@ -768,7 +990,9 @@
     "title": "FrontLine (ALFA)",
     "troubleshooting": "Problemsolvado",
     "user_avatar_alt": "Profilbildo de %{username}",
-    "wiki": "Vikio"
+    "wiki": "Vikio",
+    "checkin": "Alveno",
+    "login_google": "Ensaluti per Guglo"
   },
   "map": {
     "achiran": "Aĥirano",
@@ -861,7 +1085,39 @@
     "venice": "Venecio",
     "world": "Mondo",
     "yellowsea": "Flava Maro",
-    "yenisei": "Jenisejo"
+    "yenisei": "Jenisejo",
+    "balkhash": "Balĥaŝo",
+    "baltics": "Baltio",
+    "branchingpaths": "Disbranĉiĝantaj Vojoj",
+    "caspiansea": "Kaspia Maro",
+    "china": "Ĉinio",
+    "choppingblock": "Haktabulo",
+    "clearwaterlakes": "Klaraj Lagoj",
+    "crimea": "Krimeo",
+    "favorites": "Ŝatataj",
+    "fingerlakes": "Fingraj Lagoj",
+    "france": "Francio",
+    "germany": "Germanio",
+    "gulfofguinea": "Golfo de Gvineo",
+    "hecatestrait": "Markolo Hekato",
+    "hongkong": "Honkongo",
+    "irishsea": "Irlanda Maro",
+    "juandefucastrait": "Markolo Juan de Fuca",
+    "lasvegasstrip": "Las Vegas Strio",
+    "levant": "Levantenio",
+    "mississippiriver": "Rivero Misisipo",
+    "morethanluck": "Pli ol Bonŝanco",
+    "russia": "Rusio",
+    "scandinavia": "Skandinavio",
+    "sol": "Sol",
+    "southeastasia": "Sudorienta Azio",
+    "tierradelfuego": "Fajrolando",
+    "titan": "Titano",
+    "unitedstates": "Usono",
+    "vietnam": "Vjetnamio",
+    "warshipwarship": "Militŝipo Militŝipo",
+    "worldinverted": "Mondo Inversigita",
+    "yangtzeriver": "Rivero Jangzio"
   },
   "map_categories": {
     "featured": "Rekomendita",
@@ -870,11 +1126,32 @@
     "continental": "Kontinenta",
     "regional": "Regiona",
     "fantasy": "Alia",
-    "arcade": "Arkada"
+    "arcade": "Arkada",
+    "africa": "Afriko",
+    "antarctica": "Antarkto",
+    "asia": "Azio",
+    "cosmic": "Kosma",
+    "countries": "Landoj",
+    "europe": "Eŭropo",
+    "favorites": "Ŝatataj",
+    "fictional": "Fikcia",
+    "new": "Nova",
+    "north_america": "Nordameriko",
+    "oceania": "Oceanio",
+    "south_america": "Sudameriko",
+    "world": "Mondo"
   },
   "map_component": {
     "error": "Eraro",
-    "loading": "Ŝargante..."
+    "loading": "Ŝargante...",
+    "collapse_all": "Kunfaldi ĉion",
+    "expand_all": "Malfaldi ĉion",
+    "favorite": "Aldoni al ŝatataj",
+    "favorites_empty": "Alklaku la stelon sur iu ajn mapo por ŝati ĝin",
+    "no_results": "Neniu mapo trovita",
+    "search_maps": "Serĉi mapojn...",
+    "search_results": "Serĉaj Rezultoj",
+    "unfavorite": "Forigi el ŝatataj"
   },
   "matchmaking_button": {
     "description": "(ALFA)",
@@ -888,7 +1165,16 @@
     "no_elo": "Ankoraŭ neniu ELO",
     "searching": "Serĉante ludon...",
     "title": "1 kontraŭ 1 Ranginflua Ludkreado (ALFA)",
-    "waiting_for_game": "Atendante Ludkomencon..."
+    "waiting_for_game": "Atendante Ludkomencon...",
+    "clan_verification_failed": "Klana membreco ne povis esti kontrolita. Bonvolu provi denove kunlude-serĉon.",
+    "invalid_clan": "Via elektita klano ne plu validas. Bonvolu elekti nunan klanon kaj vicigi denove.",
+    "limit_reached": "Vi elĉerpis viajn senpagajn rangigitajn ludojn.",
+    "limit_reached_info": "Senpagaj ludoj replenigas ĉiutage. Abonu por senlima rangigita ludado.",
+    "limit_upsell": "Akiri senliman rangigitan",
+    "must_login": "Vi devas esti ensalutinta por ludi rangigitan kunlude-serĉon.",
+    "queue_size": "Ludantoj en vico: {count}",
+    "replaced": "Vi aliĝis al kunlude-serĉo de alia langeto aŭ fenestro.",
+    "title_2v2": "2p2 Rangigita Kunlude-Serĉo (ALFA)"
   },
   "mode_selector": {
     "coming_soon": "Venos baldaŭ",
@@ -897,7 +1183,8 @@
     "ranked_title": "Ranginflua",
     "teams_count": "{teamCount} teamoj",
     "teams_of": "{teamCount} teamoj po {playersPerTeam}",
-    "teams_title": "Teamoj"
+    "teams_title": "Teamoj",
+    "ranked_pairing_note": "En teamaj reĝimoj, klananoj kaj amikoj en la vico estas metitaj en la saman teamon kiam eble. Amikoj estas parigitaj unue, poste klananoj. Se viaj taksoj estas tro malsamaj, vi estos matĉitaj aparte por konservi justajn ludojn."
   },
   "news": {
     "title": "Eldonnotoj"
@@ -1003,7 +1290,17 @@
     },
     "war": "Milito",
     "weapon": "Armilo",
-    "workers": "Laboristoj"
+    "workers": "Laboristoj",
+    "attack_stats": "Ataka Statistiko",
+    "betrayals": "Perfidoj",
+    "diplomacy_stats": "Diplomatio",
+    "gold_stats": "Ora Statistiko",
+    "incoming": "Envenanta",
+    "intercepted": "Kaptita survoje",
+    "piracy": "Pirateco",
+    "trains": "Trajnoj",
+    "trains_external": "Trajnoj de Aliaj",
+    "warship_stats": "Militŝipa Statistiko"
   },
   "player_stats_tree": {
     "mode": "Reĝimo",
@@ -1016,7 +1313,40 @@
     "stats_games_played": "Luditaj Ludoj",
     "stats_losses": "Malvenkoj",
     "stats_wins": "Venkoj",
-    "stats_wlr": "Venka:Malvenka Rilatumo"
+    "stats_wlr": "Venka:Malvenka Rilatumo",
+    "all": "Ĉiuj",
+    "ranked_2v2": "2p2",
+    "stats_cities_per_game": "Konstruitaj Urboj",
+    "stats_defense_posts_per_game": "Konstruitaj Defendpostenoj",
+    "stats_factories_per_game": "Konstruitaj Fabrikoj",
+    "stats_group_buildings": "Konstruaĵoj",
+    "stats_group_combat": "Batalo",
+    "stats_group_gold": "Gajnita Oro",
+    "stats_group_naval": "Mararmea",
+    "stats_last_100": "Lastaj 100",
+    "stats_nukes_launched_per_game": "Lanĉitaj Nukleaj Bomboj",
+    "stats_others_train_gold_per_game": "Trajna Oro de Aliaj",
+    "stats_outgoing_short": "Elironta",
+    "stats_per_game_suffix": "/ ludo",
+    "stats_piracy_gold_per_game": "Piratada Oro",
+    "stats_played": "Luditaj",
+    "stats_ports_per_game": "Konstruitaj Havenoj",
+    "stats_summary": "Resumo de Rendimento",
+    "stats_trade_arrived_per_game": "Alvenintaj Komercŝipoj",
+    "stats_trade_arrived_short": "Komerco Alvenis",
+    "stats_trade_captured_per_game": "Kaptitaj Komercŝipoj",
+    "stats_trade_captured_short": "Komerco Kaptita",
+    "stats_trade_gold_per_game": "Komerca Oro",
+    "stats_train_gold_per_game": "Trajna Oro",
+    "stats_transports_landed_per_game": "Alvenintaj Transportoj",
+    "stats_transports_landed_short": "Transporto Alvenis",
+    "stats_transports_sent_per_game": "Senditaj Transportoj",
+    "stats_transports_sent_short": "Transporto Sendita",
+    "stats_troops_incoming_per_game": "Envenanta Atako",
+    "stats_troops_sent_per_game": "Elironta Atako",
+    "stats_victories": "Venkoj",
+    "stats_warships_built_per_game": "Konstruitaj Militŝipoj",
+    "stats_win_rate": "Venkprocento"
   },
   "player_type": {
     "bot": "Tribo",
@@ -1035,7 +1365,15 @@
     "pvp_immunity": "Daŭro de imuneco inter ludantoj",
     "starting_gold": "Komenca Oro",
     "title": "Aliĝi al privata ludejo",
-    "version_mismatch": "Ĉi tiu ludo estis kreita kun malsama versio. Ne eblas aliĝi."
+    "version_mismatch": "Ĉi tiu ludo estis kreita kun malsama versio. Ne eblas aliĝi.",
+    "listing_failed": "Malsukcesis ĝisdatigi la atendejan liston. Bonvolu provi denove.",
+    "listing_full": "La publika atendeja listo estas plena. Bonvolu provi denove poste.",
+    "listing_host_cheats_enabled": "Malŝaltu gastigantajn trompojn por publike listigi vian atendejon.",
+    "listing_limit_reached": "Vi jam havas publike listigitan atendejon.",
+    "listing_requires_subscription": "Aktiva abono estas postulata por publike listigi atendejon.",
+    "listing_whitelist_enabled": "Malŝaltu la aliĝan blankan liston por publike listigi vian atendejon.",
+    "no_open_lobbies": "Neniuj malfermaj atendejoj nun",
+    "open_lobbies": "Malfermaj Atendejoj"
   },
   "public_game_modifier": {
     "compact_map": "Kompakta Mapo",
@@ -1056,7 +1394,10 @@
     "starting_gold": "{amount}M Komenca Oro",
     "starting_gold_label": "Komenca Oro",
     "water_nukes": "Akvigaj Bomboj",
-    "water_nukes_label": "Akvigaj Bomboj"
+    "water_nukes_label": "Akvigaj Bomboj",
+    "doomsday_clock": "Fatalhoro",
+    "doomsday_clock_label": "Fatalhoro",
+    "doomsday_clock_with_speed": "Fatalhoro: {speed}"
   },
   "public_lobby": {
     "connecting": "Aliĝante al ludejo...",
@@ -1074,7 +1415,8 @@
   },
   "radial_menu": {
     "delete_unit_description": "Alklaku por forigi la plej proksiman trupunon",
-    "delete_unit_title": "Forigi trupunon"
+    "delete_unit_title": "Forigi trupunon",
+    "upgrade_x": "Pliigi x{amount}"
   },
   "relation": {
     "default": "Defaŭlta",
@@ -1128,7 +1470,12 @@
     "starting_gold": "Komenca Oro (Milionoj)",
     "starting_gold_placeholder": "5",
     "toggle_achievements": "(Mal)ebligi atingojn",
-    "water_nukes": "Akvigaj bomboj"
+    "water_nukes": "Akvigaj bomboj",
+    "custom_alliances": "Aliancdaŭro",
+    "doomsday_clock": "Fatalhoro",
+    "medals_earned": "Medaloj",
+    "medals_of_maps": "el {total} mapoj",
+    "mins_placeholder": "Min"
   },
   "store": {
     "already_subscribed": "Jam aboninta.",
@@ -1155,7 +1502,58 @@
     "subscription_purchase_success": "Aboninta!",
     "subscriptions": "Abonoj",
     "switch_button": "Ŝanĝi",
-    "title": "Butiko"
+    "title": "Butiko",
+    "change_tier_rate_limited": "Vi ĵus ŝanĝis nivelon. Bonvolu atendi minuton antaŭ ol ŝanĝi denove.",
+    "confirm_purchase_body": "Aĉeti {item} por {amount, number} {currency}?",
+    "confirm_purchase_title": "Konfirmi Aĉeton",
+    "cosmetics": "Ornamaĵoj",
+    "crowns": "Kronoj",
+    "custom_amount": "Elekti Kvanton",
+    "custom_currency_purchase_success": "Plutonia aĉeto sukcesa!",
+    "effects": "Efektoj",
+    "insufficient_currency_body": "Vi bezonas {amount, number} pli da {currency} por aĉeti {item}.",
+    "insufficient_currency_title": "Nesufiĉa {currency}",
+    "no_crowns": "Neniuj kronoj disponeblaj. Revenu poste por novaj eroj.",
+    "no_effects": "Neniuj efektoj disponeblaj. Revenu poste por novaj eroj.",
+    "no_tribes": "Vi ankoraŭ ne aĉetis iun ajn tribonomon.",
+    "plutonium_amount": "Kvanto de plutonio",
+    "purchase_currency": "Aĉeti {currency}",
+    "purchase_tribe_button": "Aĉeti",
+    "subscribed": "Abonita",
+    "tribe_boost_button": "Plifortigi",
+    "tribe_boost_confirm": "Plifortigi \"{name}\" por {price} Plutonio? Ĝi aperos pli ofte en ludoj de aliaj ludantoj dum la sekvaj {days} tagoj.",
+    "tribe_boost_count": "1 plifortigo",
+    "tribe_boost_count_plural": "{count} plifortigoj",
+    "tribe_boost_failed": "Plifortigo malsukcesis. Bonvolu provi denove.",
+    "tribe_boost_gone": "Ĉi tiu nomo ne plu estas aktiva, do ĝi ne povas esti plifortigita.",
+    "tribe_boost_heading": "Plifortigi Tribonomon",
+    "tribe_boost_next_expiry": "sekva plifortigo senvalidiĝas {date}",
+    "tribe_boost_success": "\"{name}\" plifortigita.",
+    "tribe_duplicate": "Nomo jam prenita.",
+    "tribe_name_placeholder": "Enigu tribonomon",
+    "tribe_name_required": "Unue enigu nomon.",
+    "tribe_purchase_failed": "Aĉeto malsukcesis. Bonvolu provi denove.",
+    "tribe_purchase_live": "\"{name}\" nun aktivas en ludoj.",
+    "tribe_rate_limited": "Vi aĉetas nomojn tro rapide. Provu denove post {seconds}s.",
+    "tribe_stats_boosted": "{multiplier}× plifortigita",
+    "tribe_stats_button": "Statistiko",
+    "tribe_stats_failed": "Ne eblis ŝarĝi statistikon. Bonvolu provi denove poste.",
+    "tribe_stats_games": "Ludoj",
+    "tribe_stats_lifetime": "Tutviva",
+    "tribe_stats_owner": "Posedanto",
+    "tribe_stats_reach": "Ludanta Atingo",
+    "tribe_stats_reach_tooltip": "Aperis en ludoj kun {count} ludantoj",
+    "tribe_stats_window": "Lastaj {days} tagoj ({start} – {end})",
+    "tribe_stats_window_short": "Lastaj {days} tagoj",
+    "tribe_status_active": "Aktiva",
+    "tribe_status_rejected": "Malakceptita",
+    "tribes": "Triboj",
+    "tribes_coming_soon": "Baldaŭ Venos",
+    "tribes_load_failed": "Ne eblis ŝarĝi viajn tribonomojn. Remalfermu la vendejon por reprovi.",
+    "tribes_login_required": "Ensalutu por aĉeti kaj administri tribonomojn.",
+    "tribes_purchase_description": "Via nomo estas asignita al robota tribo en veraj plurludantaj ludoj. Ĝi tuj aktiviĝas.",
+    "tribes_purchase_heading": "Aĉeti Tribonomon",
+    "your_tribes_heading": "Viaj Tribonomoj"
   },
   "team_colors": {
     "blue": "Blua",
@@ -1223,7 +1621,8 @@
     "missile_silo": "Misila Silo",
     "port": "Haveno",
     "sam_launcher": "SAM-lanĉilo",
-    "warship": "Militŝipo"
+    "warship": "Militŝipo",
+    "forward_base": "Antaŭbazo"
   },
   "user_setting": {
     "alert_frame_desc": "(Mal)ŝalti la avertkadron. Se ŝaltita, la kadro estos montrata kiam vi estos perfidita aŭ atakita grunde.",
@@ -1351,7 +1750,21 @@
     "zoom_in": "Zomi",
     "zoom_in_desc": "Zomi en la mapon",
     "zoom_out": "Malzomi",
-    "zoom_out_desc": "Malzomi la mapon"
+    "zoom_out_desc": "Malzomi la mapon",
+    "build_forward_base": "Konstrui Antaŭbazon",
+    "build_forward_base_desc": "Konstrui Antaŭbazon sub via kursoro.",
+    "graphics_preset_desc": "Elektu la antaŭagorditan aspekton por la mapo. Fajne agordu aŭ kreu vian propran en la enludaj grafikaj agordoj.",
+    "graphics_preset_label": "Grafika Antaŭagordo",
+    "graphics_refresh_modifier": "Modifilo de grafika refreŝigo",
+    "graphics_refresh_modifier_desc": "Tenu ĉi tiun klavon kaj R por refreŝigi grafikaĵojn",
+    "help_messages_desc": "Montri kuntekstajn konsiletojn kaj avertojn dum ludado, kiel armeajn limajn avertojn kaj ĝeneralajn ludajn konsilojn.",
+    "help_messages_label": "Helpaj Mesaĝoj",
+    "highlight_glow_strength_label": "Forto de emfazo",
+    "highlight_small_players_desc": "Aldoni brilon al malgrandaj ludantoj por ke ili estu facile troveblaj.",
+    "section_display": "Ekrano",
+    "section_gameplay": "Ludado",
+    "section_interface": "Interfaco",
+    "section_privacy": "Privateco"
   },
   "username": {
     "enter_username": "Enigu vian uzantnomon",
@@ -1362,7 +1775,14 @@
     "tag_too_long": "Klanetikedo estas maksimume 5 skribsignoj.",
     "tag_too_short": "Klanetikedo devas esti litera aŭ cifera kun 2-5 skribsignoj.",
     "too_long": "La uzantnomo ne rajtas superi {max} signojn.",
-    "too_short": "La uzantnomo devas havi almenaŭ {min} signojn."
+    "too_short": "La uzantnomo devas havi almenaŭ {min} signojn.",
+    "account_invalid_chars": "Uzantnomo povas enhavi nur literojn, ciferojn, substrekojn, streketojn, kaj unuopajn spacojn inter vortoj.",
+    "tag_not_member": "Aliĝu al la klano {tag} antaŭ ol uzi ĝian etikedon. Alklaku ĉi tiun mesaĝon por aliĝi.",
+    "verified_heading": "Kontrolita nomo",
+    "verified_player": "Kontrolita ludanto",
+    "verified_sub_required": "Vi bezonas aktivan abonon por ludi sub via kontrolita nomo.",
+    "verified_sub_required_confirm": "Vidi vendejon",
+    "verified_toggle": "Kontrolita"
   },
   "win_modal": {
     "died": "Vi mortis",
@@ -1380,6 +1800,119 @@
     "territory_pattern": "Aĉetu teritorian haŭton por ludi sen reklamoj!",
     "you_won": "Vi venkis!",
     "your_team": "Via teamo venkis!",
-    "youtube_tutorial": "Ĉu vi bezonas helpon?"
+    "youtube_tutorial": "Ĉu vi bezonas helpon?",
+    "match_cancelled": "Ludo nuligita — ne ĉiuj ludantoj aperis",
+    "new_lobby": "Nova Atendejo"
+  },
+  "ban_notice": {
+    "appeal": "Se vi kredas ke tio estas eraro, kontaktu nin en Diskordo.",
+    "category": {
+      "cheating": "Trompado aŭ nepermesita programaro",
+      "child_safety": "Malrespekto de infansekureco",
+      "disruptive_play": "Malhelpa ludado, ĝenado aŭ spamo",
+      "exploiting": "Misuzo de cimoj",
+      "harassment": "Ĉikanado, minacoj aŭ misuzo",
+      "hate_speech": "Malamparolo aŭ diskriminacio",
+      "inappropriate_content": "Neconvena aŭ eksplicita enhavo",
+      "multi_accounting": "Plurkontado / evitado de malpermeso",
+      "offensive_identifier": "Ofenda uzantnomo, klana etikedo aŭ flago",
+      "other": "Malrespekto de la Servokondiĉoj",
+      "rank_manipulation": "Manipulado de rango aŭ takso",
+      "teaming": "Kunlaboro aŭ komploto"
+    },
+    "permanent": "Ĉi tiu malpermeso estas permanenta.",
+    "reason": "Kialo: {reason}",
+    "title": "Via konto estas malpermesita",
+    "until": "Malpermesita ĝis {date}."
+  },
+  "checkin": {
+    "claim_button": "Postuli {amount}",
+    "claimed_today": "Ankoraŭ neniu premio por postuli",
+    "day_label": "Tago {day}",
+    "streak_label": "{streak}-taga sinsekvo",
+    "title": "Ĉiutaga Alveno"
+  },
+  "control_panel": {
+    "allied_afk_neighbor_info": "Vi povas ataki malkonektitajn ludantojn eĉ se vi estas aliancita kun ili.",
+    "army_limit_warning": "Vi proksimas al via armea limo! Konsideru sendi trupojn al skipanoj.",
+    "low_troops_warning": "Vi havas tre malmultajn trupojn - Vi ĉiam devus konservi kelkajn trupojn por defendo.",
+    "teammate_afk_neighbor_info": "Vi povas ataki malkonektitajn skipanojn.",
+    "traitor_neighbor_info": "Vi povas perfidi perfidulojn sen mem fariĝi perfidulo."
+  },
+  "doomsday_clock": {
+    "collapsing": "Kolapsante -{rate}/s",
+    "decay_in": "Kolapso post {secs}s",
+    "decaying": "Kolapsante -{rate} kaheloj/s",
+    "final": "Fina zono, tenu {pct}%",
+    "growing": "Atingos {pct}% post {time}",
+    "hold": "Tenu ≥ {pct}%",
+    "next_wave": "Komencos altiĝi al {pct}% post {time}",
+    "stable": "Stabila",
+    "title": "Fatalhoro",
+    "unstable": "Malstabila",
+    "you": "Vi {pct}%",
+    "your_team": "{team}: {pct}%"
+  },
+  "doomsday_clock_speed": {
+    "fast": "Rapida",
+    "normal": "Normala",
+    "slow": "Malrapida",
+    "veryfast": "Tre Rapida"
+  },
+  "effects": {
+    "nukeType": {
+      "atom": "Atoma",
+      "hydro": "Hidrogena",
+      "mirvWarhead": "MIRV"
+    },
+    "type": {
+      "nukeExplosion": "Nuklea Eksplodo",
+      "nukeTrail": "Nuklea Vosto",
+      "structures": "Konstruaĵoj",
+      "transportShipTrail": "Boatvosto",
+      "warship": "Militŝipo"
+    }
+  },
+  "featured_stream": {
+    "expand": "Vastigi",
+    "hide_today": "Kaŝi por hodiaŭ",
+    "live": "VIVA",
+    "minimize": "Malvastigi",
+    "open_on_twitch": "Malfermi {channel} sur Twitch"
+  },
+  "game_timer": {
+    "one_minute_remaining": "Unu minuto restas!"
+  },
+  "marketing_consent": {
+    "body": "Novaĵoj kaj ĝisdatigoj per retpoŝto. Ŝanĝu ĝin iam ajn en via konto.",
+    "dismiss": "Forigi",
+    "error": "Ne eblis konservi tion. Bonvolu provi denove.",
+    "no": "Ne, dankon",
+    "title": "Resti ĝisdata pri FrontLine?",
+    "yes": "Jes, bonvolu"
+  },
+  "new_lobby_prompt": {
+    "confirm": "Komenci novan atendejon? Ĉiuj ludantoj estos invititaj aliĝi.",
+    "dismiss": "Forigi",
+    "failed": "Ne eblis krei novan atendejon. Bonvolu provi denove.",
+    "join": "Aliĝi",
+    "message": "Gastiganto komencis novan atendejon"
+  },
+  "player_profile": {
+    "loading": "Ŝarĝante profilon...",
+    "no_clans": "Ĉi tiu ludanto ne estas en iu ajn klano.",
+    "not_found": "Ludanta profilo ne trovita",
+    "share": "Kunhavigi Profilon",
+    "title": "Ludanta Profilo",
+    "view": "Vidi Profilon"
+  },
+  "rewards_modal": {
+    "title": "Premioj"
+  },
+  "streaming_now": {
+    "live_count": "{count} Elsendas",
+    "title": "Nun Elsendante",
+    "viewers": "{count} spektas",
+    "watch": "Spekti {name}"
   }
 }
